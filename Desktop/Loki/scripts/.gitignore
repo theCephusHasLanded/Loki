@@ -1,0 +1,26 @@
+# Scripts - Security
+# Deployment and automation scripts may contain secrets
+
+# Production deployment scripts
+*-production.*
+*-prod.*
+deploy-prod*
+
+# Configuration with secrets
+*-config.sh
+*-secrets.sh
+*.secret
+*.key
+
+# Database scripts with credentials
+*-database-*
+*-db-*
+
+# Backup scripts (may contain credentials)
+backup-*
+restore-*
+
+# Cloud deployment scripts
+aws-deploy*
+gcp-deploy*
+azure-deploy*
