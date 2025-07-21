@@ -1,0 +1,308 @@
+version: '3.8'
+
+services:
+  # Prometheus - Metrics Collection
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: constellation-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules:/etc/prometheus/rules:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--storage.tsdb.retention.size=50GB'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+      - '--log.level=info'
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # Grafana - Visualization
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: constellation-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin123}
+      GF_INSTALL_PLUGINS: >
+        grafana-piechart-panel,
+        grafana-worldmap-panel,
+        grafana-clock-panel,
+        camptocamp-prometheus-alertmanager-datasource
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # AlertManager - Alert Handling
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    container_name: constellation-alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+      - '--web.external-url=http://localhost:9093'
+      - '--cluster.advertise-address=0.0.0.0:9093'
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # Node Exporter - System Metrics
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: constellation-node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # cAdvisor - Container Metrics
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.48.1
+    container_name: constellation-cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # Jaeger - Distributed Tracing
+  jaeger:
+    image: jaegertracing/all-in-one:1.51
+    container_name: constellation-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+      SPAN_STORAGE_TYPE: elasticsearch
+      ES_SERVER_URLS: http://elasticsearch:9200
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+
+  # Elasticsearch - Log Storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    container_name: constellation-elasticsearch
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xmx2g -Xms2g"
+      xpack.security.enabled: false
+      xpack.security.enrollment.enabled: false
+      cluster.name: constellation-logs
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  # Kibana - Log Visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.1
+    container_name: constellation-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      SERVER_NAME: constellation-kibana
+    ports:
+      - "5601:5601"
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+
+  # Logstash - Log Processing
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.1
+    container_name: constellation-logstash
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx1g -Xms1g"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+
+  # Filebeat - Log Shipping
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.1
+    container_name: constellation-filebeat
+    user: root
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - logstash
+
+  # Redis for metrics caching
+  redis-metrics:
+    image: redis:7-alpine
+    container_name: constellation-redis-metrics
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-metrics-data:/data
+    command: redis-server --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # Loki - Log Aggregation (Alternative to ELK)
+  loki:
+    image: grafana/loki:2.9.3
+    container_name: constellation-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+  # Promtail - Log Collection for Loki
+  promtail:
+    image: grafana/promtail:2.9.3
+    container_name: constellation-promtail
+    volumes:
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - loki
+
+  # Thanos - Long-term Prometheus Storage
+  thanos-sidecar:
+    image: thanosio/thanos:v0.32.5
+    container_name: constellation-thanos-sidecar
+    command:
+      - sidecar
+      - --tsdb.path=/prometheus
+      - --prometheus.url=http://prometheus:9090
+      - --grpc-address=0.0.0.0:10901
+      - --http-address=0.0.0.0:10902
+      - --objstore.config-file=/etc/thanos/bucket-config.yaml
+    volumes:
+      - prometheus-data:/prometheus
+      - ./thanos/bucket-config.yaml:/etc/thanos/bucket-config.yaml:ro
+    ports:
+      - "10902:10902"
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Thanos Query - Multi-prometheus querying
+  thanos-query:
+    image: thanosio/thanos:v0.32.5
+    container_name: constellation-thanos-query
+    command:
+      - query
+      - --http-address=0.0.0.0:9091
+      - --store=thanos-sidecar:10901
+      - --query.replica-label=replica
+    ports:
+      - "9091:9091"
+    networks:
+      - constellation-network
+    restart: unless-stopped
+    depends_on:
+      - thanos-sidecar
+
+  # Blackbox Exporter - Endpoint Monitoring
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.24.0
+    container_name: constellation-blackbox-exporter
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    command:
+      - '--config.file=/etc/blackbox_exporter/config.yml'
+    networks:
+      - constellation-network
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:
+  elasticsearch-data:
+  redis-metrics-data:
+  loki-data:
+
+networks:
+  constellation-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

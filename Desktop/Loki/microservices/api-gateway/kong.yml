@@ -1,0 +1,280 @@
+_format_version: "3.0"
+
+services:
+  # User Service
+  - name: user-service
+    url: http://user-service:3001
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: prometheus
+        config:
+          per_consumer: true
+    routes:
+      - name: user-auth
+        paths:
+          - /api/v1/auth
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        plugins:
+          - name: cors
+            config:
+              origins:
+                - "http://localhost:3001"
+                - "https://constellation-markets.com"
+              methods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - OPTIONS
+              headers:
+                - Accept
+                - Accept-Version
+                - Content-Length
+                - Content-MD5
+                - Content-Type
+                - Date
+                - Authorization
+              credentials: true
+
+  # Market Service
+  - name: market-service
+    url: http://market-service:3002
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+    routes:
+      - name: markets
+        paths:
+          - /api/v1/markets
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        plugins:
+          - name: jwt
+            config:
+              claims_to_verify:
+                - exp
+                - nbf
+              key_claim_name: iss
+              secret_is_base64: false
+          - name: request-transformer
+            config:
+              add:
+                headers:
+                  - "X-Service-Name:market-service"
+                  - "X-Request-ID:$(uuid())"
+
+  # Trading Service  
+  - name: trading-service
+    url: http://trading-service:3003
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 500
+          policy: redis
+          redis_host: redis
+          redis_port: 6379
+      - name: prometheus
+        config:
+          per_consumer: true
+    routes:
+      - name: trading
+        paths:
+          - /api/v1/trading
+        methods:
+          - GET
+          - POST
+        plugins:
+          - name: jwt
+            config:
+              claims_to_verify:
+                - exp
+                - nbf
+              key_claim_name: iss
+          - name: request-size-limiting
+            config:
+              allowed_payload_size: 1024
+          - name: response-transformer
+            config:
+              add:
+                headers:
+                  - "X-RateLimit-Remaining:$(headers.x-ratelimit-remaining)"
+
+  # AI Service
+  - name: ai-service
+    url: http://ai-service:3004
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 50
+          policy: redis
+          redis_host: redis
+    routes:
+      - name: ai-insights
+        paths:
+          - /api/v1/ai
+        methods:
+          - GET
+          - POST
+        plugins:
+          - name: jwt
+            config:
+              claims_to_verify:
+                - exp
+          - name: request-termination
+            config:
+              status_code: 503
+              message: "AI service temporarily unavailable"
+            enabled: false
+
+  # Payment Service
+  - name: payment-service
+    url: http://payment-service:3005
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 30
+          policy: redis
+      - name: ip-restriction
+        config:
+          allow:
+            - "10.0.0.0/8"
+            - "192.168.0.0/16"
+            - "172.16.0.0/12"
+    routes:
+      - name: payments
+        paths:
+          - /api/v1/payments
+        methods:
+          - POST
+          - GET
+        plugins:
+          - name: jwt
+            config:
+              claims_to_verify:
+                - exp
+                - nbf
+          - name: request-validator
+            config:
+              body_schema: |
+                {
+                  "type": "object",
+                  "properties": {
+                    "amount": {"type": "number", "minimum": 0.01},
+                    "currency": {"type": "string", "enum": ["USD"]},
+                    "type": {"type": "string", "enum": ["deposit", "withdrawal"]}
+                  },
+                  "required": ["amount", "currency", "type"]
+                }
+
+  # Analytics Service
+  - name: analytics-service
+    url: http://analytics-service:3006
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+    routes:
+      - name: analytics
+        paths:
+          - /api/v1/analytics
+        methods:
+          - GET
+        plugins:
+          - name: jwt
+            config:
+              claims_to_verify:
+                - exp
+          - name: acl
+            config:
+              allow:
+                - admin
+                - analyst
+
+# Global plugins
+plugins:
+  - name: prometheus
+    config:
+      per_consumer: false
+      status_code_metrics: true
+      latency_metrics: true
+      bandwidth_metrics: true
+  
+  - name: zipkin
+    config:
+      http_endpoint: http://jaeger:9411/api/v2/spans
+      sample_ratio: 0.1
+      include_credential: true
+  
+  - name: correlation-id
+    config:
+      header_name: X-Correlation-ID
+      generator: uuid
+      echo_downstream: true
+
+# Consumers (API Keys/Users)
+consumers:
+  - username: web-frontend
+    keyauth_credentials:
+      - key: "frontend-api-key-12345"
+    acls:
+      - group: frontend
+    
+  - username: mobile-app
+    keyauth_credentials:
+      - key: "mobile-api-key-67890"
+    acls:
+      - group: mobile
+
+  - username: admin-user
+    acls:
+      - group: admin
+
+# Upstreams for load balancing
+upstreams:
+  - name: user-service-upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        type: http
+        http_path: /health
+        healthy:
+          interval: 30
+          successes: 2
+        unhealthy:
+          interval: 30
+          http_failures: 3
+    targets:
+      - target: user-service:3001
+        weight: 100
+      - target: user-service-2:3001
+        weight: 100
+
+  - name: trading-service-upstream  
+    algorithm: least-connections
+    healthchecks:
+      active:
+        type: http
+        http_path: /health
+        healthy:
+          interval: 10
+          successes: 1
+        unhealthy:
+          interval: 10
+          http_failures: 2
+    targets:
+      - target: trading-service:3003
+        weight: 100
+      - target: trading-service-2:3003
+        weight: 100

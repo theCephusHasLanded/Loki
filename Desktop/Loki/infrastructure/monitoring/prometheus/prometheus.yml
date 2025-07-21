@@ -1,0 +1,194 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'constellation-markets'
+    replica: 'prometheus-1'
+
+rule_files:
+  - "/etc/prometheus/rules/constellation-alerts.yml"
+  - "/etc/prometheus/rules/microservices-alerts.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # System metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 30s
+    metrics_path: /metrics
+
+  # Container metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    scrape_interval: 30s
+
+  # Microservices metrics
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['user-service:3001']
+    metrics_path: /metrics
+    scrape_interval: 15s
+    scrape_timeout: 10s
+
+  - job_name: 'market-service'
+    static_configs:
+      - targets: ['market-service:3002']
+    metrics_path: /metrics
+    scrape_interval: 15s
+
+  - job_name: 'trading-service'
+    static_configs:
+      - targets: ['trading-service:3003']
+    metrics_path: /metrics
+    scrape_interval: 10s # More frequent for trading metrics
+
+  - job_name: 'ai-service'
+    static_configs:
+      - targets: ['ai-service:3004']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'payment-service'
+    static_configs:
+      - targets: ['payment-service:3005']
+    metrics_path: /metrics
+    scrape_interval: 15s
+
+  - job_name: 'notification-service'
+    static_configs:
+      - targets: ['notification-service:3006']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'analytics-service'
+    static_configs:
+      - targets: ['analytics-service:3007']
+    metrics_path: /metrics
+    scrape_interval: 60s
+
+  # Infrastructure services
+  - job_name: 'kong-gateway'
+    static_configs:
+      - targets: ['kong:8001']
+    metrics_path: /metrics
+    scrape_interval: 15s
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 30s
+
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka:9092']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # Database metrics
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 30s
+
+  # Blackbox monitoring for endpoint health
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://user-service:3001/health
+        - http://market-service:3002/health
+        - http://trading-service:3003/health
+        - http://ai-service:3004/health
+        - http://payment-service:3005/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # gRPC endpoint monitoring
+  - job_name: 'blackbox-grpc'
+    metrics_path: /probe
+    params:
+      module: [grpc_health]
+    static_configs:
+      - targets:
+        - user-service:50001
+        - market-service:50002
+        - trading-service:50003
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Kubernetes service discovery (for production)
+  - job_name: 'kubernetes-apiservers'
+    kubernetes_sd_configs:
+      - role: endpoints
+        namespaces:
+          names:
+            - constellation-markets
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: default;kubernetes;https
+
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - constellation-markets
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+
+# Remote write for long-term storage (Thanos/Cortex)
+remote_write:
+  - url: http://thanos-receive:19291/api/v1/receive
+    queue_config:
+      max_samples_per_send: 10000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 100ms

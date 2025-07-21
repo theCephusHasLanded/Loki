@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package constellation.trading;
+
+service TradingService {
+  rpc ExecuteTrade(ExecuteTradeRequest) returns (ExecuteTradeResponse);
+  rpc CalculateTradePreview(CalculateTradePreviewRequest) returns (CalculateTradePreviewResponse);
+  rpc GetPosition(GetPositionRequest) returns (GetPositionResponse);
+  rpc GetUserPositions(GetUserPositionsRequest) returns (GetUserPositionsResponse);
+  rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (GetTransactionHistoryResponse);
+  rpc UpdateMarketLiquidity(UpdateMarketLiquidityRequest) returns (UpdateMarketLiquidityResponse);
+}
+
+message TradeRequest {
+  string user_id = 1;
+  string market_id = 2;
+  string outcome_id = 3;
+  double shares = 4;
+  double max_price = 5;
+  string trade_type = 6; // "buy" or "sell"
+}
+
+message TradeResult {
+  string transaction_id = 1;
+  string transaction_hash = 2;
+  double price = 3;
+  double fee = 4;
+  double total = 5;
+  double slippage = 6;
+  double new_probability = 7;
+}
+
+message Position {
+  string id = 1;
+  string user_id = 2;
+  string market_id = 3;
+  string outcome_id = 4;
+  double shares = 5;
+  double avg_price = 6;
+  double total_investment = 7;
+  double current_value = 8;
+  double pnl = 9;
+  string created_at = 10;
+}
+
+message Transaction {
+  string id = 1;
+  string user_id = 2;
+  string market_id = 3;
+  string outcome_id = 4;
+  string transaction_type = 5;
+  double amount = 6;
+  double shares = 7;
+  double price = 8;
+  double fee = 9;
+  double slippage = 10;
+  string transaction_hash = 11;
+  string created_at = 12;
+}
+
+message ExecuteTradeRequest {
+  TradeRequest trade = 1;
+}
+
+message ExecuteTradeResponse {
+  bool success = 1;
+  string message = 2;
+  TradeResult result = 3;
+}
+
+message CalculateTradePreviewRequest {
+  string market_id = 1;
+  string outcome_id = 2;
+  double shares = 3;
+  string trade_type = 4;
+}
+
+message CalculateTradePreviewResponse {
+  bool success = 1;
+  string message = 2;
+  double estimated_price = 3;
+  double estimated_fee = 4;
+  double estimated_total = 5;
+  double estimated_slippage = 6;
+  double new_probability = 7;
+}
+
+message GetPositionRequest {
+  string user_id = 1;
+  string market_id = 2;
+  string outcome_id = 3;
+}
+
+message GetPositionResponse {
+  bool success = 1;
+  string message = 2;
+  Position position = 3;
+}
+
+message GetUserPositionsRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message GetUserPositionsResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Position positions = 3;
+  int32 total_count = 4;
+}
+
+message GetTransactionHistoryRequest {
+  string user_id = 1;
+  optional string market_id = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message GetTransactionHistoryResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Transaction transactions = 3;
+  int32 total_count = 4;
+}
+
+message UpdateMarketLiquidityRequest {
+  string market_id = 1;
+  string outcome_id = 2;
+  double shares_change = 3;
+  string operation = 4; // "add" or "remove"
+}
+
+message UpdateMarketLiquidityResponse {
+  bool success = 1;
+  string message = 2;
+  double new_liquidity = 3;
+  double new_probability = 4;
+}
