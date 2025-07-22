@@ -29,7 +29,7 @@ const DemoContainer = styled.div`
   color: var(--color-text-primary);
   overflow: hidden;
   
-  /* Hypnotic financial astrology background */
+  /* Cryptic financial blockchain constellation */
   &::before {
     content: '';
     position: fixed;
@@ -38,19 +38,37 @@ const DemoContainer = styled.div`
     right: 0;
     bottom: 0;
     background-image: 
-      /* Trading floor constellation overlay */
-      url('https://images.unsplash.com/photo-1559589689-577aabd1db4f?w=1920&q=80&auto=format&fit=crop'),
-      /* Financial data streams */
+      /* Primary crypto trading network */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80&auto=format&fit=crop'),
+      /* Tokenized data visualization */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1920&q=40&auto=format&fit=crop'),
+      /* Base gradient foundation */
       linear-gradient(135deg, var(--color-glass-base) 0%, var(--color-glass-surface) 100%);
-    background-size: cover, cover;
-    background-position: center, center;
-    background-blend-mode: overlay, normal;
+    background-size: cover, cover, cover;
+    background-position: center, center top, center;
+    background-blend-mode: overlay, multiply, normal;
     backdrop-filter: var(--glass-blur-subtle);
     z-index: -2;
     pointer-events: none;
+    animation: blockchain-constellation 50s ease-in-out infinite;
   }
   
-  /* Layered glass background for depth */
+  @keyframes blockchain-constellation {
+    0%, 100% { 
+      background-position: center, center top, center;
+      opacity: 0.8;
+    }
+    33% { 
+      background-position: center, center, center;
+      opacity: 0.9;
+    }
+    66% { 
+      background-position: center, center bottom, center;
+      opacity: 1;
+    }
+  }
+  
+  /* Tokenized network overlay with hexagonal patterns */
   &::after {
     content: '';
     position: fixed;
@@ -59,11 +77,23 @@ const DemoContainer = styled.div`
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(ellipse at 20% 30%, var(--color-glass-panel) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 70%, var(--color-glass-surface) 0%, transparent 50%);
+      /* Crypto verification nodes */
+      radial-gradient(ellipse at 20% 30%, rgba(0, 255, 150, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(0, 150, 255, 0.08) 0%, transparent 50%),
+      /* Hexagonal blockchain pattern */
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 30%),
+      /* Trading algorithm grid */
+      linear-gradient(45deg, transparent 48%, rgba(0, 255, 150, 0.01) 50%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(0, 150, 255, 0.01) 50%, transparent 52%);
     backdrop-filter: var(--glass-blur-subtle);
     z-index: -1;
     pointer-events: none;
+    animation: crypto-network-flow 35s linear infinite;
+  }
+  
+  @keyframes crypto-network-flow {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1.02); }
   }
   
   
@@ -216,7 +246,7 @@ const WelcomePanel = styled(NeomorphicSurface)`
   position: relative;
   overflow: hidden;
   
-  /* Hypnotic space finance background */
+  /* Cryptic institutional trading intelligence */
   &::before {
     content: '';
     position: absolute;
@@ -225,11 +255,47 @@ const WelcomePanel = styled(NeomorphicSurface)`
     right: 0;
     bottom: 0;
     background-image: 
+      /* Base layer */
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Advanced trading algorithms */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&q=80&auto=format&fit=crop'),
+      /* Blockchain verification network */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&q=50&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, multiply;
     z-index: 0;
+    animation: institutional-intelligence 30s ease-in-out infinite;
+  }
+  
+  /* Tokenized welcome verification */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, 
+      rgba(0, 255, 150, 0.1) 0%, 
+      transparent 25%, 
+      transparent 50%, 
+      rgba(0, 150, 255, 0.05) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -1;
+    animation: welcome-token-verification 15s linear infinite;
+  }
+  
+  @keyframes institutional-intelligence {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
+  }
+  
+  @keyframes welcome-token-verification {
+    0% { opacity: 0.3; transform: rotate(0deg); }
+    50% { opacity: 0.8; transform: rotate(180deg); }
+    100% { opacity: 0.3; transform: rotate(360deg); }
   }
   
   /* Content overlay */
@@ -278,53 +344,107 @@ const FeatureCard = styled(NeomorphicSurface)`
   position: relative;
   overflow: hidden;
   
-  /* Hypnotic background images for each feature */
+  /* Cryptic tokenized backgrounds for each feature */
   &:nth-child(1) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Advanced Analytics - Data visualization */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=40&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, multiply;
+    animation: analytics-crypto-flow 20s ease-in-out infinite;
   }
   
   &:nth-child(2) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Machine Learning - Blockchain algorithms */
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=50&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center top;
+    background-blend-mode: normal, overlay, soft-light;
+    animation: ml-token-pulse 18s ease-in-out infinite;
   }
   
   &:nth-child(3) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Smart Execution - Trading networks */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=60&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center;
+    background-blend-mode: normal, overlay, multiply;
+    animation: execution-crypto-sweep 16s ease-in-out infinite;
   }
   
   &:nth-child(4) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Risk Management - Security protocols */
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=45&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center bottom, center;
+    background-blend-mode: normal, overlay, multiply;
+    animation: risk-token-guard 22s ease-in-out infinite;
   }
   
   &:nth-child(5) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Ultra-Low Latency - Speed networks */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=55&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center top, center;
+    background-blend-mode: normal, overlay, multiply;
+    animation: latency-crypto-speed 14s ease-in-out infinite;
   }
   
   &:nth-child(6) {
     background-image: 
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Global Markets - Worldwide blockchain */
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&auto=format&fit=crop'),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=35&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, soft-light;
+    animation: global-token-network 25s ease-in-out infinite;
+  }
+  
+  @keyframes analytics-crypto-flow {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
+  }
+  
+  @keyframes ml-token-pulse {
+    0%, 100% { opacity: 0.9; background-position: center, center, center top; }
+    50% { opacity: 1; background-position: center, center bottom, center; }
+  }
+  
+  @keyframes execution-crypto-sweep {
+    0%, 100% { background-position: center, center, center; }
+    50% { background-position: center, center top, center bottom; }
+  }
+  
+  @keyframes risk-token-guard {
+    0%, 100% { background-position: center, center bottom, center; }
+    50% { background-position: center, center, center top; }
+  }
+  
+  @keyframes latency-crypto-speed {
+    0%, 100% { background-position: center, center top, center; }
+    50% { background-position: center, center bottom, center; }
+  }
+  
+  @keyframes global-token-network {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
   }
   
   .feature-icon {
@@ -344,10 +464,64 @@ const FeatureCard = styled(NeomorphicSurface)`
     position: relative;
     z-index: 2;
     
+    /* Cryptic glow enhancement */
+    box-shadow: 
+      var(--glass-shadow-depth),
+      0 0 15px rgba(0, 255, 150, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    
+    /* Tokenized corner indicators */
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 6px;
+      height: 6px;
+      background: var(--color-text-accent);
+      border-radius: 50%;
+      animation: token-pulse 3s ease-in-out infinite;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: -2px;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 6px solid var(--color-text-accent);
+      opacity: 0.6;
+      animation: verification-indicator 4s ease-in-out infinite 1s;
+    }
+    
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.1) rotate(5deg);
       background: var(--color-glass-surface);
-      box-shadow: var(--glass-shadow-depth);
+      box-shadow: 
+        var(--glass-shadow-floating),
+        0 0 25px rgba(0, 255, 150, 0.4),
+        0 0 10px rgba(0, 150, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-color: rgba(0, 255, 150, 0.5);
+      
+      &::before {
+        animation-duration: 1s;
+        background: #00ff96;
+        box-shadow: 0 0 8px #00ff96;
+      }
+    }
+    
+    @keyframes token-pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    
+    @keyframes verification-indicator {
+      0%, 100% { opacity: 0.4; transform: rotate(0deg); }
+      50% { opacity: 0.8; transform: rotate(180deg); }
     }
   }
   

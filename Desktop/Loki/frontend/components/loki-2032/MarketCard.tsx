@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { NeomorphicSurface } from './NeomorphicSurface';
-import { TrendingUp, TrendingDown, Zap, Activity } from 'lucide-react';
+import { TrendingUp, TrendingDown, Zap, Activity, Shield, Hash, Database, Cpu, Hexagon } from 'lucide-react';
 import styled from '@emotion/styled';
 
 const CardContent = styled.div`
@@ -12,6 +12,45 @@ const CardContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  
+  /* Cryptic tokenized background patterns */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0.08;
+  }
+  
+  /* Hexagonal crypto pattern overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(0, 255, 150, 0.1) 0%, transparent 25%),
+      radial-gradient(circle at 80% 80%, rgba(0, 150, 255, 0.1) 0%, transparent 25%),
+      linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.02) 50%, transparent 55%);
+    z-index: 1;
+    animation: crypto-flow 30s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes crypto-flow {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.1; }
+    50% { transform: rotate(2deg) scale(1.02); opacity: 0.15; }
+  }
 `;
 
 const MarketHeader = styled.div`
@@ -19,6 +58,30 @@ const MarketHeader = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--space-molecule);
+  position: relative;
+  z-index: 3;
+  
+  /* Cryptic header overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(45deg, 
+      transparent 48%, 
+      rgba(0, 255, 150, 0.05) 50%, 
+      transparent 52%);
+    border-radius: 8px;
+    z-index: -1;
+    animation: header-scan 4s ease-in-out infinite;
+  }
+  
+  @keyframes header-scan {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
 `;
 
 const MarketTitle = styled.h3`
@@ -31,6 +94,26 @@ const MarketTitle = styled.h3`
   flex: 1;
   padding-right: 16px;
   letter-spacing: -0.01em;
+  position: relative;
+  z-index: 3;
+  
+  /* Cryptic text enhancement */
+  text-shadow: 
+    0 0 10px rgba(0, 255, 150, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.8);
+  
+  /* Tokenized prefix */
+  &::before {
+    content: '#';
+    position: absolute;
+    left: -12px;
+    top: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-accent);
+    opacity: 0.6;
+    font-weight: 700;
+  }
 `;
 
 const AIBadge = styled.div<{ confidence: number }>`
@@ -38,16 +121,44 @@ const AIBadge = styled.div<{ confidence: number }>`
   align-items: center;
   gap: var(--space-quantum);
   padding: var(--space-quantum) var(--space-atom);
-  background: var(--color-glass-panel);
+  background: linear-gradient(135deg, 
+    var(--color-glass-panel) 0%, 
+    rgba(0, 255, 150, 0.1) 100%);
   backdrop-filter: var(--glass-blur-subtle);
-  border: 1px solid var(--color-glass-border);
+  border: 1px solid rgba(0, 255, 150, 0.3);
   border-radius: var(--radius-small);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--color-text-accent);
+  position: relative;
+  z-index: 3;
   
-  /* Glass depth effect */
-  box-shadow: var(--glass-inset-highlight);
+  /* Tokenized glow effect */
+  box-shadow: 
+    var(--glass-inset-highlight),
+    0 0 15px rgba(0, 255, 150, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  /* Crypto verification indicator */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    background: ${({ confidence }) => 
+      confidence > 0.8 ? '#00ff96' : 
+      confidence > 0.6 ? '#ffaa00' : '#ff4444'};
+    border-radius: 50%;
+    box-shadow: 0 0 8px currentColor;
+    animation: confidence-pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes confidence-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
 `;
 
 const PriceSection = styled.div`
@@ -55,6 +166,26 @@ const PriceSection = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-molecule);
+  position: relative;
+  z-index: 3;
+  
+  /* Tokenized price container */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -8px;
+    right: -8px;
+    bottom: -2px;
+    background: linear-gradient(90deg, 
+      rgba(0, 255, 150, 0.05) 0%, 
+      transparent 20%, 
+      transparent 80%, 
+      rgba(0, 150, 255, 0.05) 100%);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    z-index: -1;
+  }
 `;
 
 const PriceDisplay = styled.div`
@@ -65,10 +196,48 @@ const PriceDisplay = styled.div`
   display: flex;
   align-items: baseline;
   gap: 4px;
+  position: relative;
+  z-index: 3;
+  
+  /* Crypto price glow */
+  text-shadow: 
+    0 0 20px rgba(248, 179, 25, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  
+  /* Tokenized decimal indicator */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(248, 179, 25, 0.5) 20%, 
+      rgba(248, 179, 25, 0.8) 50%, 
+      rgba(248, 179, 25, 0.5) 80%, 
+      transparent 100%);
+    animation: price-scan 3s ease-in-out infinite;
+  }
   
   .currency {
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     color: var(--color-text-muted);
+    opacity: 0.7;
+    
+    /* Crypto symbol enhancement */
+    &::before {
+      content: '◊';
+      margin-right: 2px;
+      font-size: 0.8em;
+      color: var(--color-text-accent);
+    }
+  }
+  
+  @keyframes price-scan {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+    50% { opacity: 1; transform: scaleX(1.2); }
   }
 `;
 
@@ -96,6 +265,29 @@ const MetricsGrid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: var(--space-molecule);
   margin: var(--space-molecule) 0;
+  position: relative;
+  z-index: 3;
+  
+  /* Technical metrics container */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: 
+      linear-gradient(45deg, rgba(0, 255, 150, 0.03) 0%, transparent 25%),
+      linear-gradient(-45deg, rgba(0, 150, 255, 0.03) 0%, transparent 25%);
+    border-radius: 8px;
+    z-index: -1;
+    animation: metrics-pulse 5s ease-in-out infinite;
+  }
+  
+  @keyframes metrics-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
 `;
 
 const MetricItem = styled.div`
@@ -142,11 +334,55 @@ const VolumeBar = styled.div<{ volume: number }>`
   }
 `;
 
+const TechnicalComponents = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-atom);
+  margin: var(--space-atom) 0;
+  position: relative;
+  z-index: 3;
+  
+  .tech-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      color: var(--color-text-accent);
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    
+    &:nth-child(odd) {
+      animation: tech-pulse-1 3s ease-in-out infinite;
+    }
+    
+    &:nth-child(even) {
+      animation: tech-pulse-2 3s ease-in-out infinite 1.5s;
+    }
+  }
+  
+  @keyframes tech-pulse-1 {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+  
+  @keyframes tech-pulse-2 {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+`;
+
 const ActionButtons = styled.div`
   display: flex;
   gap: var(--space-atom);
   margin-top: auto;
   padding-top: var(--space-molecule);
+  position: relative;
+  z-index: 3;
 `;
 
 const ActionButton = styled(motion.button)<{ variant: 'primary' | 'secondary' }>`
@@ -296,6 +532,15 @@ export const MarketCard: React.FC<{
             </div>
           </MetricItem>
         </MetricsGrid>
+        
+        {/* Technical Components */}
+        <TechnicalComponents>
+          <Hash className="tech-icon" />
+          <Shield className="tech-icon" />
+          <Database className="tech-icon" />
+          <Hexagon className="tech-icon" />
+          <Cpu className="tech-icon" />
+        </TechnicalComponents>
         
         {/* Action Buttons */}
         <ActionButtons>

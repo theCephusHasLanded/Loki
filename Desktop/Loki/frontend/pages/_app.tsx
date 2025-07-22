@@ -5,8 +5,10 @@ import { ThemeProvider } from '../contexts/ThemeContext';
 const globalStyles = css`
   /* Revolutionary design system inline styles */
   
-  /* Import trading-grade fonts */
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+  /* Import elite NSA-level technical fonts */
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap');
 
   /* CSS Variables - Liquid Glass Financial Design */
   :root {
@@ -34,10 +36,11 @@ const globalStyles = css`
     --color-loss: rgba(255, 80, 80, 0.85);             /* Translucent red */
     --color-warning: rgba(255, 153, 0, 0.80);          /* Translucent orange */
     
-    /* Typography - Financial Trading Grade */
-    --font-primary: "JetBrains Mono", "SF Mono", "Monaco", "Consolas", monospace;
-    --font-mono: "JetBrains Mono", "SF Mono", "Monaco", "Consolas", monospace;
-    --font-display: "JetBrains Mono", "SF Mono", "Monaco", "Consolas", monospace;
+    /* Typography - Elite NSA Technical Grade */
+    --font-primary: "IBM Plex Mono", "SF Mono", "Monaco", "Consolas", monospace;
+    --font-mono: "Space Mono", "SF Mono", "Monaco", "Consolas", monospace;
+    --font-display: "Roboto Mono", "SF Mono", "Monaco", "Consolas", monospace;
+    --font-data: "IBM Plex Mono", "SF Mono", "Monaco", "Consolas", monospace;
     
     /* Spacing */
     --space-quantum: 4px;

@@ -3,13 +3,14 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { NeomorphicSurface } from '../../components/loki-2032/NeomorphicSurface';
+import { CelestialPriceChart } from '../../components/charts/CelestialPriceChart';
 
 const MarketDetailsPage = styled.div`
   min-height: 100vh;
   background: var(--color-glass-base);
   padding: var(--space-molecule);
   
-  /* Deep space market analysis background */
+  /* Cryptic blockchain analytics constellation */
   &::before {
     content: '';
     position: fixed;
@@ -18,14 +19,47 @@ const MarketDetailsPage = styled.div`
     right: 0;
     bottom: 0;
     background-image: 
-      url('https://images.unsplash.com/photo-1559589689-577aabd1db4f?w=1920&q=80&auto=format&fit=crop'),
+      /* Primary crypto network visualization */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80&auto=format&fit=crop'),
+      /* Tokenized trading algorithms */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1920&q=40&auto=format&fit=crop'),
+      /* Base gradient layer */
       linear-gradient(135deg, var(--color-glass-base) 0%, var(--color-glass-surface) 100%);
-    background-size: cover, cover;
-    background-position: center, center;
-    background-blend-mode: overlay, normal;
+    background-size: cover, cover, cover;
+    background-position: center, center top, center;
+    background-blend-mode: overlay, multiply, normal;
     backdrop-filter: var(--glass-blur-subtle);
     z-index: -2;
     pointer-events: none;
+    animation: blockchain-analysis 40s ease-in-out infinite;
+  }
+  
+  /* Tokenized data overlay */
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse at 30% 20%, rgba(0, 255, 150, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(0, 150, 255, 0.04) 0%, transparent 60%),
+      linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.005) 50%, transparent 51%);
+    z-index: -1;
+    pointer-events: none;
+    animation: data-stream-flow 25s linear infinite;
+  }
+  
+  @keyframes blockchain-analysis {
+    0%, 100% { opacity: 0.85; background-position: center, center top, center; }
+    50% { opacity: 1; background-position: center, center bottom, center; }
+  }
+  
+  @keyframes data-stream-flow {
+    0% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+    50% { transform: rotate(180deg) scale(1.1); opacity: 0.8; }
+    100% { transform: rotate(360deg) scale(1); opacity: 0.6; }
   }
 `;
 
@@ -50,7 +84,7 @@ const MarketOverview = styled(NeomorphicSurface)`
   position: relative;
   overflow: hidden;
   
-  /* Constellation market backdrop */
+  /* Cryptic market intelligence backdrop */
   &::before {
     content: '';
     position: absolute;
@@ -59,11 +93,46 @@ const MarketOverview = styled(NeomorphicSurface)`
     right: 0;
     bottom: 0;
     background-image: 
+      /* Base overlay */
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Advanced trading algorithms */
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80&auto=format&fit=crop'),
+      /* Blockchain verification layer */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&q=50&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, soft-light;
     z-index: 0;
+    animation: market-intelligence-pulse 18s ease-in-out infinite;
+  }
+  
+  /* Tokenized border verification */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, 
+      rgba(0, 255, 150, 0.1) 0%, 
+      transparent 25%, 
+      transparent 75%, 
+      rgba(0, 150, 255, 0.1) 100%);
+    border-radius: inherit;
+    z-index: -1;
+    animation: token-verification 10s linear infinite;
+  }
+  
+  @keyframes market-intelligence-pulse {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
+  }
+  
+  @keyframes token-verification {
+    0% { opacity: 0.3; transform: rotate(0deg); }
+    50% { opacity: 0.7; transform: rotate(180deg); }
+    100% { opacity: 0.3; transform: rotate(360deg); }
   }
   
   .overview-content {
@@ -203,6 +272,66 @@ const AstrologicalAnalysis = styled(NeomorphicSurface)`
   display: flex;
   flex-direction: column;
   gap: var(--space-molecule);
+  position: relative;
+  overflow: hidden;
+  
+  /* Algorithmic analysis backdrop */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Base layer */
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      /* Crypto pattern recognition */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80&auto=format&fit=crop'),
+      /* Trading intelligence network */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=40&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, multiply;
+    z-index: 0;
+    opacity: 0.25;
+    animation: algorithmic-analysis 15s ease-in-out infinite;
+  }
+  
+  /* Tokenized verification grid */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(90deg, 
+        transparent 0px, 
+        rgba(0, 255, 150, 0.03) 2px, 
+        transparent 4px),
+      repeating-linear-gradient(0deg, 
+        transparent 0px, 
+        rgba(0, 150, 255, 0.03) 2px, 
+        transparent 4px);
+    z-index: 1;
+    pointer-events: none;
+    animation: verification-grid 20s linear infinite;
+  }
+  
+  @keyframes algorithmic-analysis {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.35; }
+  }
+  
+  @keyframes verification-grid {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, 0); }
+    50% { transform: translate(0, 2px); }
+    75% { transform: translate(-2px, 0); }
+    100% { transform: translate(0, 0); }
+  }
   
   .analysis-header {
     font-family: var(--font-display);
@@ -213,6 +342,9 @@ const AstrologicalAnalysis = styled(NeomorphicSurface)`
     letter-spacing: 0.2em;
     text-align: center;
     margin-bottom: var(--space-molecule);
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
     
     .subtitle {
       font-family: var(--font-mono);
@@ -350,11 +482,68 @@ const MarketChart = styled(NeomorphicSurface)`
   display: flex;
   flex-direction: column;
   gap: var(--space-molecule);
+  position: relative;
+  overflow: hidden;
+  
+  /* Cryptic financial data charts backdrop */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Base layer */
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      /* Advanced chart algorithms */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80&auto=format&fit=crop'),
+      /* Blockchain trading data */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=60&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center top;
+    background-blend-mode: normal, overlay, multiply;
+    z-index: 0;
+    opacity: 0.2;
+    animation: chart-data-flow 22s ease-in-out infinite;
+  }
+  
+  /* Tokenized data visualization overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(0, 255, 150, 0.02) 35%, 
+        transparent 40%, 
+        rgba(0, 150, 255, 0.02) 60%, 
+        transparent 65%);
+    z-index: 1;
+    pointer-events: none;
+    animation: data-visualization-sweep 8s linear infinite;
+  }
+  
+  @keyframes chart-data-flow {
+    0%, 100% { background-position: center, center, center top; }
+    50% { background-position: center, center bottom, center; }
+  }
+  
+  @keyframes data-visualization-sweep {
+    0% { transform: translateX(-100%) skewX(-10deg); }
+    100% { transform: translateX(100%) skewX(-10deg); }
+  }
   
   .chart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 2;
     
     .title {
       font-family: var(--font-display);
@@ -362,6 +551,7 @@ const MarketChart = styled(NeomorphicSurface)`
       font-weight: 600;
       color: var(--color-text-primary);
       text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
     }
     
     .timeframe-selector {
@@ -431,6 +621,57 @@ const MarketChart = styled(NeomorphicSurface)`
 const MarketActivity = styled(NeomorphicSurface)`
   padding: var(--space-molecule);
   grid-column: 1 / -1;
+  position: relative;
+  overflow: hidden;
+  
+  /* Cryptic market activity intelligence */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Base layer */
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      /* Blockchain activity monitoring */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80&auto=format&fit=crop'),
+      /* Trading algorithm networks */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=50&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, soft-light;
+    z-index: 0;
+    opacity: 0.15;
+    animation: market-activity-pulse 28s ease-in-out infinite;
+  }
+  
+  /* Tokenized activity verification */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(0, 255, 150, 0.02) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0, 150, 255, 0.02) 0%, transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+    animation: activity-verification 12s ease-in-out infinite;
+  }
+  
+  @keyframes market-activity-pulse {
+    0%, 100% { opacity: 0.12; background-position: center, center, center bottom; }
+    50% { opacity: 0.2; background-position: center, center top, center; }
+  }
+  
+  @keyframes activity-verification {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
   
   .activity-header {
     font-family: var(--font-display);
@@ -441,6 +682,9 @@ const MarketActivity = styled(NeomorphicSurface)`
     letter-spacing: 0.2em;
     margin-bottom: var(--space-molecule);
     text-align: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   }
   
   .activity-grid {
@@ -618,9 +862,10 @@ const MarketDetailPage: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="chart-placeholder">
-            Celestial Price Chart Loading...
-          </div>
+          <CelestialPriceChart 
+            symbol={marketData?.title || 'Market Analysis'}
+            timeframe={selectedTimeframe as any}
+          />
         </MarketChart>
 
         <AstrologicalAnalysis depth="medium">

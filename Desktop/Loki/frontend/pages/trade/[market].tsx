@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { NeomorphicSurface } from '../../components/loki-2032/NeomorphicSurface';
 import { AstrologicalPredictor } from '../../components/astro/AstrologicalPredictor';
+import { CelestialPriceChart } from '../../components/charts/CelestialPriceChart';
 import { analyticsService } from '../../services/AnalyticsService';
 import { marketDataService } from '../../services/MarketDataService';
 
@@ -12,7 +13,7 @@ const TradePage = styled.div`
   background: var(--color-glass-base);
   padding: var(--space-molecule);
   
-  /* Astrological trading floor background */
+  /* Cryptic trading floor constellation background */
   &::before {
     content: '';
     position: fixed;
@@ -21,21 +22,53 @@ const TradePage = styled.div`
     right: 0;
     bottom: 0;
     background-image: 
-      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&auto=format&fit=crop'),
+      /* Crypto trading network overlay */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80&auto=format&fit=crop'),
+      /* Tokenized data streams */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1920&q=40&auto=format&fit=crop'),
+      /* Base glass gradient */
       linear-gradient(135deg, var(--color-glass-base) 0%, var(--color-glass-surface) 100%);
-    background-size: cover, cover;
-    background-position: center, center;
-    background-blend-mode: overlay, normal;
+    background-size: cover, cover, cover;
+    background-position: center, center bottom, center;
+    background-blend-mode: overlay, multiply, normal;
     backdrop-filter: var(--glass-blur-subtle);
     z-index: -2;
     pointer-events: none;
+    animation: crypto-floor-pulse 45s ease-in-out infinite;
+  }
+  
+  /* Hexagonal crypto network overlay */
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 25% 25%, rgba(0, 255, 150, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0, 150, 255, 0.03) 0%, transparent 50%),
+      linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.01) 50%, transparent 52%);
+    z-index: -1;
+    pointer-events: none;
+    animation: network-flow 30s linear infinite;
+  }
+  
+  @keyframes crypto-floor-pulse {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+  }
+  
+  @keyframes network-flow {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1.05); }
   }
 `;
 
 const TradingGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 400px;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   gap: var(--space-molecule);
   max-width: 1600px;
   margin: 0 auto;
@@ -43,7 +76,26 @@ const TradingGrid = styled.div`
   
   @media (max-width: 1200px) {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
+  }
+`;
+
+const CelestialChartContainer = styled(NeomorphicSurface)`
+  grid-column: 1;
+  padding: var(--space-molecule);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-atom);
+  
+  .chart-header {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: var(--space-atom);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   }
 `;
 
@@ -56,7 +108,7 @@ const MarketHeader = styled(NeomorphicSurface)`
   position: relative;
   overflow: hidden;
   
-  /* Celestial market backdrop */
+  /* Tokenized market intelligence backdrop */
   &::before {
     content: '';
     position: absolute;
@@ -65,11 +117,43 @@ const MarketHeader = styled(NeomorphicSurface)`
     right: 0;
     bottom: 0;
     background-image: 
+      /* Primary crypto trading overlay */
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* Blockchain network visualization */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&q=80&auto=format&fit=crop'),
+      /* Trading algorithms pattern */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&q=60&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, multiply;
     z-index: 0;
+    animation: market-data-flow 20s ease-in-out infinite;
+  }
+  
+  /* Crypto verification layer */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: 
+      linear-gradient(45deg, rgba(0, 255, 150, 0.05) 0%, transparent 25%),
+      linear-gradient(-45deg, rgba(0, 150, 255, 0.05) 0%, transparent 25%);
+    border-radius: 12px;
+    z-index: -1;
+    animation: verification-pulse 8s ease-in-out infinite;
+  }
+  
+  @keyframes market-data-flow {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
+  }
+  
+  @keyframes verification-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
   }
   
   .market-info {
@@ -194,6 +278,62 @@ const TradingPanel = styled(NeomorphicSurface)`
   display: flex;
   flex-direction: column;
   gap: var(--space-molecule);
+  position: relative;
+  overflow: hidden;
+  
+  /* Cryptic financial algorithms backdrop */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Base crypto layer */
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      /* Algorithmic trading patterns */
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop'),
+      /* Blockchain verification network */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=60&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center top, center;
+    background-blend-mode: normal, overlay, multiply;
+    z-index: 0;
+    opacity: 0.4;
+    animation: trading-algorithm-flow 25s ease-in-out infinite;
+  }
+  
+  /* Tokenized trading overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(45deg, 
+        transparent 0px, 
+        rgba(0, 255, 150, 0.02) 1px, 
+        transparent 2px, 
+        rgba(0, 150, 255, 0.02) 3px, 
+        transparent 4px);
+    z-index: 1;
+    pointer-events: none;
+    animation: token-grid 15s linear infinite;
+  }
+  
+  @keyframes trading-algorithm-flow {
+    0%, 100% { background-position: center, center top, center; }
+    33% { background-position: center, center, center top; }
+    66% { background-position: center, center bottom, center; }
+  }
+  
+  @keyframes token-grid {
+    0% { transform: translateX(-4px); }
+    100% { transform: translateX(4px); }
+  }
   
   .panel-header {
     font-family: var(--font-display);
@@ -204,6 +344,9 @@ const TradingPanel = styled(NeomorphicSurface)`
     letter-spacing: 0.2em;
     margin-bottom: var(--space-molecule);
     text-align: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
     
     .astro-confidence {
       font-family: var(--font-mono);
@@ -353,6 +496,60 @@ const TradeForm = styled.div`
     border-radius: 8px;
     padding: var(--space-molecule);
     margin: var(--space-molecule) 0;
+    position: relative;
+    overflow: hidden;
+    
+    /* Cryptic timing analysis backdrop */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        /* Base crypto layer */
+        linear-gradient(var(--color-glass-surface), var(--color-glass-surface)),
+        /* Algorithmic pattern recognition */
+        url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop'),
+        /* Trading intelligence network */
+        url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=40&auto=format&fit=crop');
+      background-size: cover, cover, cover;
+      background-position: center, center, center bottom;
+      background-blend-mode: normal, soft-light, multiply;
+      z-index: 0;
+      opacity: 0.25;
+      animation: timing-analysis 12s ease-in-out infinite;
+    }
+    
+    /* Tokenized verification border */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background: linear-gradient(90deg, 
+        rgba(0, 255, 150, 0.3) 0%, 
+        transparent 20%, 
+        transparent 80%, 
+        rgba(0, 150, 255, 0.3) 100%);
+      border-radius: 9px;
+      z-index: -1;
+      animation: verification-scan 6s linear infinite;
+    }
+    
+    @keyframes timing-analysis {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.35; }
+    }
+    
+    @keyframes verification-scan {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.2; }
+    }
     
     .timing-header {
       font-family: var(--font-display);
@@ -361,6 +558,9 @@ const TradeForm = styled.div`
       color: var(--color-text-accent);
       text-transform: uppercase;
       margin-bottom: var(--space-atom);
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
     }
     
     .timing-advice {
@@ -368,6 +568,9 @@ const TradeForm = styled.div`
       font-size: 0.8rem;
       color: var(--color-text-secondary);
       line-height: 1.4;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     }
     
     .planetary-alignment {
@@ -376,6 +579,8 @@ const TradeForm = styled.div`
       margin-top: var(--space-atom);
       font-family: var(--font-mono);
       font-size: 0.7rem;
+      position: relative;
+      z-index: 2;
       
       .alignment-item {
         display: flex;
@@ -539,6 +744,16 @@ const TradeMarketPage: React.FC = () => {
             </div>
           </div>
         </MarketHeader>
+
+        <CelestialChartContainer depth="deep">
+          <div className="chart-header">
+            Celestial Price Analysis - {marketData?.title}
+          </div>
+          <CelestialPriceChart 
+            symbol={marketData?.title || 'Market Analysis'}
+            timeframe="1D"
+          />
+        </CelestialChartContainer>
 
         <TradingPanel depth="deep">
           <div className="panel-header">

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Theme = 'space-maritime' | 'cosmic-ice' | 'void-black' | 'quantum-glow';
+type Theme = 'space-maritime' | 'cosmic-ice' | 'void-black' | 'quantum-glow' | 'pure-monochrome';
 
 interface ThemeColors {
   glassBase: string;
@@ -93,6 +93,24 @@ const themeDefinitions: Record<Theme, ThemeColors> = {
     profit: 'rgba(150, 255, 150, 0.85)',
     loss: 'rgba(255, 120, 150, 0.85)',
     warning: 'rgba(255, 180, 100, 0.80)',
+  },
+  'pure-monochrome': {
+    glassBase: 'rgba(0, 0, 0, 0.95)',
+    glassSurface: 'rgba(15, 15, 15, 0.90)',
+    glassPanel: 'rgba(30, 30, 30, 0.80)',
+    glassAccent: 'rgba(80, 80, 80, 0.85)',
+    glassHighlight: 'rgba(255, 255, 255, 0.05)',
+    glassBorder: 'rgba(255, 255, 255, 0.25)',
+    textPrimary: 'rgba(255, 255, 255, 1.0)',
+    textSecondary: 'rgba(220, 220, 220, 0.90)',
+    textMuted: 'rgba(160, 160, 160, 0.70)',
+    textAccent: 'rgba(255, 255, 255, 0.95)',
+    accentGold: 'rgba(220, 220, 220, 0.85)',
+    accentAmber: 'rgba(200, 200, 200, 0.80)',
+    accentCrystal: 'rgba(120, 120, 120, 0.40)',
+    profit: 'rgba(255, 255, 255, 0.95)',
+    loss: 'rgba(80, 80, 80, 0.90)',
+    warning: 'rgba(160, 160, 160, 0.85)',
   },
 };
 

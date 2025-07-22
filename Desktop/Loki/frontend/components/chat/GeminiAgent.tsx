@@ -21,7 +21,7 @@ const ChatContainer = styled(motion.div)`
   flex-direction: column;
   overflow: hidden;
   
-  /* Mystical constellation background */
+  /* Cryptic AI agent intelligence backdrop */
   &::before {
     content: '';
     position: absolute;
@@ -30,11 +30,46 @@ const ChatContainer = styled(motion.div)`
     right: 0;
     bottom: 0;
     background-image: 
+      /* Base layer */
       linear-gradient(var(--color-glass-base), var(--color-glass-base)),
-      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+      /* AI neural network visualization */
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop'),
+      /* Blockchain AI integration */
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=50&auto=format&fit=crop');
+    background-size: cover, cover, cover;
+    background-position: center, center, center bottom;
+    background-blend-mode: normal, overlay, multiply;
     z-index: 0;
+    animation: ai-intelligence-flow 25s ease-in-out infinite;
+  }
+  
+  /* Tokenized AI verification border */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(135deg, 
+      rgba(0, 255, 150, 0.3) 0%, 
+      transparent 20%, 
+      transparent 80%, 
+      rgba(0, 150, 255, 0.3) 100%);
+    border-radius: 13px;
+    z-index: -1;
+    animation: ai-token-verification 8s linear infinite;
+  }
+  
+  @keyframes ai-intelligence-flow {
+    0%, 100% { background-position: center, center, center bottom; }
+    50% { background-position: center, center top, center; }
+  }
+  
+  @keyframes ai-token-verification {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
   }
 
   @media (max-width: 768px) {
