@@ -5,12 +5,13 @@ import { appKnowledgeBase, getRelevantKnowledge } from '../../lib/knowledgeBase'
 import { setupCommitHooks } from '../../lib/memoryUpdater';
 
 const ChatContainer = styled(motion.div)`
-  position: fixed;
+  position: absolute;
   bottom: 50px;
   right: 20px;
   width: 380px;
   max-height: 500px;
   background: var(--color-glass-base);
+  opacity: 0.95;
   backdrop-filter: var(--glass-blur-strong);
   border: 1px solid var(--color-glass-border);
   border-radius: 12px;
@@ -19,6 +20,22 @@ const ChatContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  
+  /* Mystical constellation background */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
 
   @media (max-width: 768px) {
     right: 10px;
@@ -34,14 +51,18 @@ const ChatHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 2;
 
   h3 {
     font-family: var(--font-display);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--color-text-primary);
     margin: 0;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
   }
 
   .status-dot {
@@ -67,6 +88,8 @@ const ChatMessages = styled.div`
   gap: 12px;
   min-height: 200px;
   max-height: 300px;
+  position: relative;
+  z-index: 2;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -101,20 +124,24 @@ const Message = styled(motion.div)<{ isUser: boolean }>`
       : '12px 12px 12px 4px'};
     padding: 12px 16px;
     font-family: var(--font-primary);
-    font-size: 0.85rem;
-    font-weight: 300;
+    font-size: 0.8rem;
+    font-weight: 400;
     line-height: 1.4;
     color: var(--color-text-primary);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
   }
 
   .message-time {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    font-weight: 400;
     color: var(--color-text-muted);
     margin-top: 4px;
     align-self: ${props => props.isUser ? 'flex-end' : 'flex-start'};
-    letter-spacing: 0.02em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
   }
 `;
 
@@ -125,6 +152,8 @@ const ChatInput = styled.div`
   display: flex;
   gap: 12px;
   align-items: flex-end;
+  position: relative;
+  z-index: 2;
 `;
 
 const InputField = styled.textarea`
@@ -152,7 +181,7 @@ const InputField = styled.textarea`
   &:focus {
     outline: none;
     border-color: var(--color-text-accent);
-    box-shadow: 0 0 0 2px rgba(0, 180, 255, 0.1);
+    box-shadow: 0 0 0 2px var(--color-text-accent);
   }
 `;
 
@@ -182,13 +211,14 @@ const SendButton = styled(motion.button)`
 `;
 
 const ToggleButton = styled(motion.button)`
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
   background: var(--color-glass-accent);
+  opacity: 0.9;
   backdrop-filter: var(--glass-blur-strong);
   border: 1px solid var(--color-glass-border);
   box-shadow: var(--glass-shadow-depth);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import { marketDataService, MarketData } from '../../services/MarketDataService';
 
 const scrollTicker = keyframes`
   0% {
@@ -26,7 +27,7 @@ const TickerWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: var(--space-solar);
-  animation: ${scrollTicker} 60s linear infinite;
+  animation: ${scrollTicker} 120s linear infinite;
   will-change: transform;
 `;
 
@@ -38,20 +39,24 @@ const TickerItem = styled.div`
   
   .ticker-symbol {
     color: var(--color-text-primary);
-    font-weight: 500;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
   }
   
   .ticker-price {
     color: var(--color-accent-amber);
-    font-weight: 400;
-    font-size: 0.75rem;
+    font-weight: 600;
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
   }
   
   .ticker-change {
-    font-size: 0.7rem;
-    font-weight: 400;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
     
     &.positive {
       color: var(--color-profit);
@@ -63,54 +68,32 @@ const TickerItem = styled.div`
   }
 `;
 
-interface TickerData {
-  symbol: string;
-  price: number;
-  change: number;
-  changePercent: number;
-}
-
 const RealTimeTicker: React.FC = () => {
-  const [tickerData, setTickerData] = useState<TickerData[]>([
-    { symbol: 'SPY', price: 589.42, change: 2.67, changePercent: 0.45 },
-    { symbol: 'QQQ', price: 512.18, change: -0.61, changePercent: -0.12 },
-    { symbol: 'BTC', price: 98245, change: 2245.67, changePercent: 2.34 },
-    { symbol: 'ETH', price: 3876.50, change: 89.23, changePercent: 2.36 },
-    { symbol: 'AAPL', price: 234.85, change: -1.24, changePercent: -0.52 },
-    { symbol: 'GOOGL', price: 189.76, change: 3.45, changePercent: 1.85 },
-    { symbol: 'TSLA', price: 345.12, change: 12.34, changePercent: 3.71 },
-    { symbol: 'MSFT', price: 456.78, change: -2.34, changePercent: -0.51 },
-    { symbol: 'AMZN', price: 178.90, change: 4.56, changePercent: 2.62 },
-    { symbol: 'NVDA', price: 892.34, change: 23.45, changePercent: 2.70 },
-  ]);
-
-  // Simulate real-time price updates
+  const [tickerData, setTickerData] = useState<MarketData[]>([]); 
+  
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTickerData(prevData => 
-        prevData.map(item => {
-          const randomChange = (Math.random() - 0.5) * 2; // -1 to +1
-          const priceChange = item.price * (randomChange / 100);
-          const newPrice = Math.max(0.01, item.price + priceChange);
-          const change = newPrice - item.price;
-          const changePercent = (change / item.price) * 100;
-
-          return {
-            ...item,
-            price: newPrice,
-            change: change,
-            changePercent: changePercent,
-          };
-        })
-      );
-    }, 3000); // Update every 3 seconds
-
-    return () => clearInterval(interval);
+    // Start market data service
+    marketDataService.start();
+    
+    // Subscribe to market data updates
+    const handleMarketData = (data: MarketData[]) => {
+      setTickerData(data);
+    };
+    
+    marketDataService.subscribe(handleMarketData);
+    
+    return () => {
+      marketDataService.unsubscribe(handleMarketData);
+    };
   }, []);
 
+
   const formatPrice = (price: number, symbol: string): string => {
-    if (symbol === 'BTC' || symbol === 'ETH') {
+    if (symbol === 'BTC' || symbol === 'ETH' || symbol === 'SOL') {
       return price.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+    if (symbol === 'ADA' || price < 10) {
+      return price.toFixed(3);
     }
     return price.toFixed(2);
   };
@@ -130,7 +113,7 @@ const RealTimeTicker: React.FC = () => {
           <TickerItem key={`${item.symbol}-${index}`}>
             <span className="ticker-symbol">{item.symbol}</span>
             <span className="ticker-price">
-              {item.symbol === 'BTC' || item.symbol === 'ETH' ? '$' : ''}
+              {['BTC', 'ETH', 'SOL', 'ADA'].includes(item.symbol) ? '$' : ''}
               {formatPrice(item.price, item.symbol)}
             </span>
             <span className={`ticker-change ${item.changePercent >= 0 ? 'positive' : 'negative'}`}>
@@ -143,7 +126,7 @@ const RealTimeTicker: React.FC = () => {
           <TickerItem key={`${item.symbol}-duplicate-${index}`}>
             <span className="ticker-symbol">{item.symbol}</span>
             <span className="ticker-price">
-              {item.symbol === 'BTC' || item.symbol === 'ETH' ? '$' : ''}
+              {['BTC', 'ETH', 'SOL', 'ADA'].includes(item.symbol) ? '$' : ''}
               {formatPrice(item.price, item.symbol)}
             </span>
             <span className={`ticker-change ${item.changePercent >= 0 ? 'positive' : 'negative'}`}>

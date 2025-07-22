@@ -17,6 +17,9 @@ import {
 import RealTimeTicker from '../ticker/RealTimeTicker';
 import { useTheme } from '../../contexts/ThemeContext';
 import GeminiAgent from '../chat/GeminiAgent';
+import SideModal from '../modals/SideModal';
+import AnalyticsModal from '../modals/AnalyticsModal';
+import TradingModal from '../modals/TradingModal';
 
 // Demo container with revolutionary styling
 const DemoContainer = styled.div`
@@ -26,8 +29,29 @@ const DemoContainer = styled.div`
   color: var(--color-text-primary);
   overflow: hidden;
   
-  /* Layered glass background for depth */
+  /* Hypnotic financial astrology background */
   &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Trading floor constellation overlay */
+      url('https://images.unsplash.com/photo-1559589689-577aabd1db4f?w=1920&q=80&auto=format&fit=crop'),
+      /* Financial data streams */
+      linear-gradient(135deg, var(--color-glass-base) 0%, var(--color-glass-surface) 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    background-blend-mode: overlay, normal;
+    backdrop-filter: var(--glass-blur-subtle);
+    z-index: -2;
+    pointer-events: none;
+  }
+  
+  /* Layered glass background for depth */
+  &::after {
     content: '';
     position: fixed;
     top: 0;
@@ -42,26 +66,6 @@ const DemoContainer = styled.div`
     pointer-events: none;
   }
   
-  /* Floating glass particles */
-  &::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.02) 0%, transparent 2px),
-      radial-gradient(circle at 85% 25%, rgba(0, 180, 255, 0.03) 0%, transparent 3px),
-      radial-gradient(circle at 25% 85%, rgba(180, 220, 255, 0.02) 0%, transparent 2px),
-      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.01) 0%, transparent 4px);
-    background-size: 800px 600px, 600px 800px, 900px 700px, 1000px 800px;
-    background-position: 0 0, 200px 100px, 400px 300px, 600px 200px;
-    animation: glass-float 120s linear infinite;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.6;
-  }
   
   @keyframes glass-float {
     0% { 
@@ -97,19 +101,25 @@ const Logo = styled.div`
 const Title = styled.h1`
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 2.5vw, 2rem);
-  font-weight: 400;
+  font-weight: 500;
   color: var(--color-text-primary);
   margin: 0;
-  line-height: 1.2;
-  letter-spacing: 0.05em;
+  line-height: 1.1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 `;
 
 const Subtitle = styled.p`
-  font-family: var(--font-primary);
+  font-family: var(--font-mono);
   font-size: clamp(0.75rem, 1.5vw, 1rem);
+  font-weight: 400;
   color: var(--color-text-secondary);
   margin: 8px 0 0 0;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 `;
 
 const ControlPanel = styled(NeomorphicSurface)`
@@ -137,12 +147,13 @@ const ControlGroup = styled.div`
   
   label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.2em;
     margin-bottom: var(--space-quantum);
-    font-weight: 500;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
   }
   
   select, button {
@@ -153,7 +164,11 @@ const ControlGroup = styled.div`
     border-radius: var(--radius-small);
     color: var(--color-text-primary);
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
@@ -169,17 +184,27 @@ const ControlGroup = styled.div`
 const MainGrid = styled.div`
   position: relative;
   z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  display: flex;
+  flex-direction: column;
   gap: clamp(16px, 4vw, 32px);
   padding: clamp(16px, 4vw, 32px);
   max-width: 1400px;
   margin: 0 auto;
+`;
+
+const MarketGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: clamp(12px, 3vw, 20px);
+  margin-bottom: clamp(20px, 4vw, 32px);
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 16px;
+    gap: 16px;
+  }
+  
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 `;
 
@@ -188,25 +213,56 @@ const WelcomePanel = styled(NeomorphicSurface)`
   padding: clamp(20px, 5vw, 32px);
   text-align: center;
   margin-bottom: clamp(20px, 4vw, 32px);
+  position: relative;
+  overflow: hidden;
+  
+  /* Hypnotic space finance background */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  
+  /* Content overlay */
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
 `;
 
 const WelcomeTitle = styled.h2`
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 2.2vw, 1.75rem);
-  font-weight: 400;
+  font-weight: 500;
   color: var(--color-text-primary);
   margin: 0 0 16px 0;
-  line-height: 1.3;
-  letter-spacing: 0.03em;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 `;
 
 const WelcomeText = styled.p`
   font-family: var(--font-primary);
   font-size: clamp(0.85rem, 1.8vw, 1rem);
+  font-weight: 400;
   color: var(--color-text-secondary);
-  line-height: 1.6;
+  line-height: 1.5;
   max-width: 800px;
   margin: 0 auto;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 `;
 
 const FeatureShowcase = styled(motion.div)`
@@ -219,11 +275,62 @@ const FeatureShowcase = styled(motion.div)`
 const FeatureCard = styled(NeomorphicSurface)`
   padding: var(--space-molecule);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+  /* Hypnotic background images for each feature */
+  &:nth-child(1) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  &:nth-child(2) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  &:nth-child(3) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  &:nth-child(4) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  &:nth-child(5) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  &:nth-child(6) {
+    background-image: 
+      linear-gradient(var(--color-glass-base), var(--color-glass-base)),
+      url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+  }
   
   .feature-icon {
     color: var(--color-text-accent);
     background: var(--color-glass-panel);
-    backdrop-filter: var(--glass-blur-subtle);
+    backdrop-filter: var(--glass-blur-strong);
     border: 1px solid var(--color-glass-border);
     border-radius: 8px;
     padding: 12px;
@@ -234,6 +341,8 @@ const FeatureCard = styled(NeomorphicSurface)`
     width: 44px;
     height: 44px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
     
     &:hover {
       transform: scale(1.05);
@@ -244,18 +353,29 @@ const FeatureCard = styled(NeomorphicSurface)`
   
   .feature-title {
     font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-size: 1.0rem;
+    font-weight: 500;
     color: var(--color-text-primary);
     margin-bottom: var(--space-atom);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
   
   .feature-description {
     font-family: var(--font-primary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 400;
     color: var(--color-text-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   }
 `;
 
@@ -273,8 +393,12 @@ const TerminalStatusBar = styled.div`
   justify-content: space-between;
   padding: 0 var(--space-molecule);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 400;
   color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
   z-index: 1000;
   
   /* Glass reflection effect */
@@ -308,8 +432,22 @@ const StatusSection = styled.div`
     
     .status-value {
       color: var(--color-text-accent);
-      font-weight: 600;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
     }
+  }
+`;
+
+const AIAgentContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 0;
+  
+  /* AI agent positioned relative to page content */
+  & > * {
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
   }
 `;
 
@@ -319,6 +457,10 @@ const LOKI2032Demo: React.FC = () => {
   const [performanceMode, setPerformanceMode] = useState<'ultra' | 'high' | 'balanced'>('high');
   const [currentTime, setCurrentTime] = useState<string>('');
   const [isClient, setIsClient] = useState(false);
+  
+  // Modal states
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showTrading, setShowTrading] = useState(false);
 
   const demoMarkets = [
     {
@@ -341,6 +483,69 @@ const LOKI2032Demo: React.FC = () => {
       change: 8.7,
       aiConfidence: 0.94,
       volume: 21000000
+    },
+    {
+      title: "NVDA Split Announcement Q1",
+      price: 82.35,
+      change: 15.8,
+      aiConfidence: 0.79,
+      volume: 34500000
+    },
+    {
+      title: "Apple Vision Pro Sales Target",
+      price: 34.60,
+      change: -7.3,
+      aiConfidence: 0.61,
+      volume: 18200000
+    },
+    {
+      title: "ETH 2.0 Staking Rewards > 6%",
+      price: 91.20,
+      change: 22.4,
+      aiConfidence: 0.88,
+      volume: 28700000
+    },
+    {
+      title: "SPY ATH Before EOY 2024",
+      price: 73.15,
+      change: 9.2,
+      aiConfidence: 0.83,
+      volume: 45600000
+    },
+    {
+      title: "Oil Prices Breach $100/barrel",
+      price: 42.80,
+      change: -12.6,
+      aiConfidence: 0.68,
+      volume: 15300000
+    },
+    {
+      title: "Meta VR Headset Market Share",
+      price: 56.90,
+      change: 5.4,
+      aiConfidence: 0.75,
+      volume: 22100000
+    },
+    {
+      title: "Google AI Breakthrough Event",
+      price: 89.45,
+      change: 18.7,
+      aiConfidence: 0.92,
+      volume: 31800000
+    },
+    {
+      title: "China GDP Growth > 5.5%",
+      price: 28.30,
+      change: -15.2,
+      aiConfidence: 0.58,
+      volume: 19500000
+    },
+    {
+      title: "Tesla Cybertruck Production Target",
+      price: 64.70,
+      change: 11.3,
+      aiConfidence: 0.77,
+      volume: 26900000
     }
   ];
 
@@ -411,6 +616,7 @@ const LOKI2032Demo: React.FC = () => {
                 <option value="cosmic-ice">Cosmic Ice</option>
                 <option value="void-black">Void Black</option>
                 <option value="quantum-glow">Quantum Glow</option>
+                <option value="pure-monochrome">Pure Monochrome</option>
               </select>
             </ControlGroup>
 
@@ -432,6 +638,16 @@ const LOKI2032Demo: React.FC = () => {
             >
               Hide Controls
             </button>
+
+            <ControlGroup>
+              <label>Interface Panels</label>
+              <button onClick={() => setShowAnalytics(true)}>
+                Analytics
+              </button>
+              <button onClick={() => setShowTrading(true)}>
+                Trading
+              </button>
+            </ControlGroup>
           </ControlPanel>
         )}
       </AnimatePresence>
@@ -496,17 +712,19 @@ const LOKI2032Demo: React.FC = () => {
           </WelcomeText>
         </WelcomePanel>
 
-        {/* Market Cards */}
-        {demoMarkets.map((market, index) => (
-          <motion.div
-            key={market.title}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 + index * 0.2 }}
-          >
-            <MarketCard {...market} />
-          </motion.div>
-        ))}
+        {/* Market Cards Grid */}
+        <MarketGrid>
+          {demoMarkets.map((market, index) => (
+            <motion.div
+              key={market.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+            >
+              <MarketCard {...market} />
+            </motion.div>
+          ))}
+        </MarketGrid>
 
         {/* Feature Showcase */}
         <FeatureShowcase>
@@ -559,7 +777,30 @@ const LOKI2032Demo: React.FC = () => {
       </TerminalStatusBar>
 
       {/* Gemini-powered Agent Bot */}
-      <GeminiAgent />
+      <AIAgentContainer>
+        <GeminiAgent />
+      </AIAgentContainer>
+
+      {/* Side-sliding Modals */}
+      <SideModal
+        isOpen={showAnalytics}
+        onClose={() => setShowAnalytics(false)}
+        position="left"
+        size="large"
+        title="Analytics Dashboard"
+      >
+        <AnalyticsModal />
+      </SideModal>
+
+      <SideModal
+        isOpen={showTrading}
+        onClose={() => setShowTrading(false)}
+        position="right"
+        size="large"
+        title="Trading Interface"
+      >
+        <TradingModal />
+      </SideModal>
     </DemoContainer>
   );
 };

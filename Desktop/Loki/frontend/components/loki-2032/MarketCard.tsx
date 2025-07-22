@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { NeomorphicSurface } from './NeomorphicSurface';
 import { TrendingUp, TrendingDown, Zap, Activity } from 'lucide-react';
@@ -162,7 +163,7 @@ const ActionButton = styled(motion.button)<{ variant: 'primary' | 'secondary' }>
   
   background: ${(props) => 
     props.variant === 'primary' 
-      ? 'linear-gradient(135deg, var(--color-glass-accent) 0%, rgba(0, 120, 204, 0.60) 100%)'
+      ? 'linear-gradient(135deg, var(--color-glass-accent) 0%, var(--color-glass-surface) 100%)'
       : 'var(--color-glass-panel)'
   };
   
@@ -220,7 +221,22 @@ export const MarketCard: React.FC<{
   aiConfidence: number;
   volume: number;
 }> = ({ title, price, change, aiConfidence, volume }) => {
+  const router = useRouter();
   const isPositiveChange = change >= 0;
+  
+  // Generate market ID from title for routing
+  const marketId = title.toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, '-')
+    .slice(0, 50);
+  
+  const handleTradeClick = () => {
+    router.push(`/trade/${marketId}`);
+  };
+  
+  const handleDetailsClick = () => {
+    router.push(`/market/${marketId}`);
+  };
   
   return (
     <NeomorphicSurface
@@ -287,6 +303,7 @@ export const MarketCard: React.FC<{
             variant="primary"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleTradeClick}
           >
             Trade Now
           </ActionButton>
@@ -294,6 +311,7 @@ export const MarketCard: React.FC<{
             variant="secondary"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleDetailsClick}
           >
             Details
           </ActionButton>
