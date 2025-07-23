@@ -398,83 +398,100 @@ const EmergencyProtocolPanel = styled(motion.div)<{ activated: boolean }>`
   }
 `;
 
-// Mock data generators for demonstration
-const generateMockMarketData = (): MarketDataStream => ({
-  activeMarkets: [
-    {
-      id: 'btc-2024-election',
-      title: 'Bitcoin $100K by Election Day 2024',
-      description: 'Will Bitcoin reach $100,000 before Election Day 2024?',
-      outcomes: [
-        { id: 'yes', name: 'Yes', probability: 0.67, price: 67, priceChange24h: 2.3, volume24h: 125000, momentum: 'rising' },
-        { id: 'no', name: 'No', probability: 0.33, price: 33, priceChange24h: -2.3, volume24h: 87000, momentum: 'falling' }
-      ],
-      volume: 2500000,
-      liquidity: 850000,
-      endDate: new Date('2024-11-05'),
-      category: 'Cryptocurrency',
-      priceHistory: Array.from({length: 30}, (_, i) => ({
-        timestamp: Date.now() - (29-i) * 24 * 60 * 60 * 1000,
-        price: 60 + Math.random() * 20 + Math.sin(i * 0.3) * 10,
-        volume: 80000 + Math.random() * 40000
-      })),
-      sentiment: 'bullish',
-      aiConfidence: 0.82,
-      userRelevanceScore: 0.91,
-      complexityLevel: 0.6,
-      timeToExpiry: 45,
-      aiPrediction: {
-        confidence: 0.82,
-        outcome: 'Yes',
-        reasoning: 'Strong institutional adoption signals and favorable regulatory environment'
-      }
-    },
-    {
-      id: 'ai-singularity-2030',
-      title: 'AI Singularity Achievement by 2030',
-      description: 'Will artificial general intelligence be achieved by 2030?',
-      outcomes: [
-        { id: 'yes', name: 'Yes', probability: 0.34, price: 34, priceChange24h: 5.2, volume24h: 65000, momentum: 'rising' },
-        { id: 'no', name: 'No', probability: 0.66, price: 66, priceChange24h: -5.2, volume24h: 43000, momentum: 'falling' }
-      ],
-      volume: 1200000,
-      liquidity: 420000,
-      endDate: new Date('2030-12-31'),
-      category: 'Technology',
-      priceHistory: Array.from({length: 30}, (_, i) => ({
-        timestamp: Date.now() - (29-i) * 24 * 60 * 60 * 1000,
-        price: 30 + Math.random() * 10 + Math.cos(i * 0.2) * 5,
-        volume: 45000 + Math.random() * 25000
-      })),
-      sentiment: 'volatile',
-      aiConfidence: 0.71,
-      userRelevanceScore: 0.85,
-      complexityLevel: 0.9,
-      timeToExpiry: 2190,
-      aiPrediction: {
-        confidence: 0.71,
-        outcome: 'Uncertain',
-        reasoning: 'Rapid progress in foundation models but significant technical hurdles remain'
-      }
-    }
-  ],
-  volatility: 0.65,
-  sentiment: 0.23,
-  volume: 3700000,
-  aiPredictions: [],
-  correlations: []
-});
+// Deterministic data generators for SSR compatibility
+const generateDeterministicValue = (seed: number, min: number, max: number): number => {
+  const x = Math.sin(seed) * 10000;
+  return min + (max - min) * (x - Math.floor(x));
+};
 
-const generateMockUserProfile = (): UserProfile => ({
+const generateMockMarketData = (isSSR: boolean = false): MarketDataStream => {
+  const baseTimestamp = 1640995200000; // Fixed timestamp for SSR
+  
+  return {
+    activeMarkets: [
+      {
+        id: 'btc-2024-election',
+        title: 'Bitcoin $100K by Election Day 2024',
+        description: 'Will Bitcoin reach $100,000 before Election Day 2024?',
+        outcomes: [
+          { id: 'yes', name: 'Yes', probability: 0.67, price: 67, priceChange24h: 2.3, volume24h: 125000, momentum: 'rising' },
+          { id: 'no', name: 'No', probability: 0.33, price: 33, priceChange24h: -2.3, volume24h: 87000, momentum: 'falling' }
+        ],
+        volume: 2500000,
+        liquidity: 850000,
+        endDate: new Date('2024-11-05'),
+        category: 'Cryptocurrency',
+        priceHistory: Array.from({length: 30}, (_, i) => ({
+          timestamp: baseTimestamp - (29-i) * 24 * 60 * 60 * 1000,
+          price: isSSR ? 
+            60 + generateDeterministicValue(i, 0, 20) + Math.sin(i * 0.3) * 10 :
+            60 + Math.random() * 20 + Math.sin(i * 0.3) * 10,
+          volume: isSSR ?
+            80000 + generateDeterministicValue(i + 100, 0, 40000) :
+            80000 + Math.random() * 40000
+        })),
+        sentiment: 'bullish',
+        aiConfidence: 0.82,
+        userRelevanceScore: 0.91,
+        complexityLevel: 0.6,
+        timeToExpiry: 45,
+        aiPrediction: {
+          confidence: 0.82,
+          outcome: 'Yes',
+          reasoning: 'Strong institutional adoption signals and favorable regulatory environment'
+        }
+      },
+      {
+        id: 'ai-singularity-2030',
+        title: 'AI Singularity Achievement by 2030',
+        description: 'Will artificial general intelligence be achieved by 2030?',
+        outcomes: [
+          { id: 'yes', name: 'Yes', probability: 0.34, price: 34, priceChange24h: 5.2, volume24h: 65000, momentum: 'rising' },
+          { id: 'no', name: 'No', probability: 0.66, price: 66, priceChange24h: -5.2, volume24h: 43000, momentum: 'falling' }
+        ],
+        volume: 1200000,
+        liquidity: 420000,
+        endDate: new Date('2030-12-31'),
+        category: 'Technology',
+        priceHistory: Array.from({length: 30}, (_, i) => ({
+          timestamp: baseTimestamp - (29-i) * 24 * 60 * 60 * 1000,
+          price: isSSR ?
+            30 + generateDeterministicValue(i + 200, 0, 10) + Math.cos(i * 0.2) * 5 :
+            30 + Math.random() * 10 + Math.cos(i * 0.2) * 5,
+          volume: isSSR ?
+            45000 + generateDeterministicValue(i + 300, 0, 25000) :
+            45000 + Math.random() * 25000
+        })),
+        sentiment: 'volatile',
+        aiConfidence: 0.71,
+        userRelevanceScore: 0.85,
+        complexityLevel: 0.9,
+        timeToExpiry: 2190,
+        aiPrediction: {
+          confidence: 0.71,
+          outcome: 'Uncertain',
+          reasoning: 'Rapid progress in foundation models but significant technical hurdles remain'
+        }
+      }
+    ],
+    volatility: 0.65,
+    sentiment: 0.23,
+    volume: 3700000,
+    aiPredictions: [],
+    correlations: []
+  };
+};
+
+const generateMockUserProfile = (isSSR: boolean = false): UserProfile => ({
   id: 'user-loki-2032',
   name: 'Cosmic Trader',
   tradingExperience: 0.75,
   riskTolerance: 0.6,
   preferredLayout: 'adaptive-grid',
   biometricData: {
-    heartRate: 72 + Math.random() * 20,
-    stressLevel: 0.3 + Math.random() * 0.3,
-    focusLevel: 0.7 + Math.random() * 0.3
+    heartRate: isSSR ? 78 : 72 + Math.random() * 20,
+    stressLevel: isSSR ? 0.4 : 0.3 + Math.random() * 0.3,
+    focusLevel: isSSR ? 0.8 : 0.7 + Math.random() * 0.3
   },
   tradingSession: {
     duration: 45,
@@ -504,21 +521,29 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
   emergencyProtocols = true,
   performanceMode = 'high'
 }) => {
-  // State management for the revolutionary interface
+  // Hydration safety states
+  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentTheme, setCurrentTheme] = useState(theme);
+  const [currentTheme] = useState(theme);
   const [interfaceLayout, setInterfaceLayout] = useState('adaptive-grid');
   const [voiceActive, setVoiceActive] = useState(false);
   const [emergencyMode, setEmergencyMode] = useState(false);
-  const [adaptivePersonalization, setAdaptivePersonalization] = useState(aiPersonalization);
+  const [adaptivePersonalization] = useState(aiPersonalization);
   
-  // Use mock data if not provided
-  const activeUserProfile = userProfile || generateMockUserProfile();
-  const activeMarketData = marketData || generateMockMarketData();
+  // Use mock data with SSR compatibility
+  const activeUserProfile = userProfile || generateMockUserProfile(!mounted);
+  const activeMarketData = marketData || generateMockMarketData(!mounted);
   const activeAstronomicalFeed = astronomicalFeed || generateMockAstronomicalData();
+  
+  // Mount detection for hydration safety
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Initialize the revolutionary interface
   useEffect(() => {
+    if (!mounted) return;
+    
     const initializeInterface = async () => {
       // Simulate advanced system initialization
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -528,8 +553,8 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
         setInterfaceLayout(activeUserProfile.preferredLayout);
       }
       
-      // Enable biometric tracking
-      if (biometricIntegration && activeUserProfile.biometricData) {
+      // Enable biometric tracking - only in browser
+      if (biometricIntegration && activeUserProfile.biometricData && typeof document !== 'undefined') {
         document.documentElement.style.setProperty('--biometric-focus-x', '50%');
         document.documentElement.style.setProperty('--biometric-focus-y', '50%');
       }
@@ -538,11 +563,11 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
     };
     
     initializeInterface();
-  }, []);
+  }, [mounted, activeUserProfile.preferredLayout, biometricIntegration, activeUserProfile.biometricData]);
   
-  // Voice command system
+  // Voice command system - only in browser
   useEffect(() => {
-    if (!voiceCommands) return;
+    if (!voiceCommands || !mounted || typeof window === 'undefined') return;
     
     const handleVoiceActivation = (event: KeyboardEvent) => {
       if (event.code === 'Space' && event.ctrlKey) {
@@ -553,17 +578,10 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
     
     window.addEventListener('keydown', handleVoiceActivation);
     return () => window.removeEventListener('keydown', handleVoiceActivation);
-  }, [voiceCommands]);
+  }, [voiceCommands, mounted]);
   
-  // Emergency protocol system
-  const handleEmergencyProtocol = () => {
-    if (emergencyProtocols) {
-      setEmergencyMode(true);
-    }
-  };
-  
-  const handleTrade = (marketId: string, action: 'buy' | 'sell') => {
-    console.log(`Executing ${action} order for market ${marketId}`);
+  const handleTrade = (marketId: string, outcome: string, amount: number) => {
+    console.log(`Executing trade for market ${marketId}, outcome: ${outcome}, amount: ${amount}`);
     // In real implementation, this would connect to trading API
   };
   
@@ -576,6 +594,36 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
     // In real implementation, this would trigger market analysis
   };
   
+  // Prevent SSR rendering until mounted
+  if (!mounted) {
+    return (
+      <div style={{
+        position: 'relative',
+        width: '100vw',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0a0f1a 0%, #1a1a2e 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          width: '120px',
+          height: '120px',
+          border: '3px solid #64ffda',
+          borderTop: '3px solid transparent',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <LOKI2032Container
@@ -619,7 +667,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
               activeMarkets: activeMarketData.activeMarkets.length,
               totalVolume: activeMarketData.volume,
               profitability: activeUserProfile.tradingSession.profitLoss,
-              timeOfDay: new Date().toLocaleTimeString(),
+              timeOfDay: mounted ? new Date().toLocaleTimeString() : '12:00:00 PM',
               mood: activeMarketData.sentiment > 0.3 ? 'bullish' : 
                     activeMarketData.sentiment < -0.3 ? 'bearish' : 'neutral'
             }}
@@ -628,7 +676,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             userStress={activeUserProfile.biometricData?.stressLevel}
             astronomicalData={{
               moonPhase: activeAstronomicalFeed.moonPhase?.name || 'Full Moon',
-              mercuryRetrograde: Math.random() > 0.8,
+              mercuryRetrograde: mounted ? Math.random() > 0.8 : false,
               solarActivity: activeAstronomicalFeed.solarActivity?.flareLevel || 'moderate',
               planetaryAlignment: 'Favorable'
             }}
@@ -638,14 +686,14 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
         {/* Quantum Chart Visualization */}
         <div style={{ gridArea: 'chart-main' }}>
           <QuantumChartVisualization2032
-            data={activeMarketData.activeMarkets[0]?.priceHistory.map(p => ({
+            data={activeMarketData.activeMarkets[0]?.priceHistory.map((p, i) => ({
               timestamp: p.timestamp,
               price: p.price,
               volume: p.volume,
-              probability: Math.random(),
-              confidence: 0.7 + Math.random() * 0.3,
-              sentiment: (Math.random() - 0.5) * 2,
-              quantumState: ['superposition', 'entangled', 'collapsed'][Math.floor(Math.random() * 3)] as any
+              probability: mounted ? Math.random() : generateDeterministicValue(i + 500, 0, 1),
+              confidence: mounted ? 0.7 + Math.random() * 0.3 : 0.7 + generateDeterministicValue(i + 600, 0, 0.3),
+              sentiment: mounted ? (Math.random() - 0.5) * 2 : (generateDeterministicValue(i + 700, 0, 1) - 0.5) * 2,
+              quantumState: ['superposition', 'entangled', 'collapsed'][mounted ? Math.floor(Math.random() * 3) : Math.floor(generateDeterministicValue(i + 800, 0, 3))] as any
             })) || []}
             chartType="quantum-candlestick"
             dimensions="2d"
@@ -666,8 +714,15 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             userStressLevel={activeUserProfile.biometricData?.stressLevel || 0.3}
             tradingExperience={activeUserProfile.tradingExperience}
             marketVolatility={activeMarketData.volatility}
-            activeMarkets={activeMarketData.activeMarkets}
-            tradingSession={activeUserProfile.tradingSession}
+            activeMarkets={activeMarketData.activeMarkets.map(market => ({
+              ...market,
+              volatility: 0.65
+            }))}
+            tradingSession={{
+              ...activeUserProfile.tradingSession,
+              currentFocus: 0.8,
+              cognitiveLoad: 0.3
+            }}
             onTrade={handleTrade}
             onLayoutChange={handleLayoutChange}
           />
@@ -700,7 +755,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
               astronomicalCorrelation="mercury-alignment"
               hoverEffect="levitation"
               hapticFeedback={true}
-              onTrade={handleTrade}
+              onTrade={(marketId: string, action: 'buy' | 'sell') => handleTrade(marketId, action, 100)}
               realTimeData={true}
             />
           ))}
