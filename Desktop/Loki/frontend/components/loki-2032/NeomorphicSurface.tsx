@@ -17,7 +17,9 @@ interface NeomorphicSurfaceProps {
   whileHover?: any;
 }
 
-const StyledSurface = styled(motion.div)<NeomorphicSurfaceProps>`
+const StyledSurface = styled(motion.div, {
+  shouldForwardProp: (prop) => !['depth', 'material', 'interactive'].includes(prop as string)
+})<NeomorphicSurfaceProps>`
   /* Liquid Glass Base */
   background: ${({ material, depth }) => {
     const opacity = depth === 'deep' ? '0.45' : depth === 'subtle' ? '0.65' : '0.55';

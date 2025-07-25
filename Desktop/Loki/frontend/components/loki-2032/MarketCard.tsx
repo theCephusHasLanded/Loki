@@ -241,7 +241,9 @@ const PriceDisplay = styled.div`
   }
 `;
 
-const ChangeIndicator = styled(motion.div)<{ positive: boolean }>`
+const ChangeIndicator = styled(motion.div, {
+  shouldForwardProp: (prop) => prop !== 'positive'
+})<{ positive: boolean }>`
   display: flex;
   align-items: center;
   gap: var(--space-quantum);
