@@ -434,11 +434,11 @@ export const ConstellationHeader2032: React.FC<ConstellationHeaderProps> = ({
         
         {astronomicalData?.solarActivity !== 'low' && (
           <AstronomicalIndicator 
-            active={astronomicalData.solarActivity === 'extreme'} 
+            active={astronomicalData?.solarActivity === 'extreme'} 
             type="solar"
-            title={`Solar Activity: ${astronomicalData.solarActivity}`}
+            title={`Solar Activity: ${astronomicalData?.solarActivity}`}
           >
-            ☉ {astronomicalData.solarActivity.charAt(0).toUpperCase()}
+            ☉ {astronomicalData?.solarActivity?.charAt(0).toUpperCase()}
           </AstronomicalIndicator>
         )}
         

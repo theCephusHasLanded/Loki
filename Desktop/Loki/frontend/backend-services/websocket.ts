@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 import { sessionService } from './session';
-import { db } from '../index';
+// Remove db import for now - will use database connection in API routes directly
 
 export class WebSocketService {
   private io: Server;

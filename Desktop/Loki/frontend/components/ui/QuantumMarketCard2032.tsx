@@ -69,22 +69,23 @@ const CardContainer = styled(motion.div)<{
   overflow: hidden;
   
   /* Advanced neumorphic styling based on depth */
-  ${props => {
-    const depthScale = {
+  ${(props: any) => {
+    const depthScale: Record<string, string> = {
       'subtle': '0.5',
       'medium': '1',
       'deep': '1.5'
-    }[props.depth] || '1';
+    };
+    const scale = depthScale[props.depth] || '1';
     
     return css`
-      --depth-scale: ${depthScale};
+      --depth-scale: ${scale};
       --nm-distance: 20px;
       --nm-blur: 40px;
     `;
   }}
   
   /* Surface material variations */
-  ${props => {
+  ${(props: any) => {
     switch(props.material) {
       case 'ice-crystal':
         return css`
@@ -127,8 +128,8 @@ const CardContainer = styled(motion.div)<{
     var(--nm-shadow-light),
     
     /* AI confidence glow */
-    0 0 ${props => 20 + (props.aiConfidence * 40)}px 
-    color-mix(in srgb, var(--color-ai-insight) ${Math.round(props.aiConfidence * 30)}%, transparent),
+    0 0 ${(props: any) => 20 + (props.aiConfidence * 40)}px 
+    color-mix(in srgb, var(--color-ai-insight) ${(props: any) => Math.round(props.aiConfidence * 30)}%, transparent),
     
     /* Inner surface detail */
     inset 2px 2px 4px rgba(255,255,255,0.1),
@@ -139,7 +140,7 @@ const CardContainer = styled(motion.div)<{
   
   /* Hover effects based on type */
   &:hover {
-    ${props => {
+    ${(props: any) => {
       switch(props.hoverEffect) {
         case 'quantum':
           return css`
@@ -181,7 +182,7 @@ const MarketTitle = styled.h3<{ sentiment: string }>`
   margin: 0 0 var(--space-atom) 0;
   
   /* Sentiment-based coloring */
-  background: ${props => {
+  background: ${(props: any) => {
     switch(props.sentiment) {
       case 'bullish': 
         return 'linear-gradient(135deg, var(--color-profit-muted) 0%, var(--color-cosmic-ice) 100%)';
@@ -220,14 +221,14 @@ const AstronomicalCorrelation = styled.div<{ active: boolean }>`
   gap: var(--space-quantum);
   padding: var(--space-quantum) var(--space-atom);
   border-radius: var(--radius-small);
-  background: color-mix(in srgb, var(--color-ai-insight) ${props => props.active ? '20' : '10'}%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-ai-insight) ${props => props.active ? '30' : '15'}%, transparent);
+  background: color-mix(in srgb, var(--color-ai-insight) ${(props: any) => props.active ? '20' : '10'}%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-ai-insight) ${(props: any) => props.active ? '30' : '15'}%, transparent);
   
   font-family: var(--font-mono);
   font-size: 0.65rem;
   color: var(--color-ai-insight);
   
-  ${props => props.active && css`
+  ${(props: any) => props.active && css`
     box-shadow: 0 0 15px color-mix(in srgb, var(--color-ai-insight) 30%, transparent);
     animation: astro-pulse 2s infinite;
   `}
@@ -250,7 +251,7 @@ const OutcomeItem = styled(motion.div)<{ isWinning: boolean; confidence: number 
   border: 1px solid color-mix(in srgb, var(--color-cosmic-ice) 15%, transparent 85%);
   
   /* Winning outcome highlighting */
-  ${props => props.isWinning && css`
+  ${(props: any) => props.isWinning && css`
     background: color-mix(in srgb, var(--color-profit-muted) 20%, var(--nm-surface-base) 80%);
     border-color: color-mix(in srgb, var(--color-profit-muted) 40%, transparent 60%);
     box-shadow: 0 0 20px color-mix(in srgb, var(--color-profit-muted) 20%, transparent);
@@ -263,7 +264,7 @@ const OutcomeItem = styled(motion.div)<{ isWinning: boolean; confidence: number 
     left: 0;
     top: 0;
     bottom: 0;
-    width: ${props => props.confidence * 100}%;
+    width: ${(props: any) => props.confidence * 100}%;
     background: linear-gradient(90deg, 
       var(--color-ai-insight), 
       transparent);
@@ -309,7 +310,7 @@ const ProbabilityBar = styled.div<{ probability: number }>`
     left: 0;
     top: 0;
     bottom: 0;
-    width: ${props => props.probability}%;
+    width: ${(props: any) => props.probability}%;
     background: linear-gradient(90deg,
       var(--color-quantum-glow) 0%,
       var(--color-ai-insight) 100%);
@@ -322,7 +323,7 @@ const ProbabilityText = styled.span<{ change: number }>`
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-variation-settings: "wght" 600;
-  color: ${props => {
+  color: ${(props: any) => {
     if (props.change > 0) return 'var(--color-profit-muted)';
     if (props.change < 0) return 'var(--color-loss-muted)';
     return 'var(--color-starlight)';
@@ -363,11 +364,11 @@ const AIInsightBadge = styled.div<{ confidence: number }>`
   color: var(--color-ai-insight);
   
   /* Confidence-based glow */
-  box-shadow: 0 0 ${props => 10 + (props.confidence * 20)}px 
-    color-mix(in srgb, var(--color-ai-insight) ${Math.round(props.confidence * 40)}%, transparent);
+  box-shadow: 0 0 ${(props: any) => 10 + (props.confidence * 20)}px 
+    color-mix(in srgb, var(--color-ai-insight) ${(props: any) => Math.round(props.confidence * 40)}%, transparent);
     
   /* Pulsing animation for high confidence */
-  ${props => props.confidence > 0.8 && css`
+  ${(props: any) => props.confidence > 0.8 && css`
     animation: high-confidence-pulse 1.5s infinite;
   `}
 `;
@@ -393,7 +394,7 @@ const QuantumButton = styled(motion.button)<{ variant: 'buy' | 'sell' }>`
   overflow: hidden;
   
   /* Variant-based styling */
-  ${props => {
+  ${(props: any) => {
     if (props.variant === 'buy') {
       return css`
         background: linear-gradient(135deg,
@@ -422,7 +423,7 @@ const QuantumButton = styled(motion.button)<{ variant: 'buy' | 'sell' }>`
   &:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 
-      12px 12px 24px color-mix(in srgb, ${props => 
+      12px 12px 24px color-mix(in srgb, ${(props: any) => 
         props.variant === 'buy' ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)'
       } 30%, var(--nm-shadow-dark) 70%);
   }

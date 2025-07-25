@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { sessionService, SessionData } from '../services/session';
+import { sessionService, SessionData } from '../backend-services/session';
 
 export interface AuthenticatedRequest extends Request {
   user?: SessionData;

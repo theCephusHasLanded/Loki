@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useAnimation, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
 
@@ -91,13 +91,13 @@ const ChartContainer = styled(motion.div)<{
     0 0 40px color-mix(in srgb, var(--color-quantum-glow) 20%, transparent);
   
   /* 3D perspective for dimensional charts */
-  ${props => props.dimensions === '3d' && css`
+  ${(props: any) => props.dimensions === '3d' && css`
     perspective: 1000px;
     transform-style: preserve-3d;
   `}
   
   /* Hyperdimensional visualization effects */
-  ${props => props.dimensions === 'hyperdimensional' && css`
+  ${(props: any) => props.dimensions === 'hyperdimensional' && css`
     background: radial-gradient(ellipse at center,
       color-mix(in srgb, var(--color-quantum-glow) 30%, var(--color-void-black) 70%) 0%,
       color-mix(in srgb, var(--color-ai-insight) 20%, var(--color-space-deep) 80%) 50%,
@@ -108,7 +108,7 @@ const ChartContainer = styled(motion.div)<{
   `}
   
   /* Neurological response enhancement */
-  ${props => props.neurologicalActive && css`
+  ${(props: any) => props.neurologicalActive && css`
     filter: contrast(1.2) saturate(1.3);
     box-shadow: 
       inset 20px 20px 60px var(--nm-shadow-dark),
@@ -118,7 +118,7 @@ const ChartContainer = styled(motion.div)<{
   `}
   
   /* Render quality optimization */
-  ${props => {
+  ${(props: any) => {
     switch(props.renderQuality) {
       case 'ultra':
         return css`
@@ -150,10 +150,10 @@ const WebGLCanvas = styled.canvas<{
   left: 0;
   width: 100%;
   height: 100%;
-  cursor: ${props => props.interactive ? 'crosshair' : 'default'};
+  cursor: ${(props: any) => props.interactive ? 'crosshair' : 'default'};
   
   /* Quantum state visual enhancement */
-  ${props => props.quantumEnabled && css`
+  ${(props: any) => props.quantumEnabled && css`
     filter: drop-shadow(0 0 20px var(--color-quantum-glow));
     animation: quantum-flicker 4s ease-in-out infinite;
   `}
@@ -187,14 +187,14 @@ const SentimentWaveform = styled.div<{
   background: linear-gradient(180deg,
     transparent 0%,
     color-mix(in srgb, 
-      ${props => props.sentiment > 0 ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)'} 
-      ${Math.round(props.magnitude * 30)}%, 
+      ${(props: any) => props.sentiment > 0 ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)'} 
+      ${(props: any) => Math.round(props.magnitude * 30)}%, 
       transparent
     ) 100%
   );
   
   /* Cosmic correlation enhancement */
-  ${props => props.cosmicActive && css`
+  ${(props: any) => props.cosmicActive && css`
     background: linear-gradient(180deg,
       transparent 0%,
       color-mix(in srgb, var(--color-ai-insight) 20%, transparent 80%) 30%,
@@ -221,7 +221,7 @@ const QuantumStateIndicator = styled.div<{
   padding: var(--space-atom) var(--space-molecule);
   border-radius: var(--radius-medium);
   
-  background: ${props => {
+  background: ${(props: any) => {
     switch(props.state) {
       case 'superposition':
         return 'color-mix(in srgb, var(--color-quantum-glow) 20%, transparent 80%)';
@@ -244,11 +244,11 @@ const QuantumStateIndicator = styled.div<{
   color: var(--color-cosmic-ice);
   
   /* Coherence level visualization */
-  box-shadow: 0 0 ${props => 10 + props.coherence * 30}px 
-    color-mix(in srgb, var(--color-quantum-glow) ${Math.round(props.coherence * 40)}%, transparent);
+  box-shadow: 0 0 ${(props: any) => 10 + props.coherence * 30}px 
+    color-mix(in srgb, var(--color-quantum-glow) ${(props: any) => Math.round(props.coherence * 40)}%, transparent);
   
   /* Entanglement strength pulsing */
-  ${props => props.entanglement > 0.7 && css`
+  ${(props: any) => props.entanglement > 0.7 && css`
     animation: entanglement-pulse 1.5s ease-in-out infinite;
   `}
 `;
@@ -272,13 +272,13 @@ const NeuralNetworkOverlay = styled.div<{
     radial-gradient(circle at 30% 80%, var(--color-ai-insight) 0.8px, transparent 0.8px);
   
   background-size: 
-    ${props => 60 - props.activity * 20}px ${props => 60 - props.activity * 20}px,
-    ${props => 80 - props.activity * 30}px ${props => 80 - props.activity * 30}px,
+    ${(props: any) => 60 - props.activity * 20}px ${(props: any) => 60 - props.activity * 20}px,
+    ${(props: any) => 80 - props.activity * 30}px ${(props: any) => 80 - props.activity * 30}px,
     40px 40px,
     70px 70px;
   
-  opacity: ${props => 0.1 + props.accuracy * 0.3};
-  animation: neural-flow ${props => 15 - props.activity * 10}s linear infinite;
+  opacity: ${(props: any) => 0.1 + props.accuracy * 0.3};
+  animation: neural-flow ${(props: any) => 15 - props.activity * 10}s linear infinite;
   
   /* Connection lines between neurons */
   &::before {
@@ -294,8 +294,8 @@ const NeuralNetworkOverlay = styled.div<{
       color-mix(in srgb, var(--color-ai-insight) 30%, transparent 70%) 51%,
       transparent 52%
     );
-    background-size: ${props => 100 - props.activity * 30}px ${props => 100 - props.activity * 30}px;
-    animation: synaptic-pulse ${props => 8 - props.activity * 3}s ease-in-out infinite;
+    background-size: ${(props: any) => 100 - props.activity * 30}px ${(props: any) => 100 - props.activity * 30}px;
+    animation: synaptic-pulse ${(props: any) => 8 - props.activity * 3}s ease-in-out infinite;
   }
 `;
 
@@ -329,20 +329,20 @@ const HolographicInterface = styled.div<{
     
     /* 3D holographic effect */
     box-shadow: 
-      0 ${props => 4 * props.depth}px ${props => 12 * props.depth}px rgba(0,0,0,0.3),
-      0 0 ${props => 15 + props.intensity * 20}px color-mix(in srgb, var(--color-quantum-glow) 40%, transparent);
+      0 ${(props: any) => 4 * props.depth}px ${(props: any) => 12 * props.depth}px rgba(0,0,0,0.3),
+      0 0 ${(props: any) => 15 + props.intensity * 20}px color-mix(in srgb, var(--color-quantum-glow) 40%, transparent);
     
-    transform: translateZ(${props => props.depth * 10}px);
+    transform: translateZ(${(props: any) => props.depth * 10}px);
     
     &:hover {
-      transform: translateZ(${props => props.depth * 10 + 5}px) scale(1.05);
+      transform: translateZ(${(props: any) => props.depth * 10 + 5}px) scale(1.05);
       box-shadow: 
-        0 ${props => 8 * props.depth}px ${props => 24 * props.depth}px rgba(0,0,0,0.4),
-        0 0 ${props => 25 + props.intensity * 30}px color-mix(in srgb, var(--color-quantum-glow) 60%, transparent);
+        0 ${(props: any) => 8 * props.depth}px ${(props: any) => 24 * props.depth}px rgba(0,0,0,0.4),
+        0 0 ${(props: any) => 25 + props.intensity * 30}px color-mix(in srgb, var(--color-quantum-glow) 60%, transparent);
     }
     
     &:active {
-      transform: translateZ(${props => props.depth * 10 - 2}px) scale(0.98);
+      transform: translateZ(${(props: any) => props.depth * 10 - 2}px) scale(0.98);
     }
   }
 `;
@@ -365,7 +365,7 @@ const QuantumTooltip = styled(motion.div)<{
   /* Quantum state-based styling */
   box-shadow: 
     0 8px 32px rgba(0,0,0,0.5),
-    0 0 ${props => 20 + props.confidence * 40}px ${props => {
+    0 0 ${(props: any) => 20 + props.confidence * 40}px ${(props: any) => {
       switch(props.quantumState) {
         case 'superposition': return 'var(--color-quantum-glow)';
         case 'entangled': return 'var(--color-ai-insight)';
@@ -514,19 +514,19 @@ export const QuantumChartVisualization2032: React.FC<QuantumChartVisualizationPr
     glRef.current = gl as WebGLRenderingContext;
     
     // Initialize WebGL shaders and programs
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const vertexShader = createShader(gl as WebGLRenderingContext, (gl as WebGLRenderingContext).VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = createShader(gl as WebGLRenderingContext, (gl as WebGLRenderingContext).FRAGMENT_SHADER, fragmentShaderSource);
     
     if (!vertexShader || !fragmentShader) return;
     
-    const program = createProgram(gl, vertexShader, fragmentShader);
+    const program = createProgram(gl as WebGLRenderingContext, vertexShader, fragmentShader);
     if (!program) return;
     
-    gl.useProgram(program);
+    (gl as WebGLRenderingContext).useProgram(program);
     
     // Set up rendering loop
     const render = () => {
-      renderQuantumChart(gl, program, data, currentQuantumState);
+      renderQuantumChart(gl as WebGLRenderingContext, program, data, currentQuantumState);
       requestAnimationFrame(render);
     };
     
@@ -534,8 +534,8 @@ export const QuantumChartVisualization2032: React.FC<QuantumChartVisualizationPr
     
     // Cleanup
     return () => {
-      if (gl) {
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (gl && 'getExtension' in gl) {
+        (gl as WebGLRenderingContext).getExtension('WEBGL_lose_context')?.loseContext();
       }
     };
   }, [data, currentQuantumState, chartType]);

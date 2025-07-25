@@ -353,7 +353,7 @@ class MarketDataService {
     this.subscribers.forEach(callback => callback(data));
   }
 
-  public getMarketData(symbol?: string): MarketData | MarketData[] {
+  public getMarketData(symbol?: string): MarketData | MarketData[] | null {
     if (symbol) {
       return this.marketData.get(symbol) || null;
     }

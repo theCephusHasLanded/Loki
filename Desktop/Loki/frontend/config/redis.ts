@@ -8,7 +8,6 @@ const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
   lazyConnect: false,
   connectTimeout: 10000,
   commandTimeout: 5000,
-  retryDelayOnFailover: 100,
 });
 
 redis.on('connect', () => {
