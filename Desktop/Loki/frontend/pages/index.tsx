@@ -39,13 +39,9 @@ const RedirectMessage = styled(motion.div)`
 export default function Home() {
   const router = useRouter();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/loki-2032-demo');
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [router]);
+  const handleEnterDemo = () => {
+    router.push('/loki-2032-demo');
+  };
 
   return (
     <LoadingContainer>
@@ -70,15 +66,37 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8 }}
       >
-        Institutional Trading Platform
+        Constellation Markets - AI-Powered Prediction Trading
       </SubTitle>
+      
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        onClick={handleEnterDemo}
+        style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          border: 'none',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          color: 'white',
+          fontFamily: 'var(--font-display)',
+          fontSize: '1rem',
+          cursor: 'pointer',
+          marginTop: '2rem'
+        }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Enter Trading Platform
+      </motion.button>
       
       <RedirectMessage
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.7 }}
         transition={{ duration: 1, delay: 2 }}
       >
-        Initializing trading platform...
+        Next-generation prediction markets with AI-enhanced celestial trading intelligence
       </RedirectMessage>
     </LoadingContainer>
   );
