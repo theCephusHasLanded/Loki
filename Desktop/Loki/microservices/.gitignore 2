@@ -1,0 +1,36 @@
+# Microservices - Security
+# Service-specific sensitive configurations
+
+# Service configurations
+*/config/production/
+*/secrets/
+*/.env
+*/.env.local
+*/.env.production
+
+# SSL/TLS certificates
+*/certs/
+*/ssl/
+*/*.pem
+*/*.key
+*/*.crt
+
+# Database configurations
+*/database.yml
+*/database.json
+*/*database*
+
+# API keys and service accounts
+*/api-keys/
+*/service-accounts/
+*/*-api-key.*
+
+# Kong API Gateway secrets
+api-gateway/kong-secret.yml
+api-gateway/plugins/*.secret
+
+# JWT and session keys
+*/jwt/
+*/session/
+*/*-jwt.*
+*/*-session.*

@@ -56,16 +56,28 @@ setInterval(() => {
 
 const startServer = async () => {
   try {
-    await db.migrate.latest();
-    console.log('Database migrations completed');
-    
-    await redis.ping();
-    console.log('Redis connection established');
-    
+    // Start server first, then initialize dependencies
     server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📊 Prediction Market Platform initialized`);
     });
+    
+    // Initialize database migrations in background
+    try {
+      await db.migrate.latest();
+      console.log('Database migrations completed');
+    } catch (migrationError) {
+      console.warn('Database migration failed, continuing:', migrationError);
+    }
+    
+    // Initialize Redis connection in background
+    try {
+      await redis.ping();
+      console.log('Redis connection established');
+    } catch (redisError) {
+      console.warn('Redis connection failed, continuing:', redisError);
+    }
+    
   } catch (error) {
     console.error('Failed to start server:', error);
     process.exit(1);

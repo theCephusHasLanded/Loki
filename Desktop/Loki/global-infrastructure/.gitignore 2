@@ -1,0 +1,41 @@
+# Global Infrastructure - Security
+# Never commit production configurations
+
+# Production configurations
+production/
+prod/
+*.prod.yml
+*.production.yaml
+
+# SSL certificates and keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Terraform state and variables
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+
+# Kubernetes secrets
+*-secret.yaml
+*-config.yaml
+secrets/
+
+# Cloud provider configurations
+.aws/
+.azure/
+gcp-key.json
+service-account.json
+
+# Edge computing configurations with API keys
+edge-config/production/
+*-api-key.*
+
+# Performance logs (may contain sensitive data)
+performance/
+benchmark-results/
+latency-logs/

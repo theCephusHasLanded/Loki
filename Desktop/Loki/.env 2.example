@@ -1,0 +1,96 @@
+# Constellation Markets - Environment Configuration Template
+# Copy this file to .env and update values for your environment
+
+# ================================
+# 🔧 Core Application Settings
+# ================================
+
+NODE_ENV=development
+PORT=3000
+CORS_ORIGIN=http://localhost:3001
+
+# ================================
+# 🗄️ Database Configuration
+# ================================
+
+# PostgreSQL - Primary Database
+DATABASE_URL=postgresql://postgres:password@localhost:5432/constellation_markets
+
+# Redis - Caching and Sessions
+REDIS_URL=redis://localhost:6379
+
+# ================================
+# 🔐 Authentication & Security
+# ================================
+
+# JWT Configuration (Generate with: openssl rand -hex 32)
+JWT_SECRET=generate-32-char-hex-secret-with-openssl-rand
+JWT_REFRESH_SECRET=generate-32-char-hex-secret-with-openssl-rand
+JWT_EXPIRES_IN=1h
+JWT_REFRESH_EXPIRES_IN=7d
+
+# Session Configuration
+SESSION_SECRET=your-session-secret-here
+
+# ================================
+# 💳 Payment Integration (Coming Soon)
+# ================================
+
+# Stripe (for real money transactions)
+STRIPE_SECRET_KEY=sk_test_replace_with_your_stripe_test_key
+STRIPE_PUBLISHABLE_KEY=pk_test_replace_with_your_stripe_public_key
+
+# ================================
+# 🤖 AI & Machine Learning (Phase 2)
+# ================================
+
+# IBM Watson Services
+WATSON_API_KEY=your-watson-api-key-here
+WATSON_NLU_API_KEY=your-watson-nlu-key-here
+
+# ================================
+# 📧 Email & Notifications (Phase 2)
+# ================================
+
+# SMTP Email Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+
+# ================================
+# 🧪 Development & Testing
+# ================================
+
+# Demo Mode (enables test features)
+DEMO_MODE=true
+AUTO_SEED_DATA=true
+
+# Test Database
+TEST_DATABASE_URL=postgresql://postgres:password@localhost:5432/constellation_test
+
+# ================================
+# 🎯 Feature Flags
+# ================================
+
+# Core Features (Phase 1)
+ENABLE_REAL_MONEY_TRADING=false
+ENABLE_DEMO_MODE=true
+
+# Phase 2 Features (Coming Soon)
+ENABLE_AI_FEATURES=false
+ENABLE_MICROSERVICES=false
+
+# Phase 3 Features (Coming Soon)
+ENABLE_HFT_ENGINE=false
+ENABLE_GLOBAL_EDGE=false
+
+# ================================
+# 💡 Quick Start Instructions
+# ================================
+
+# 1. Copy this file: cp .env.example .env
+# 2. Update JWT_SECRET with a secure random string
+# 3. Start PostgreSQL and Redis (Docker recommended)
+# 4. Run: npm run db:migrate && npm run db:seed
+# 5. Start the application: npm run dev

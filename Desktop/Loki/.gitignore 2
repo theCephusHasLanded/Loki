@@ -1,0 +1,297 @@
+# Constellation Markets - Security & Environment Protection
+
+# ================================
+# 🚨 CRITICAL SECURITY FILES
+# ================================
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+.env.*.local
+
+# Secrets and configuration
+secrets/
+config/*.key
+config/*.pem
+config/*.p12
+config/*.pfx
+*.secret
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# Database and cache
+*.sqlite
+*.sqlite3
+*.db
+dump.rdb
+
+# ================================
+# 📦 Dependencies & Build Files
+# ================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager locks (keep package-lock.json, remove others if needed)
+# yarn.lock
+# pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.vercel/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ================================
+# 🐳 Docker & Infrastructure
+# ================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+*.env.docker
+
+# Kubernetes secrets
+k8s/*secret*.yaml
+k8s/*config*.yaml
+helm/*/secrets/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# ================================
+# ☁️ Cloud & Deployment
+# ================================
+
+# AWS
+.aws/
+*.pem
+
+# Google Cloud
+gcp-key.json
+service-account.json
+
+# Azure
+.azure/
+
+# Deployment logs
+deployment.log
+*.deploy.log
+
+# ================================
+# 🔧 Development Tools
+# ================================
+
+# IDEs and editors
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ================================
+# 📊 Logs & Monitoring
+# ================================
+
+# Application logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output/
+
+# ================================
+# 🧪 Testing
+# ================================
+
+# Test results
+test-results/
+playwright-report/
+test-output/
+
+# Jest
+jest.config.local.js
+
+# ================================
+# 🚀 Phase 2 & 3 Specific
+# ================================
+
+# AI/ML models
+models/
+*.model
+*.pkl
+*.joblib
+
+# High-frequency trading data
+hft-data/
+tick-data/
+market-data/
+
+# Binary protocol artifacts
+protocol/*.o
+protocol/*.so
+protocol/target/
+
+# Rust build artifacts
+target/
+Cargo.lock
+
+# C++ build artifacts
+*.o
+*.so
+*.a
+*.exe
+build/
+cmake-build-*/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# ================================
+# 📱 Frontend Specific
+# ================================
+
+# Next.js
+.next/
+out/
+
+# React
+build/
+
+# Static files
+public/uploads/
+public/temp/
+
+# ================================
+# 💾 Backup & Temp Files
+# ================================
+
+# Backups
+*.backup
+*.bak
+*.tmp
+*.temp
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# ================================
+# 🔒 Security Scan Results
+# ================================
+
+# Security scan results
+.security/
+security-report.*
+vulnerability-report.*
+
+# ================================
+# 🎯 Project Specific
+# ================================
+
+# Demo data (if contains sensitive info)
+# Uncomment if demo data should not be committed
+# demo-data/
+# sample-data/
+
+# User uploads
+uploads/
+user-data/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+
+# ================================
+# 🌐 Phase 3 Ultra-Performance
+# ================================
+
+# Trading engine binaries
+hft-engine/bin/
+hft-engine/build/
+hft-engine/*.exe
+
+# Edge computing configs (may contain sensitive data)
+edge-config/production/
+global-infrastructure/production/
+
+# Performance logs
+performance/
+benchmark-results/
+latency-logs/
+
+# Memory dumps
+*.dmp
+*.core
+
+# ================================
+# 📋 Keep These Comments
+# ================================
+
+# This .gitignore is designed for Constellation Markets
+# A prediction trading platform with ultra-high performance requirements
+# 
+# Security is paramount - never commit:
+# - Environment variables
+# - API keys or secrets
+# - Database credentials
+# - SSL certificates
+# - User data
+# 
+# If you need to add exceptions, use specific patterns:
+# !config/public-config.json
+# !docs/example.env

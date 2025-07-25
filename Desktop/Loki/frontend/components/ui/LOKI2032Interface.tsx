@@ -124,7 +124,7 @@ const LOKI2032Container = styled(motion.div)<{
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
-  
+
   /* Revolutionary space-maritime background */
   background: ${props => {
     switch(props.theme) {
@@ -145,7 +145,7 @@ const LOKI2032Container = styled(motion.div)<{
         `;
       default: // space-maritime-deep
         return `
-          linear-gradient(135deg, 
+          linear-gradient(135deg,
             var(--color-space-deep) 0%,
             color-mix(in srgb, var(--color-maritime-steel) 30%, var(--color-space-deep) 70%) 25%,
             color-mix(in srgb, var(--color-space-deep) 90%, var(--color-quantum-glow) 10%) 75%,
@@ -154,7 +154,7 @@ const LOKI2032Container = styled(motion.div)<{
         `;
     }
   }};
-  
+
   /* Subtle cosmic texture overlay */
   &::before {
     content: '';
@@ -163,7 +163,7 @@ const LOKI2032Container = styled(motion.div)<{
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
+    background-image:
       radial-gradient(circle at 25% 25%, var(--color-starlight) 1px, transparent 1px),
       radial-gradient(circle at 75% 75%, var(--color-quantum-glow) 0.5px, transparent 0.5px),
       radial-gradient(circle at 50% 80%, var(--color-cosmic-ice) 0.8px, transparent 0.8px);
@@ -173,23 +173,23 @@ const LOKI2032Container = styled(motion.div)<{
     pointer-events: none;
     z-index: 1;
   }
-  
+
   /* Performance optimizations */
   ${props => props.performanceMode === 'ultra' && css`
     will-change: scroll-position;
     contain: layout style paint;
     image-rendering: -webkit-optimize-contrast;
   `}
-  
+
   ${props => props.performanceMode === 'power-saving' && css`
     &::before { animation-play-state: paused; }
     * { animation-duration: 0.1s !important; }
   `}
-  
+
   /* Biometric enhancement mode */
   ${props => props.biometricActive && css`
     filter: contrast(1.1) saturate(1.2);
-    
+
     &::after {
       content: '';
       position: fixed;
@@ -206,7 +206,7 @@ const LOKI2032Container = styled(motion.div)<{
       animation: biometric-pulse 2s ease-in-out infinite;
     }
   `}
-  
+
   position: relative;
   z-index: 0;
 `;
@@ -218,7 +218,7 @@ const InterfaceGrid = styled.div<{ layout: string; adaptiveLayout: boolean }>`
   min-height: 100vh;
   gap: var(--space-molecule);
   padding: var(--space-molecule);
-  
+
   /* Adaptive grid system based on content and user preferences */
   ${props => {
     switch(props.layout) {
@@ -259,7 +259,7 @@ const InterfaceGrid = styled.div<{ layout: string; adaptiveLayout: boolean }>`
             "astro-panel chart-main quick-actions"
             "market-cards chart-main trading-interface"
             "ai-insights ai-insights ai-insights";
-          
+
           @media (max-width: 1200px) {
             grid-template-columns: 1fr;
             grid-template-areas:
@@ -273,7 +273,7 @@ const InterfaceGrid = styled.div<{ layout: string; adaptiveLayout: boolean }>`
         `;
     }
   }}
-  
+
   /* Adaptive layout transitions */
   transition: all var(--transition-dramatic) var(--ease-spacecraft);
 `;
@@ -284,22 +284,22 @@ const LoadingSpinner = styled(motion.div)`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
   width: 120px;
   height: 120px;
-  
+
   background: color-mix(in srgb, var(--color-void-black) 80%, transparent 20%);
   backdrop-filter: blur(20px);
   border: 2px solid color-mix(in srgb, var(--color-quantum-glow) 40%, transparent 60%);
   border-radius: var(--radius-orbital);
-  
-  box-shadow: 
+
+  box-shadow:
     0 0 40px color-mix(in srgb, var(--color-quantum-glow) 30%, transparent),
     inset 0 0 20px color-mix(in srgb, var(--color-ai-insight) 20%, transparent);
-  
+
   &::before {
     content: '';
     width: 60px;
@@ -319,28 +319,28 @@ const VoiceCommandIndicator = styled(motion.div)<{ active: boolean }>`
   height: 60px;
   border-radius: var(--radius-orbital);
   z-index: 9998;
-  
-  background: ${props => props.active ? 
+
+  background: ${props => props.active ?
     'radial-gradient(circle, var(--color-ai-insight) 0%, color-mix(in srgb, var(--color-ai-insight) 60%, transparent 40%) 100%)' :
     'color-mix(in srgb, var(--color-maritime-steel) 60%, transparent 40%)'
   };
-  
+
   backdrop-filter: blur(15px);
   border: 2px solid ${props => props.active ? 'var(--color-ai-insight)' : 'var(--color-starlight)'};
   cursor: pointer;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  
-  box-shadow: ${props => props.active ? 
+
+  box-shadow: ${props => props.active ?
     '0 0 30px var(--color-ai-insight), inset 0 0 20px color-mix(in srgb, var(--color-ai-insight) 30%, transparent)' :
     '8px 8px 16px var(--nm-shadow-dark), -8px -8px 16px var(--nm-shadow-light)'
   };
-  
+
   transition: all var(--transition-smooth);
-  
+
   ${props => props.active && css`
     animation: voice-pulse 1s ease-in-out infinite;
   `}
@@ -352,20 +352,20 @@ const EmergencyProtocolPanel = styled(motion.div)<{ activated: boolean }>`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10000;
-  
+
   width: 400px;
   padding: var(--space-solar);
   background: linear-gradient(135deg, var(--color-critical-red) 0%, var(--color-void-black) 100%);
   border: 3px solid var(--color-critical-red);
   border-radius: var(--radius-large);
-  
-  box-shadow: 
+
+  box-shadow:
     0 0 60px var(--color-critical-red),
     inset 0 0 30px color-mix(in srgb, var(--color-critical-red) 20%, transparent);
-  
+
   text-align: center;
   color: var(--color-cosmic-ice);
-  
+
   .emergency-title {
     font-family: var(--font-display);
     font-size: 1.5rem;
@@ -373,14 +373,14 @@ const EmergencyProtocolPanel = styled(motion.div)<{ activated: boolean }>`
     margin-bottom: var(--space-molecule);
     animation: emergency-flash 0.5s infinite;
   }
-  
+
   .emergency-actions {
     display: flex;
     gap: var(--space-molecule);
     justify-content: center;
     margin-top: var(--space-molecule);
   }
-  
+
   .emergency-button {
     padding: var(--space-molecule);
     background: var(--color-void-black);
@@ -390,7 +390,7 @@ const EmergencyProtocolPanel = styled(motion.div)<{ activated: boolean }>`
     font-family: var(--font-primary);
     font-weight: 600;
     cursor: pointer;
-    
+
     &:hover {
       background: var(--color-cosmic-ice);
       color: var(--color-void-black);
@@ -406,7 +406,7 @@ const generateDeterministicValue = (seed: number, min: number, max: number): num
 
 const generateMockMarketData = (isSSR: boolean = false): MarketDataStream => {
   const baseTimestamp = 1640995200000; // Fixed timestamp for SSR
-  
+
   return {
     activeMarkets: [
       {
@@ -423,7 +423,7 @@ const generateMockMarketData = (isSSR: boolean = false): MarketDataStream => {
         category: 'Cryptocurrency',
         priceHistory: Array.from({length: 30}, (_, i) => ({
           timestamp: baseTimestamp - (29-i) * 24 * 60 * 60 * 1000,
-          price: isSSR ? 
+          price: isSSR ?
             60 + generateDeterministicValue(i, 0, 20) + Math.sin(i * 0.3) * 10 :
             60 + Math.random() * 20 + Math.sin(i * 0.3) * 10,
           volume: isSSR ?
@@ -529,71 +529,71 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
   const [voiceActive, setVoiceActive] = useState(false);
   const [emergencyMode, setEmergencyMode] = useState(false);
   const [adaptivePersonalization] = useState(aiPersonalization);
-  
+
   // Use mock data with SSR compatibility
   const activeUserProfile = userProfile || generateMockUserProfile(!mounted);
   const activeMarketData = marketData || generateMockMarketData(!mounted);
   const activeAstronomicalFeed = astronomicalFeed || generateMockAstronomicalData();
-  
+
   // Mount detection for hydration safety
   useEffect(() => {
     setMounted(true);
   }, []);
-  
+
   // Initialize the revolutionary interface
   useEffect(() => {
     if (!mounted) return;
-    
+
     const initializeInterface = async () => {
       // Simulate advanced system initialization
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Apply user preferences
       if (activeUserProfile.preferredLayout) {
         setInterfaceLayout(activeUserProfile.preferredLayout);
       }
-      
+
       // Enable biometric tracking - only in browser
       if (biometricIntegration && activeUserProfile.biometricData && typeof document !== 'undefined') {
         document.documentElement.style.setProperty('--biometric-focus-x', '50%');
         document.documentElement.style.setProperty('--biometric-focus-y', '50%');
       }
-      
+
       setLoading(false);
     };
-    
+
     initializeInterface();
   }, [mounted, activeUserProfile.preferredLayout, biometricIntegration, activeUserProfile.biometricData]);
-  
+
   // Voice command system - only in browser
   useEffect(() => {
     if (!voiceCommands || !mounted || typeof window === 'undefined') return;
-    
+
     const handleVoiceActivation = (event: KeyboardEvent) => {
       if (event.code === 'Space' && event.ctrlKey) {
         setVoiceActive(true);
         setTimeout(() => setVoiceActive(false), 3000);
       }
     };
-    
+
     window.addEventListener('keydown', handleVoiceActivation);
     return () => window.removeEventListener('keydown', handleVoiceActivation);
   }, [voiceCommands, mounted]);
-  
+
   const handleTrade = (marketId: string, outcome: string, amount: number) => {
     console.log(`Executing trade for market ${marketId}, outcome: ${outcome}, amount: ${amount}`);
     // In real implementation, this would connect to trading API
   };
-  
+
   const handleLayoutChange = (newLayout: string) => {
     setInterfaceLayout(newLayout);
   };
-  
+
   const handleCosmicEvent = (event: any) => {
     console.log('Cosmic event detected:', event);
     // In real implementation, this would trigger market analysis
   };
-  
+
   // Prevent SSR rendering until mounted
   if (!mounted) {
     return (
@@ -647,7 +647,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
       </LOKI2032Container>
     );
   }
-  
+
   return (
     <LOKI2032Container
       theme={currentTheme}
@@ -668,7 +668,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
               totalVolume: activeMarketData.volume,
               profitability: activeUserProfile.tradingSession.profitLoss,
               timeOfDay: mounted ? new Date().toLocaleTimeString() : '12:00:00 PM',
-              mood: activeMarketData.sentiment > 0.3 ? 'bullish' : 
+              mood: activeMarketData.sentiment > 0.3 ? 'bullish' :
                     activeMarketData.sentiment < -0.3 ? 'bearish' : 'neutral'
             }}
             glowEffect={activeMarketData.volatility > 0.5}
@@ -682,7 +682,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             }}
           />
         </div>
-        
+
         {/* Quantum Chart Visualization */}
         <div style={{ gridArea: 'chart-main' }}>
           <QuantumChartVisualization2032
@@ -703,11 +703,11 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             renderQuality={performanceMode === 'ultra' ? 'ultra' : 'high'}
           />
         </div>
-        
+
         {/* AI-Adaptive Trading Interface */}
         <div style={{ gridArea: 'trading-interface' }}>
           <AIAdaptiveTradingInterface2032
-            layout={interfaceLayout as any}
+            interfaceLayout={interfaceLayout as any}
             complexity="user-expertise-based"
             theme={currentTheme as any}
             realTimePersonalization={adaptivePersonalization}
@@ -716,18 +716,22 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             marketVolatility={activeMarketData.volatility}
             activeMarkets={activeMarketData.activeMarkets.map(market => ({
               ...market,
-              volatility: 0.65
+              volatility: 0.65,
+              outcomes: market.outcomes.map(outcome => ({
+                ...outcome,
+                priceChange: outcome.priceChange24h
+              }))
             }))}
             tradingSession={{
               ...activeUserProfile.tradingSession,
-              currentFocus: 0.8,
+              currentFocus: '0.8',
               cognitiveLoad: 0.3
             }}
             onTrade={handleTrade}
             onLayoutChange={handleLayoutChange}
           />
         </div>
-        
+
         {/* Astronomical Data Panel */}
         <div style={{ gridArea: 'astro-panel' }}>
           <AstronomicalDataPanel2032
@@ -741,7 +745,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             onCosmicEvent={handleCosmicEvent}
           />
         </div>
-        
+
         {/* Featured Market Cards */}
         <div style={{ gridArea: 'market-cards', display: 'flex', flexDirection: 'column', gap: 'var(--space-molecule)' }}>
           {activeMarketData.activeMarkets.slice(0, 2).map((market) => (
@@ -761,7 +765,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
           ))}
         </div>
       </InterfaceGrid>
-      
+
       {/* Voice Command Indicator */}
       {voiceCommands && (
         <VoiceCommandIndicator
@@ -773,7 +777,7 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
           🎤
         </VoiceCommandIndicator>
       )}
-      
+
       {/* Emergency Protocol Panel */}
       <AnimatePresence>
         {emergencyMode && (
@@ -786,13 +790,13 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
             <div className="emergency-title">⚠️ EMERGENCY PROTOCOL ACTIVATED</div>
             <div>All trading positions will be closed immediately</div>
             <div className="emergency-actions">
-              <button 
+              <button
                 className="emergency-button"
                 onClick={() => setEmergencyMode(false)}
               >
                 Cancel
               </button>
-              <button 
+              <button
                 className="emergency-button"
                 onClick={() => {
                   // Execute emergency close
@@ -805,24 +809,24 @@ export const LOKI2032Interface: React.FC<LOKI2032InterfaceProps> = ({
           </EmergencyProtocolPanel>
         )}
       </AnimatePresence>
-      
+
       {/* Global styles and animations */}
       <style jsx global>{`
         @keyframes cosmic-drift {
           0% { background-position: 0 0, 0 0, 0 0; }
           100% { background-position: 100px 100px, 150px 150px, 80px 80px; }
         }
-        
+
         @keyframes biometric-pulse {
           0%, 100% { opacity: 0.5; }
           50% { opacity: 0.8; }
         }
-        
+
         @keyframes voice-pulse {
           0%, 100% { transform: scale(1); box-shadow: 0 0 30px var(--color-ai-insight); }
           50% { transform: scale(1.05); box-shadow: 0 0 50px var(--color-ai-insight); }
         }
-        
+
         @keyframes emergency-flash {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }

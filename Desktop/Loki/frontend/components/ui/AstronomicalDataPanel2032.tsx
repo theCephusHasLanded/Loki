@@ -101,14 +101,14 @@ const AstronomicalContainer = styled(motion.div)<{
   );
   border-radius: var(--radius-large);
   overflow: hidden;
-  
+
   /* Advanced neumorphism with cosmic depth */
-  box-shadow: 
+  box-shadow:
     inset 30px 30px 80px var(--nm-shadow-dark),
     inset -30px -30px 80px var(--nm-shadow-light),
     0 0 ${props => 60 + props.cosmicActivity * 100}px color-mix(in srgb, var(--color-quantum-glow) 30%, transparent),
     0 0 ${props => 30 + props.constellationPower * 60}px color-mix(in srgb, var(--color-ai-insight) 40%, transparent);
-  
+
   /* Mode-specific atmospheric effects */
   ${props => {
     switch(props.mode) {
@@ -141,13 +141,13 @@ const AstronomicalContainer = styled(motion.div)<{
         return '';
     }
   }}
-  
+
   border: 2px solid color-mix(in srgb, var(--color-cosmic-ice) 15%, transparent 85%);
   position: relative;
 `;
 
-const CosmicStarField = styled.div<{ 
-  activity: number; 
+const CosmicStarField = styled.div<{
+  activity: number;
   focus: string;
 }>`
   position: absolute;
@@ -155,18 +155,18 @@ const CosmicStarField = styled.div<{
   left: 0;
   right: 0;
   bottom: 0;
-  
+
   /* Dynamic star field generation */
-  background-image: 
+  background-image:
     radial-gradient(2px 2px at 20px 30px, var(--color-starlight) 2px, transparent 0),
     radial-gradient(2px 2px at 40px 70px, var(--color-quantum-glow) 1px, transparent 0),
     radial-gradient(1px 1px at 90px 40px, var(--color-cosmic-ice) 1px, transparent 0),
     radial-gradient(1px 1px at 130px 80px, var(--color-ai-insight) 0.5px, transparent 0),
     radial-gradient(2px 2px at 160px 30px, var(--color-starlight) 1px, transparent 0);
-    
+
   background-repeat: repeat;
   background-size: 200px 100px, 180px 120px, 220px 90px, 250px 110px, 190px 130px;
-  
+
   /* Constellation focus highlighting */
   ${props => props.focus && css`
     &::before {
@@ -183,7 +183,7 @@ const CosmicStarField = styled.div<{
       animation: constellation-highlight 4s ease-in-out infinite;
     }
   `}
-  
+
   animation: stellar-drift ${props => 120 - props.activity * 60}s linear infinite;
   opacity: 0.6;
 `;
@@ -209,14 +209,14 @@ const CosmicPanel = styled(motion.div)<{
   padding: var(--space-molecule);
   position: relative;
   overflow: hidden;
-  
+
   /* Significance-based prominence */
   ${props => {
     switch(props.significance) {
       case 'cosmic':
         return css`
           border: 2px solid var(--color-ai-insight);
-          box-shadow: 
+          box-shadow:
             8px 8px 24px var(--nm-shadow-dark),
             -8px -8px 24px var(--nm-shadow-light),
             0 0 40px color-mix(in srgb, var(--color-ai-insight) 50%, transparent);
@@ -224,7 +224,7 @@ const CosmicPanel = styled(motion.div)<{
       case 'major':
         return css`
           border: 2px solid var(--color-quantum-glow);
-          box-shadow: 
+          box-shadow:
             6px 6px 18px var(--nm-shadow-dark),
             -6px -6px 18px var(--nm-shadow-light),
             0 0 30px color-mix(in srgb, var(--color-quantum-glow) 40%, transparent);
@@ -232,20 +232,20 @@ const CosmicPanel = styled(motion.div)<{
       case 'moderate':
         return css`
           border: 1px solid var(--color-starlight);
-          box-shadow: 
+          box-shadow:
             4px 4px 12px var(--nm-shadow-dark),
             -4px -4px 12px var(--nm-shadow-light);
         `;
       default:
         return css`
           border: 1px solid color-mix(in srgb, var(--color-cosmic-ice) 20%, transparent 80%);
-          box-shadow: 
+          box-shadow:
             2px 2px 6px var(--nm-shadow-dark),
             -2px -2px 6px var(--nm-shadow-light);
         `;
     }
   }}
-  
+
   /* Market impact visualization */
   &::before {
     content: '';
@@ -261,32 +261,32 @@ const CosmicPanel = styled(motion.div)<{
     }};
     opacity: ${props => Math.abs(props.marketImpact)};
   }
-  
+
   /* Cosmic resonance pulsing */
   ${props => props.cosmicResonance > 0.7 && css`
     animation: cosmic-resonance 2s ease-in-out infinite;
   `}
-  
+
   transition: all var(--transition-smooth) var(--ease-spacecraft);
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.02);
     backdrop-filter: blur(25px) saturate(1.8);
-    box-shadow: 
+    box-shadow:
       12px 12px 36px var(--nm-shadow-dark),
       0 0 50px color-mix(in srgb, var(--color-quantum-glow) 40%, transparent);
   }
 `;
 
-const MoonPhaseIndicator = styled.div<{ 
-  illumination: number; 
+const MoonPhaseIndicator = styled.div<{
+  illumination: number;
   phase: string;
 }>`
   position: relative;
   width: 60px;
   height: 60px;
   margin: 0 auto var(--space-molecule);
-  
+
   .moon-body {
     width: 100%;
     height: 100%;
@@ -297,13 +297,13 @@ const MoonPhaseIndicator = styled.div<{
     );
     position: relative;
     overflow: hidden;
-    
-    box-shadow: 
+
+    box-shadow:
       inset 8px 8px 16px rgba(0,0,0,0.3),
       inset -4px -4px 8px rgba(255,255,255,0.1),
       0 0 20px color-mix(in srgb, var(--color-cosmic-ice) 30%, transparent);
   }
-  
+
   .moon-shadow {
     position: absolute;
     top: 0;
@@ -317,7 +317,7 @@ const MoonPhaseIndicator = styled.div<{
     );
     border-radius: 50%;
   }
-  
+
   .moon-glow {
     position: absolute;
     top: -10px;
@@ -333,9 +333,9 @@ const MoonPhaseIndicator = styled.div<{
   }
 `;
 
-const PlanetaryOrbit = styled.div<{ 
-  distance: number; 
-  speed: number; 
+const PlanetaryOrbit = styled.div<{
+  distance: number;
+  speed: number;
   retrograde: boolean;
   influence: number;
 }>`
@@ -347,7 +347,7 @@ const PlanetaryOrbit = styled.div<{
   border: 1px solid color-mix(in srgb, var(--color-starlight) 20%, transparent 80%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  
+
   .planet {
     position: absolute;
     top: -6px;
@@ -361,9 +361,9 @@ const PlanetaryOrbit = styled.div<{
     }};
     border-radius: 50%;
     transform: translateX(-50%);
-    
+
     box-shadow: 0 0 ${props => 10 + Math.abs(props.influence) * 20}px currentColor;
-    
+
     /* Retrograde indication */
     ${props => props.retrograde && css`
       &::after {
@@ -378,11 +378,11 @@ const PlanetaryOrbit = styled.div<{
       }
     `}
   }
-  
+
   animation: orbital-motion ${props => 20 / props.speed}s linear infinite ${props => props.retrograde ? 'reverse' : 'normal'};
 `;
 
-const ConstellationMap = styled.div<{ 
+const ConstellationMap = styled.div<{
   activeConstellation: string;
   powerLevel: number;
 }>`
@@ -393,27 +393,27 @@ const ConstellationMap = styled.div<{
   border-radius: var(--radius-medium);
   border: 1px solid color-mix(in srgb, var(--color-starlight) 15%, transparent 85%);
   overflow: hidden;
-  
+
   .constellation-star {
     position: absolute;
     width: 4px;
     height: 4px;
     background: var(--color-starlight);
     border-radius: 50%;
-    
+
     &.active {
       background: var(--color-quantum-glow);
       box-shadow: 0 0 15px var(--color-quantum-glow);
       animation: stellar-pulse 2s ease-in-out infinite;
     }
-    
+
     &.power-star {
       background: var(--color-ai-insight);
       box-shadow: 0 0 20px var(--color-ai-insight);
       transform: scale(${props => 1 + props.powerLevel * 0.5});
     }
   }
-  
+
   .constellation-line {
     position: absolute;
     height: 1px;
@@ -423,7 +423,7 @@ const ConstellationMap = styled.div<{
       var(--color-starlight) 100%
     );
     transform-origin: left center;
-    
+
     &.active-line {
       background: linear-gradient(90deg,
         var(--color-quantum-glow) 0%,
@@ -435,7 +435,7 @@ const ConstellationMap = styled.div<{
   }
 `;
 
-const CosmicEventAlert = styled(motion.div)<{ 
+const CosmicEventAlert = styled(motion.div)<{
   urgency: string;
   marketImpact: number;
 }>`
@@ -446,7 +446,7 @@ const CosmicEventAlert = styled(motion.div)<{
   border-radius: var(--radius-medium);
   backdrop-filter: blur(20px);
   z-index: 10;
-  
+
   background: ${props => {
     switch(props.urgency) {
       case 'cosmic':
@@ -459,21 +459,21 @@ const CosmicEventAlert = styled(motion.div)<{
         return 'color-mix(in srgb, var(--color-maritime-steel) 40%, transparent 60%)';
     }
   }};
-  
+
   border: 2px solid ${props => {
     if (Math.abs(props.marketImpact) > 0.7) return 'var(--color-critical-red)';
     if (Math.abs(props.marketImpact) > 0.4) return 'var(--color-warning-amber)';
     return 'var(--color-starlight)';
   }};
-  
-  box-shadow: 
+
+  box-shadow:
     0 8px 32px rgba(0,0,0,0.5),
     0 0 ${props => 30 + Math.abs(props.marketImpact) * 50}px currentColor;
-  
+
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--color-cosmic-ice);
-  
+
   ${props => props.urgency === 'cosmic' && css`
     animation: cosmic-alert 1s ease-in-out infinite;
   `}
@@ -484,7 +484,7 @@ const AstroMetricsDisplay = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: var(--space-atom);
   margin-top: var(--space-molecule);
-  
+
   .metric-item {
     display: flex;
     flex-direction: column;
@@ -494,7 +494,7 @@ const AstroMetricsDisplay = styled.div`
     border-radius: var(--radius-small);
     border: 1px solid color-mix(in srgb, var(--color-cosmic-ice) 10%, transparent 90%);
   }
-  
+
   .metric-label {
     font-family: var(--font-mono);
     font-size: 0.6rem;
@@ -503,7 +503,7 @@ const AstroMetricsDisplay = styled.div`
     letter-spacing: 0.1em;
     margin-bottom: var(--space-quantum);
   }
-  
+
   .metric-value {
     font-family: var(--font-display);
     font-variation-settings: "wght" 600;
@@ -524,14 +524,14 @@ const constellationHighlight = keyframes`
 `;
 
 const cosmicResonance = keyframes`
-  0%, 100% { 
-    box-shadow: 
+  0%, 100% {
+    box-shadow:
       8px 8px 24px var(--nm-shadow-dark),
       -8px -8px 24px var(--nm-shadow-light),
       0 0 30px color-mix(in srgb, var(--color-quantum-glow) 30%, transparent);
   }
-  50% { 
-    box-shadow: 
+  50% {
+    box-shadow:
       12px 12px 36px var(--nm-shadow-dark),
       -12px -12px 36px var(--nm-shadow-light),
       0 0 50px color-mix(in srgb, var(--color-quantum-glow) 50%, transparent);
@@ -581,11 +581,11 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
   const [activeEvents, setActiveEvents] = useState<CosmicEvent[]>([]);
   const [constellationPower, setConstellationPower] = useState(0.7);
   const [cosmicActivity, setCosmicActivity] = useState(0.5);
-  
+
   // Simulate real-time astronomical data updates
   useEffect(() => {
     if (!realTimeAstronomy) return;
-    
+
     const updateAstronomicalData = () => {
       // Generate simulated astronomical data
       const mockData: AstronomicalData = {
@@ -661,9 +661,9 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           eclipticCrossings: Math.floor(Math.random() * 3)
         }
       };
-      
+
       setAstronomicalData(mockData);
-      
+
       // Generate cosmic events
       if (Math.random() > 0.8) {
         const event: CosmicEvent = {
@@ -674,20 +674,20 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           duration: Math.random() * 24,
           affectedMarkets: ['BTC/USD', 'GOLD', 'SPY']
         };
-        
+
         setActiveEvents(prev => [event, ...prev.slice(0, 2)]);
         onCosmicEvent?.(event);
       }
     };
-    
+
     updateAstronomicalData();
-    
+
     // Update every 30 seconds
     const interval = setInterval(updateAstronomicalData, 30000);
-    
+
     return () => clearInterval(interval);
   }, [realTimeAstronomy, onCosmicEvent]);
-  
+
   // Calculate grid columns based on mode
   const gridColumns = useMemo(() => {
     switch(mode) {
@@ -697,7 +697,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
       default: return 3;
     }
   }, [mode]);
-  
+
   if (!astronomicalData) {
     return (
       <AstronomicalContainer
@@ -707,10 +707,10 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           height: '100%',
           color: 'var(--color-starlight)'
         }}>
@@ -719,7 +719,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
       </AstronomicalContainer>
     );
   }
-  
+
   return (
     <AstronomicalContainer
       mode={mode}
@@ -730,11 +730,11 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
       transition={{ duration: 1.5, ease: "easeOut" }}
     >
       {/* Cosmic star field background */}
-      <CosmicStarField 
-        activity={cosmicActivity} 
+      <CosmicStarField
+        activity={cosmicActivity}
         focus={constellationFocus}
       />
-      
+
       {/* Active cosmic events alerts */}
       <AnimatePresence>
         {activeEvents.map((event, index) => (
@@ -745,7 +745,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
-            style={{ top: var(--space-molecule) + (index * 80) }}
+            style={{ top: `calc(var(--space-molecule) + ${index * 80}px)` }}
           >
             <div style={{ fontWeight: 700, marginBottom: 'var(--space-quantum)' }}>
               🌌 {event.type.toUpperCase()}
@@ -756,7 +756,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           </CosmicEventAlert>
         ))}
       </AnimatePresence>
-      
+
       {/* Main astronomical grid */}
       <AstronomicalGrid columns={gridColumns}>
         {/* Moon Phase Panel */}
@@ -766,8 +766,8 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           cosmicResonance={astronomicalData.moonPhase.illumination}
           whileHover={{ scale: 1.02 }}
         >
-          <h3 style={{ 
-            fontFamily: 'var(--font-display)', 
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
             fontSize: '1rem',
             color: 'var(--color-cosmic-ice)',
             marginBottom: 'var(--space-molecule)',
@@ -775,7 +775,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           }}>
             🌙 Lunar Influence
           </h3>
-          
+
           <MoonPhaseIndicator
             illumination={astronomicalData.moonPhase.illumination}
             phase={astronomicalData.moonPhase.phase}
@@ -785,18 +785,18 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
               <div className="moon-shadow" />
             </div>
           </MoonPhaseIndicator>
-          
+
           <div style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontFamily: 'var(--font-mono)', 
+            <div style={{
+              fontFamily: 'var(--font-mono)',
               fontSize: '0.8rem',
               color: 'var(--color-starlight)',
               marginBottom: 'var(--space-quantum)'
             }}>
               {astronomicalData.moonPhase.name}
             </div>
-            <div style={{ 
-              fontFamily: 'var(--font-data)', 
+            <div style={{
+              fontFamily: 'var(--font-data)',
               fontSize: '1rem',
               color: 'var(--color-quantum-glow)'
             }}>
@@ -804,7 +804,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             </div>
           </div>
         </CosmicPanel>
-        
+
         {/* Planetary Positions */}
         {solarSystemTracking && (
           <CosmicPanel
@@ -812,8 +812,8 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             marketImpact={0.2}
             cosmicResonance={0.6}
           >
-            <h3 style={{ 
-              fontFamily: 'var(--font-display)', 
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
               fontSize: '1rem',
               color: 'var(--color-cosmic-ice)',
               marginBottom: 'var(--space-molecule)',
@@ -821,7 +821,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             }}>
               🪐 Planetary Influence
             </h3>
-            
+
             <div style={{ position: 'relative', height: '200px' }}>
               {astronomicalData.planets.map((planet, index) => (
                 <PlanetaryOrbit
@@ -836,9 +836,9 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
                 </PlanetaryOrbit>
               ))}
             </div>
-            
-            <div style={{ 
-              display: 'flex', 
+
+            <div style={{
+              display: 'flex',
               justifyContent: 'space-around',
               fontSize: '0.7rem',
               color: 'var(--color-starlight)',
@@ -847,7 +847,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
               {astronomicalData.planets.map(planet => (
                 <div key={planet.name} style={{ textAlign: 'center' }}>
                   <div>{planet.name.slice(0, 3)}</div>
-                  <div style={{ 
+                  <div style={{
                     color: planet.marketInfluence > 0 ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)',
                     fontWeight: 600
                   }}>
@@ -858,15 +858,15 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             </div>
           </CosmicPanel>
         )}
-        
+
         {/* Constellation Map */}
         <CosmicPanel
           significance="cosmic"
           marketImpact={0.5}
           cosmicResonance={constellationPower}
         >
-          <h3 style={{ 
-            fontFamily: 'var(--font-display)', 
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
             fontSize: '1rem',
             color: 'var(--color-cosmic-ice)',
             marginBottom: 'var(--space-molecule)',
@@ -874,7 +874,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           }}>
             ✨ Constellation Power
           </h3>
-          
+
           <ConstellationMap
             activeConstellation={constellationFocus}
             powerLevel={constellationPower}
@@ -884,32 +884,32 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             <div className="constellation-star active" style={{ top: '50%', left: '60%' }} />
             <div className="constellation-star" style={{ top: '70%', left: '30%' }} />
             <div className="constellation-star active" style={{ top: '40%', left: '70%' }} />
-            
-            <div className="constellation-line active-line" style={{ 
-              top: '40%', left: '40%', width: '20%', 
-              transform: 'rotate(30deg)' 
+
+            <div className="constellation-line active-line" style={{
+              top: '40%', left: '40%', width: '20%',
+              transform: 'rotate(30deg)'
             }} />
-            <div className="constellation-line active-line" style={{ 
-              top: '50%', left: '30%', width: '30%', 
-              transform: 'rotate(-20deg)' 
+            <div className="constellation-line active-line" style={{
+              top: '50%', left: '30%', width: '30%',
+              transform: 'rotate(-20deg)'
             }} />
           </ConstellationMap>
-          
-          <div style={{ 
-            display: 'flex', 
+
+          <div style={{
+            display: 'flex',
             justifyContent: 'space-between',
             fontSize: '0.7rem',
             marginTop: 'var(--space-molecule)'
           }}>
             {astronomicalData.constellations.map(constellation => (
-              <div 
+              <div
                 key={constellation.name}
-                style={{ 
+                style={{
                   cursor: 'pointer',
                   padding: 'var(--space-quantum)',
                   borderRadius: 'var(--radius-small)',
-                  background: constellation.name === constellationFocus ? 
-                    'color-mix(in srgb, var(--color-quantum-glow) 20%, transparent 80%)' : 
+                  background: constellation.name === constellationFocus ?
+                    'color-mix(in srgb, var(--color-quantum-glow) 20%, transparent 80%)' :
                     'transparent'
                 }}
                 onClick={() => onConstellationSelect?.(constellation.name)}
@@ -917,7 +917,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
                 <div style={{ color: 'var(--color-cosmic-ice)', fontWeight: 600 }}>
                   {constellation.name}
                 </div>
-                <div style={{ 
+                <div style={{
                   color: constellation.marketCorrelation > 0 ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)'
                 }}>
                   {constellation.marketCorrelation > 0 ? '+' : ''}{Math.round(constellation.marketCorrelation * 100)}%
@@ -926,15 +926,15 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             ))}
           </div>
         </CosmicPanel>
-        
+
         {/* Solar Activity Monitor */}
         <CosmicPanel
           significance={astronomicalData.solarActivity.coronalMassEjection ? 'cosmic' : 'moderate'}
           marketImpact={astronomicalData.solarActivity.geomagneticIndex / 9}
           cosmicResonance={astronomicalData.solarActivity.geomagneticIndex / 9}
         >
-          <h3 style={{ 
-            fontFamily: 'var(--font-display)', 
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
             fontSize: '1rem',
             color: 'var(--color-cosmic-ice)',
             marginBottom: 'var(--space-molecule)',
@@ -942,9 +942,9 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           }}>
             ☀️ Solar Activity
           </h3>
-          
+
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-molecule)' }}>
-            <div style={{ 
+            <div style={{
               fontSize: '1.5rem',
               color: astronomicalData.solarActivity.flareLevel === 'extreme' ? 'var(--color-critical-red)' :
                      astronomicalData.solarActivity.flareLevel === 'strong' ? 'var(--color-warning-amber)' :
@@ -955,7 +955,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
               {astronomicalData.solarActivity.flareLevel}
             </div>
             {astronomicalData.solarActivity.coronalMassEjection && (
-              <div style={{ 
+              <div style={{
                 color: 'var(--color-critical-red)',
                 fontSize: '0.8rem',
                 fontWeight: 600,
@@ -965,7 +965,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
               </div>
             )}
           </div>
-          
+
           <AstroMetricsDisplay>
             <div className="metric-item">
               <div className="metric-label">Solar Wind</div>
@@ -981,7 +981,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             </div>
           </AstroMetricsDisplay>
         </CosmicPanel>
-        
+
         {/* Deep Space Monitoring */}
         {deepSpaceMonitoring && (
           <CosmicPanel
@@ -989,8 +989,8 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             marketImpact={0.1}
             cosmicResonance={astronomicalData.deepSpace.blackHoleActivity}
           >
-            <h3 style={{ 
-              fontFamily: 'var(--font-display)', 
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
               fontSize: '1rem',
               color: 'var(--color-cosmic-ice)',
               marginBottom: 'var(--space-molecule)',
@@ -998,7 +998,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             }}>
               🌌 Deep Space
             </h3>
-            
+
             <AstroMetricsDisplay>
               <div className="metric-item">
                 <div className="metric-label">Gamma Bursts</div>
@@ -1017,7 +1017,7 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             </AstroMetricsDisplay>
           </CosmicPanel>
         )}
-        
+
         {/* Astro Trading Signals */}
         {astroTradingSignals && (
           <CosmicPanel
@@ -1025,8 +1025,8 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             marketImpact={0.4}
             cosmicResonance={astronomicalData.astroMetrics.planetaryAlignment}
           >
-            <h3 style={{ 
-              fontFamily: 'var(--font-display)', 
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
               fontSize: '1rem',
               color: 'var(--color-cosmic-ice)',
               marginBottom: 'var(--space-molecule)',
@@ -1034,11 +1034,11 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
             }}>
               📡 Trading Signals
             </h3>
-            
+
             <AstroMetricsDisplay>
               <div className="metric-item">
                 <div className="metric-label">Retrogrades</div>
-                <div className="metric-value" style={{ 
+                <div className="metric-value" style={{
                   color: astronomicalData.astroMetrics.retrogradeCount > 2 ? 'var(--color-warning-amber)' : 'var(--color-cosmic-ice)'
                 }}>
                   {astronomicalData.astroMetrics.retrogradeCount}
@@ -1062,37 +1062,37 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
           </CosmicPanel>
         )}
       </AstronomicalGrid>
-      
+
       {/* Global styles injection */}
       <style jsx global>{`
         @keyframes stellar-drift {
           ${stellarDrift}
         }
-        
+
         @keyframes constellation-highlight {
           ${constellationHighlight}
         }
-        
+
         @keyframes cosmic-resonance {
           ${cosmicResonance}
         }
-        
+
         @keyframes lunar-pulse {
           ${lunarPulse}
         }
-        
+
         @keyframes orbital-motion {
           ${orbitalMotion}
         }
-        
+
         @keyframes stellar-pulse {
           ${stellarPulse}
         }
-        
+
         @keyframes constellation-flow {
           ${constellationFlow}
         }
-        
+
         @keyframes cosmic-alert {
           ${cosmicAlert}
         }

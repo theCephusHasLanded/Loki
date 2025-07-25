@@ -7,7 +7,7 @@ import { css, keyframes } from '@emotion/react';
 
 // Types for the AI-Adaptive Trading Interface
 interface AIAdaptiveTradingInterfaceProps {
-  layout?: 'adaptive-grid' | 'mission-control' | 'yacht-navigation' | 'trading-floor';
+  interfaceLayout?: 'adaptive-grid' | 'mission-control' | 'yacht-navigation' | 'trading-floor';
   complexity?: 'beginner' | 'intermediate' | 'expert' | 'user-expertise-based';
   theme?: 'space-maritime-deep' | 'cosmic-ice' | 'void-black' | 'quantum-glow';
   realTimePersonalization?: boolean;
@@ -57,7 +57,7 @@ interface MarketOutcome {
 
 // Advanced styled components with AI adaptation
 const InterfaceContainer = styled(motion.div)<{
-  layout: string;
+  interfaceLayout: string;
   complexity: string;
   theme: string;
   stressLevel: number;
@@ -69,10 +69,10 @@ const InterfaceContainer = styled(motion.div)<{
   display: grid;
   gap: var(--space-molecule);
   padding: var(--space-molecule);
-  
+
   /* Adaptive grid based on layout and user state */
   ${props => {
-    switch(props.layout) {
+    switch(props.interfaceLayout) {
       case 'mission-control':
         return css`
           grid-template-columns: 300px 1fr 300px;
@@ -100,17 +100,17 @@ const InterfaceContainer = styled(motion.div)<{
       default: // adaptive-grid
         return css`
           grid-template-columns: repeat(auto-fit, minmax(
-            ${props.complexity === 'beginner' ? '400px' : props.complexity === 'expert' ? '280px' : '320px'}, 
+            ${props.complexity === 'beginner' ? '400px' : props.complexity === 'expert' ? '280px' : '320px'},
             1fr
           ));
           grid-auto-rows: minmax(
-            ${props.stressLevel > 0.7 ? '300px' : '250px'}, 
+            ${props.stressLevel > 0.7 ? '300px' : '250px'},
             auto
           );
         `;
     }
   }}
-  
+
   /* Theme-based background and atmosphere */
   background: ${props => {
     switch(props.theme) {
@@ -133,19 +133,19 @@ const InterfaceContainer = styled(motion.div)<{
           var(--color-void-black) 100%)`;
     }
   }};
-  
+
   /* Stress-responsive visual dampening */
   ${props => props.stressLevel > 0.7 && css`
     filter: saturate(0.8) brightness(0.9);
     --nm-glow: 15px; /* Reduce visual stimulation */
   `}
-  
+
   /* Cognitive load adaptive spacing */
   ${props => props.cognitiveLoad > 0.8 && css`
     gap: var(--space-solar);
     padding: var(--space-solar);
   `}
-  
+
   transition: all var(--transition-smooth) var(--ease-spacecraft);
 `;
 
@@ -160,14 +160,14 @@ const AdaptivePanel = styled(motion.div)<{
   padding: var(--space-molecule);
   position: relative;
   overflow: hidden;
-  
+
   /* Advanced neumorphism with adaptive depth */
-  box-shadow: 
+  box-shadow:
     ${props => {
       const depth = Math.max(0.5, 1 - props.stressLevel * 0.5);
       const distance = `${20 * depth}px`;
       const blur = `${60 * depth}px`;
-      
+
       return `
         ${distance} ${distance} ${blur} var(--nm-shadow-dark),
         -${distance} -${distance} ${blur} var(--nm-shadow-light),
@@ -175,11 +175,11 @@ const AdaptivePanel = styled(motion.div)<{
         0 0 ${30 * props.priority}px color-mix(in srgb, var(--color-quantum-glow) ${Math.round(props.priority * 20)}%, transparent)
       `;
     }};
-  
+
   /* Priority-based visual hierarchy */
   z-index: ${props => Math.round(props.priority * 10)};
   order: ${props => Math.round((1 - props.priority) * 10)};
-  
+
   /* Expertise-based information density */
   ${props => {
     if (props.userExpertise < 0.3) {
@@ -195,21 +195,21 @@ const AdaptivePanel = styled(motion.div)<{
       `;
     }
   }}
-  
+
   /* Stress-adaptive visual simplification */
   ${props => props.stressLevel > 0.6 && css`
     .secondary-info { opacity: 0.5; }
     .decorative-elements { display: none; }
     .animation-effects { animation-play-state: paused; }
   `}
-  
+
   border: 1px solid color-mix(in srgb, var(--color-cosmic-ice) 15%, transparent 85%);
   transition: all var(--transition-smooth) var(--ease-spacecraft);
   will-change: transform, box-shadow;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 
+    box-shadow:
       0 20px 60px var(--nm-shadow-dark),
       0 0 40px color-mix(in srgb, var(--color-quantum-glow) 30%, transparent);
   }
@@ -226,12 +226,12 @@ const AIInsightBar = styled.div<{ confidence: number; urgency: number }>`
     color-mix(in srgb, var(--color-ai-insight) 80%, var(--color-quantum-glow) 20%) ${props => props.confidence * 100}%,
     color-mix(in srgb, var(--color-ai-insight) 20%, transparent 80%) 100%
   );
-  
+
   /* Urgency-based pulsing */
   ${props => props.urgency > 0.7 && css`
     animation: urgent-pulse 1s infinite;
   `}
-  
+
   border-radius: var(--radius-large) var(--radius-large) 0 0;
 `;
 
@@ -242,7 +242,7 @@ const NeuralNetworkBackground = styled.div<{ activity: number }>`
   right: 0;
   bottom: 0;
   opacity: 0.1;
-  background-image: 
+  background-image:
     radial-gradient(circle at 20% 30%, var(--color-ai-insight) 1px, transparent 1px),
     radial-gradient(circle at 80% 70%, var(--color-quantum-glow) 1px, transparent 1px),
     radial-gradient(circle at 50% 20%, var(--color-starlight) 0.5px, transparent 0.5px);
@@ -251,9 +251,9 @@ const NeuralNetworkBackground = styled.div<{ activity: number }>`
   z-index: -1;
 `;
 
-const SmartTradingCard = styled(motion.div)<{ 
-  relevanceScore: number; 
-  complexity: number; 
+const SmartTradingCard = styled(motion.div)<{
+  relevanceScore: number;
+  complexity: number;
   userExpertise: number;
 }>`
   background: var(--nm-surface-base);
@@ -261,11 +261,11 @@ const SmartTradingCard = styled(motion.div)<{
   padding: var(--space-molecule);
   position: relative;
   cursor: pointer;
-  
+
   /* Relevance-based prominence */
   opacity: ${props => 0.6 + (props.relevanceScore * 0.4)};
   transform: scale(${props => 0.95 + (props.relevanceScore * 0.05)});
-  
+
   /* Complexity filtering based on user expertise */
   ${props => {
     const complexityMismatch = Math.abs(props.complexity - props.userExpertise);
@@ -276,26 +276,26 @@ const SmartTradingCard = styled(motion.div)<{
       `;
     }
   }}
-  
-  box-shadow: 
+
+  box-shadow:
     8px 8px 16px var(--nm-shadow-dark),
     -8px -8px 16px var(--nm-shadow-light),
     0 0 20px color-mix(in srgb, var(--color-quantum-glow) ${props => Math.round(props.relevanceScore * 30)}%, transparent);
-  
+
   transition: all var(--transition-smooth) var(--ease-spacecraft);
-  
+
   &:hover {
     transform: translateY(-6px) scale(${props => 0.98 + (props.relevanceScore * 0.05)});
-    box-shadow: 
+    box-shadow:
       12px 12px 24px var(--nm-shadow-dark),
       -12px -12px 24px var(--nm-shadow-light),
       0 0 40px color-mix(in srgb, var(--color-quantum-glow) 40%, transparent);
   }
 `;
 
-const BiometricIndicator = styled.div<{ 
-  heartRate?: number; 
-  focusLevel?: number; 
+const BiometricIndicator = styled.div<{
+  heartRate?: number;
+  focusLevel?: number;
   stressLevel?: number;
 }>`
   position: fixed;
@@ -304,7 +304,7 @@ const BiometricIndicator = styled.div<{
   display: flex;
   gap: var(--space-atom);
   z-index: var(--z-floating);
-  
+
   .biometric-item {
     display: flex;
     align-items: center;
@@ -318,7 +318,7 @@ const BiometricIndicator = styled.div<{
     font-size: 0.7rem;
     color: var(--color-starlight);
   }
-  
+
   .heart-rate {
     color: ${props => {
       if (!props.heartRate) return 'var(--color-starlight)';
@@ -326,12 +326,12 @@ const BiometricIndicator = styled.div<{
       if (props.heartRate > 85) return 'var(--color-warning-amber)';
       return 'var(--color-profit-muted)';
     }};
-    
+
     ${props => props.heartRate && props.heartRate > 100 && css`
       animation: critical-pulse 0.8s infinite;
     `}
   }
-  
+
   .focus-level {
     color: ${props => {
       if (!props.focusLevel) return 'var(--color-starlight)';
@@ -340,7 +340,7 @@ const BiometricIndicator = styled.div<{
       return 'var(--color-warning-amber)';
     }};
   }
-  
+
   .stress-indicator {
     color: ${props => {
       if (!props.stressLevel) return 'var(--color-starlight)';
@@ -351,8 +351,8 @@ const BiometricIndicator = styled.div<{
   }
 `;
 
-const AdaptiveQuickActions = styled.div<{ 
-  expertise: number; 
+const AdaptiveQuickActions = styled.div<{
+  expertise: number;
   stressLevel: number;
   sessionDuration: number;
 }>`
@@ -363,7 +363,7 @@ const AdaptiveQuickActions = styled.div<{
   display: flex;
   gap: var(--space-atom);
   z-index: var(--z-floating);
-  
+
   /* Adaptive action availability */
   .action-button {
     padding: var(--space-molecule);
@@ -376,48 +376,48 @@ const AdaptiveQuickActions = styled.div<{
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    
-    box-shadow: 
+
+    box-shadow:
       8px 8px 16px var(--nm-shadow-dark),
       -8px -8px 16px var(--nm-shadow-light);
-    
+
     transition: all var(--transition-smooth) var(--ease-spacecraft);
-    
+
     &:hover {
       transform: translateY(-2px) scale(1.05);
-      box-shadow: 
+      box-shadow:
         12px 12px 24px var(--nm-shadow-dark),
         0 0 20px var(--color-quantum-glow);
     }
-    
+
     &:active {
       transform: translateY(0) scale(0.98);
     }
   }
-  
+
   /* Expertise-based action complexity */
   ${props => props.expertise < 0.3 && css`
     .advanced-action { display: none; }
     .expert-action { display: none; }
   `}
-  
+
   ${props => props.expertise < 0.7 && css`
     .expert-action { opacity: 0.6; }
   `}
-  
+
   /* Stress-adaptive action simplification */
   ${props => props.stressLevel > 0.6 && css`
     .complex-action { display: none; }
     gap: var(--space-molecule);
   `}
-  
+
   /* Session fatigue management */
   ${props => props.sessionDuration > 120 && css`
-    .high-risk-action { 
+    .high-risk-action {
       opacity: 0.5;
       pointer-events: none;
     }
-    
+
     .break-suggestion {
       animation: gentle-pulse 2s infinite;
     }
@@ -447,7 +447,7 @@ const gentlePulse = keyframes`
 
 // Main AI-Adaptive Trading Interface Component
 export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterfaceProps> = ({
-  layout = 'adaptive-grid',
+  interfaceLayout = 'adaptive-grid',
   complexity = 'user-expertise-based',
   theme = 'space-maritime-deep',
   realTimePersonalization = true,
@@ -459,16 +459,16 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
   onTrade,
   onLayoutChange
 }) => {
-  const [adaptiveLayout, setAdaptiveLayout] = useState(layout);
+  const [adaptiveLayout, setAdaptiveLayout] = useState(interfaceLayout);
   const [personalizedComplexity, setPersonalizedComplexity] = useState(complexity);
   const [cognitiveLoad, setCognitiveLoad] = useState(0.3);
   const [aiRecommendations, setAiRecommendations] = useState<any[]>([]);
   const [biometricData, setBiometricData] = useState(tradingSession?.biometricData);
-  
+
   // AI-driven personalization engine
   useEffect(() => {
     if (!realTimePersonalization) return;
-    
+
     const personalizeInterface = () => {
       // Stress-based layout adaptation
       if (userStressLevel > 0.7) {
@@ -481,23 +481,23 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
         setAdaptiveLayout('adaptive-grid');
         setPersonalizedComplexity(tradingExperience > 0.6 ? 'expert' : 'intermediate');
       }
-      
+
       // Cognitive load calculation
       const sessionFactor = (tradingSession?.duration || 0) / 240; // 4 hours max
       const volatilityFactor = marketVolatility;
       const complexityFactor = tradingExperience < 0.5 ? 0.3 : 0;
-      
+
       setCognitiveLoad(Math.min(1, sessionFactor + volatilityFactor + complexityFactor));
     };
-    
+
     personalizeInterface();
-    
+
     // Real-time adaptation every 30 seconds
     const adaptationInterval = setInterval(personalizeInterface, 30000);
-    
+
     return () => clearInterval(adaptationInterval);
   }, [realTimePersonalization, userStressLevel, tradingExperience, marketVolatility, tradingSession]);
-  
+
   // Market prioritization based on user profile
   const prioritizedMarkets = useMemo(() => {
     return activeMarkets
@@ -509,16 +509,17 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
       .sort((a, b) => b.priority - a.priority)
       .slice(0, cognitiveLoad > 0.7 ? 6 : cognitiveLoad > 0.4 ? 9 : 12);
   }, [activeMarkets, tradingExperience, userStressLevel, cognitiveLoad]);
-  
+
   // Handle layout change
   const handleLayoutChange = (newLayout: string) => {
-    setAdaptiveLayout(newLayout);
+    const validLayout = newLayout as 'adaptive-grid' | 'mission-control' | 'yacht-navigation' | 'trading-floor';
+    setAdaptiveLayout(validLayout);
     onLayoutChange?.(newLayout);
   };
-  
+
   return (
     <InterfaceContainer
-      layout={adaptiveLayout}
+      interfaceLayout={adaptiveLayout}
       complexity={personalizedComplexity}
       theme={theme}
       stressLevel={userStressLevel}
@@ -529,7 +530,7 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
     >
       {/* Neural network background effect */}
       <NeuralNetworkBackground activity={cognitiveLoad} />
-      
+
       {/* Biometric indicators */}
       {biometricData && (
         <BiometricIndicator
@@ -552,7 +553,7 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
           </div>
         </BiometricIndicator>
       )}
-      
+
       {/* Adaptive market panels */}
       <AnimatePresence>
         {prioritizedMarkets.map((market, index) => (
@@ -567,11 +568,11 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
             exit={{ opacity: 0, y: -50, scale: 0.9 }}
             transition={{ delay: index * 0.1 }}
           >
-            <AIInsightBar 
-              confidence={market.aiConfidence} 
-              urgency={market.volatility * market.timeToExpiry < 60 ? 1 : 0} 
+            <AIInsightBar
+              confidence={market.aiConfidence}
+              urgency={market.volatility * market.timeToExpiry < 60 ? 1 : 0}
             />
-            
+
             <SmartTradingCard
               relevanceScore={market.userRelevanceScore}
               complexity={market.complexityLevel}
@@ -579,13 +580,13 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <h3 className="typography-2032-display" style={{ 
+              <h3 className="typography-2032-display" style={{
                 fontSize: userStressLevel > 0.6 ? '1.1rem' : '1.3rem',
                 marginBottom: 'var(--space-atom)'
               }}>
                 {market.title}
               </h3>
-              
+
               <div className="outcomes-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: personalizedComplexity === 'beginner' ? '1fr' : 'repeat(auto-fit, minmax(120px, 1fr))',
@@ -609,7 +610,7 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
                     <div className="typography-2032-body" style={{ fontSize: '0.9rem', fontWeight: 600 }}>
                       {outcome.name}
                     </div>
-                    <div className="typography-2032-data" style={{ 
+                    <div className="typography-2032-data" style={{
                       fontSize: '0.8rem',
                       color: outcome.priceChange > 0 ? 'var(--color-profit-muted)' : 'var(--color-loss-muted)'
                     }}>
@@ -621,7 +622,7 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
                   </motion.div>
                 ))}
               </div>
-              
+
               {/* Advanced metrics for experienced users */}
               {tradingExperience > 0.5 && (
                 <div className="advanced-metrics" style={{
@@ -640,7 +641,7 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
           </AdaptivePanel>
         ))}
       </AnimatePresence>
-      
+
       {/* Adaptive quick actions */}
       <AdaptiveQuickActions
         expertise={tradingExperience}
@@ -665,21 +666,21 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
           </button>
         )}
       </AdaptiveQuickActions>
-      
+
       {/* Global styles injection */}
       <style jsx global>{`
         @keyframes urgent-pulse {
           ${urgentPulse}
         }
-        
+
         @keyframes neural-flow {
           ${neuralFlow}
         }
-        
+
         @keyframes critical-pulse {
           ${criticalPulse}
         }
-        
+
         @keyframes gentle-pulse {
           ${gentlePulse}
         }
@@ -690,29 +691,29 @@ export const AIAdaptiveTradingInterface2032: React.FC<AIAdaptiveTradingInterface
 
 // Utility function to calculate market priority based on user profile
 const calculateMarketPriority = (
-  market: PredictionMarket, 
-  experience: number, 
+  market: PredictionMarket,
+  experience: number,
   stress: number
 ): number => {
   let priority = market.userRelevanceScore * 0.4;
-  
+
   // AI confidence weighting
   priority += market.aiConfidence * 0.3;
-  
+
   // Experience-complexity matching
   const complexityMatch = 1 - Math.abs(market.complexityLevel - experience);
   priority += complexityMatch * 0.2;
-  
+
   // Stress-based de-prioritization of complex markets
   if (stress > 0.6) {
     priority -= market.complexityLevel * 0.3;
   }
-  
+
   // Time urgency
   if (market.timeToExpiry < 60) {
     priority += 0.2;
   }
-  
+
   return Math.max(0, Math.min(1, priority));
 };
 
