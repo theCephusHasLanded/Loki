@@ -1,10 +1,4 @@
 {
-  "name": "loki-2032-constellation-markets",
   "version": 2,
-  "framework": "nextjs",
-  "functions": {
-    "pages/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  }
+  "framework": "nextjs"
 }
