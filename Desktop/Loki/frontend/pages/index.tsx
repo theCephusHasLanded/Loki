@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { LokiConstellation } from '../components/loki-2032/LokiConstellation';
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -49,8 +48,19 @@ export default function Home() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
+        style={{
+          width: '120px',
+          height: '120px',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '3rem',
+          marginBottom: '2rem'
+        }}
       >
-        <LokiConstellation size={120} animated={true} />
+        🚀
       </motion.div>
       
       <WelcomeTitle
