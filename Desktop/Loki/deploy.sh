@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 🚀 LOKI 2032 - Deployment Script
-# Deploy Frontend to Vercel & Backend to Railway
+# Deploy Full-Stack Application to Vercel
 
 set -e
 
@@ -21,11 +21,6 @@ check_dependencies() {
     if ! command -v vercel &> /dev/null; then
         echo -e "${RED}❌ Vercel CLI not found. Installing...${NC}"
         npm install -g vercel
-    fi
-    
-    if ! command -v railway &> /dev/null; then
-        echo -e "${RED}❌ Railway CLI not found. Installing...${NC}"
-        curl -fsSL https://railway.app/install.sh | sh
     fi
     
     echo -e "${GREEN}✅ Dependencies checked${NC}"
@@ -53,9 +48,9 @@ deploy_frontend() {
     echo -e "${GREEN}✅ Frontend deployed to Vercel${NC}"
 }
 
-# Deploy backend to Railway
+# Deploy backend to Vercel
 deploy_backend() {
-    echo -e "${YELLOW}🔧 Deploying Backend to Railway...${NC}"
+    echo -e "${YELLOW}🔧 Deploying Backend to Vercel...${NC}"
     
     # Install dependencies
     echo "📦 Installing backend dependencies..."
@@ -65,11 +60,11 @@ deploy_backend() {
     echo "🔨 Building backend..."
     npm run build
     
-    # Deploy to Railway
-    echo "🚀 Deploying to Railway..."
-    railway up --detach
+    # Deploy to Vercel
+    echo "🚀 Deploying to Vercel..."
+    vercel --prod --yes
     
-    echo -e "${GREEN}✅ Backend deployed to Railway${NC}"
+    echo -e "${GREEN}✅ Backend deployed to Vercel${NC}"
 }
 
 # Configure environment variables
@@ -105,8 +100,8 @@ EOF
     if [ ! -f "frontend/.env.local" ]; then
         echo -e "${YELLOW}⚠️  No .env.local file found in frontend. Creating template...${NC}"
         cat > frontend/.env.local << EOF
-NEXT_PUBLIC_API_URL=https://your-railway-app.railway.app
-NEXT_PUBLIC_WS_URL=wss://your-railway-app.railway.app
+NEXT_PUBLIC_API_URL=https://your-vercel-app.vercel.app/api
+NEXT_PUBLIC_WS_URL=wss://your-vercel-app.vercel.app
 EOF
         echo -e "${YELLOW}📝 Please update frontend/.env.local with your actual values${NC}"
     fi
@@ -118,21 +113,21 @@ EOF
 test_deployment() {
     echo -e "${YELLOW}🧪 Testing deployments...${NC}"
     
-    # Get Railway URL
-    if command -v railway &> /dev/null; then
-        RAILWAY_URL=$(railway status --json | grep -o '"url":"[^"]*' | cut -d'"' -f4)
-        if [ ! -z "$RAILWAY_URL" ]; then
-            echo "🔧 Testing backend at: $RAILWAY_URL"
-            curl -f "$RAILWAY_URL/health" || echo "⚠️  Backend health check failed"
+    # Test Vercel deployment
+    if [ -f ".vercel/project.json" ]; then
+        VERCEL_URL=$(cat .vercel/project.json | grep -o '"alias":\["[^"]*' | cut -d'"' -f4)
+        if [ ! -z "$VERCEL_URL" ]; then
+            echo "🚀 Testing application at: https://$VERCEL_URL"
+            curl -f "https://$VERCEL_URL/api/v1/health" || echo "⚠️  API health check failed"
+            curl -f "https://$VERCEL_URL" || echo "⚠️  Frontend health check failed"
         fi
     fi
     
-    # Test Vercel deployment
     if [ -f "frontend/.vercel/project.json" ]; then
-        VERCEL_URL=$(cat frontend/.vercel/project.json | grep -o '"alias":\["[^"]*' | cut -d'"' -f4)
-        if [ ! -z "$VERCEL_URL" ]; then
-            echo "🎨 Testing frontend at: https://$VERCEL_URL"
-            curl -f "https://$VERCEL_URL" || echo "⚠️  Frontend health check failed"
+        FRONTEND_URL=$(cat frontend/.vercel/project.json | grep -o '"alias":\["[^"]*' | cut -d'"' -f4)
+        if [ ! -z "$FRONTEND_URL" ]; then
+            echo "🎨 Testing frontend at: https://$FRONTEND_URL"
+            curl -f "https://$FRONTEND_URL" || echo "⚠️  Frontend health check failed"
         fi
     fi
     
@@ -161,8 +156,7 @@ main() {
     
     echo -e "${GREEN}🎉 Deployment Complete!${NC}"
     echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}Frontend: Check Vercel dashboard${NC}"
-    echo -e "${GREEN}Backend: Check Railway dashboard${NC}"
+    echo -e "${GREEN}Application: Check Vercel dashboard${NC}"
     echo -e "${YELLOW}⚠️  Don't forget to update environment variables!${NC}"
 }
 
