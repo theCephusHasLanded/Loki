@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import liveAstronomicalDataService from '../../services/LiveAstronomicalDataService';
 
 // Types for astronomical data integration
 interface AstronomicalDataPanelProps {
@@ -582,19 +583,23 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
   const [constellationPower, setConstellationPower] = useState(0.7);
   const [cosmicActivity, setCosmicActivity] = useState(0.5);
 
-  // Simulate real-time astronomical data updates
+  // Real-time astronomical data updates using live service
   useEffect(() => {
     if (!realTimeAstronomy) return;
 
-    const updateAstronomicalData = () => {
-      // Generate simulated astronomical data
-      const mockData: AstronomicalData = {
-        timestamp: Date.now(),
+    const updateAstronomicalData = async () => {
+      try {
+        const liveData = await liveAstronomicalDataService.getCurrentData();
+        const correlations = liveAstronomicalDataService.getMarketCorrelations();
+        
+        // Convert live data to component format
+        const astronomicalData: AstronomicalData = {
+          timestamp: liveData.timestamp,
         moonPhase: {
-          name: 'Waxing Gibbous',
-          illumination: 0.73,
-          angle: 127,
-          phase: 'waxing-gibbous'
+          name: liveData.moonPhase.name,
+          illumination: liveData.moonPhase.illumination,
+          angle: liveData.moonPhase.angle,
+          phase: liveData.moonPhase.phase
         },
         planets: [
           {
@@ -662,21 +667,35 @@ export const AstronomicalDataPanel2032: React.FC<AstronomicalDataPanelProps> = (
         }
       };
 
-      setAstronomicalData(mockData);
+      setAstronomicalData(astronomicalData);
 
-      // Generate cosmic events
-      if (Math.random() > 0.8) {
+      // Generate cosmic events based on live data
+      if (liveData.astronomicalEvents.length > 0 || Math.random() > 0.8) {
         const event: CosmicEvent = {
           type: ['conjunction', 'retrograde', 'flare', 'alignment'][Math.floor(Math.random() * 4)] as any,
           timestamp: Date.now(),
           significance: ['minor', 'moderate', 'major'][Math.floor(Math.random() * 3)] as any,
-          marketImpact: (Math.random() - 0.5) * 2,
+          marketImpact: correlations.overallCosmicSentiment === 'bullish' ? 0.5 : 
+                       correlations.overallCosmicSentiment === 'bearish' ? -0.5 : 0,
           duration: Math.random() * 24,
           affectedMarkets: ['BTC/USD', 'GOLD', 'SPY']
         };
 
         setActiveEvents(prev => [event, ...prev.slice(0, 2)]);
         onCosmicEvent?.(event);
+      }
+      } catch (error) {
+        console.error('Error fetching astronomical data:', error);
+        // Fallback to basic mock data if live service fails
+        setAstronomicalData({
+          timestamp: Date.now(),
+          moonPhase: { name: 'Waxing Gibbous', illumination: 0.73, angle: 127, phase: 'waxing-gibbous' },
+          planets: [],
+          constellations: [],
+          solarActivity: { flareLevel: 'quiet', solarWindSpeed: 350, geomagneticIndex: 2, coronalMassEjection: false },
+          deepSpace: { gammaRayBursts: 0, neutronStarPulses: 5, blackHoleActivity: 0.1, darkMatterDensity: 0.3 },
+          astroMetrics: { retrogradeCount: 0, planetaryAlignment: 0.5, voidMoonEvents: 0, eclipticCrossings: 1 }
+        });
       }
     };
 

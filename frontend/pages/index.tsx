@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
@@ -43,25 +44,32 @@ export default function Home() {
   };
 
   return (
-    <LoadingContainer>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-        style={{
-          width: '120px',
-          height: '120px',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '3rem',
-          marginBottom: '2rem'
-        }}
-      >
-        🚀
-      </motion.div>
+    <>
+      <Head>
+        <title>LOKI 2032 - Astrological Prediction Trading</title>
+        <meta name="description" content="Revolutionary astrological prediction markets with AI-powered cosmic intelligence" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>" />
+      </Head>
+      
+      <LoadingContainer>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          style={{
+            width: '120px',
+            height: '120px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '3rem',
+            marginBottom: '2rem'
+          }}
+        >
+          🔮
+        </motion.div>
       
       <WelcomeTitle
         initial={{ opacity: 0, y: 20 }}
@@ -108,6 +116,7 @@ export default function Home() {
       >
         Next-generation prediction markets with AI-enhanced celestial trading intelligence
       </RedirectMessage>
-    </LoadingContainer>
+      </LoadingContainer>
+    </>
   );
 }

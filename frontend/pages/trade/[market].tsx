@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
@@ -722,7 +723,14 @@ const TradeMarketPage: React.FC = () => {
   }
 
   return (
-    <TradePage>
+    <>
+      <Head>
+        <title>Trade {marketData.title} - LOKI 2032</title>
+        <meta name="description" content={`Trade ${marketData.title} with astrological intelligence and cosmic timing insights`} />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>" />
+      </Head>
+      
+      <TradePage>
       <TradingGrid>
         <MarketHeader depth="deep">
           <div className="market-info">
@@ -874,7 +882,8 @@ const TradeMarketPage: React.FC = () => {
           <AstrologicalPredictor />
         </AstroSidebar>
       </TradingGrid>
-    </TradePage>
+      </TradePage>
+    </>
   );
 };
 
