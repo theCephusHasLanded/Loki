@@ -1,25 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion';
 import { appKnowledgeBase, getRelevantKnowledge } from '../../lib/knowledgeBase';
 import { setupCommitHooks } from '../../lib/memoryUpdater';
 
 const ChatContainer = styled(motion.div)`
-  position: absolute;
-  bottom: 50px;
-  right: 20px;
-  width: 380px;
-  max-height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(380px, calc(100vw - 40px));
+  max-height: min(500px, 70vh);
   background: var(--color-glass-base);
-  opacity: 0.95;
-  backdrop-filter: var(--glass-blur-strong);
+  opacity: 0.98;
+  backdrop-filter: var(--glass-blur-strong) saturate(180%);
   border: 1px solid var(--color-glass-border);
-  border-radius: 12px;
-  box-shadow: var(--glass-shadow-floating);
-  z-index: 1001;
+  border-radius: 16px;
+  box-shadow: 
+    var(--glass-shadow-floating),
+    0 0 40px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 10001;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  
+  &:active {
+    cursor: grabbing;
+  }
   
   /* Cryptic AI agent intelligence backdrop */
   &::before {
@@ -72,10 +82,51 @@ const ChatContainer = styled(motion.div)`
     100% { opacity: 0.5; }
   }
 
+  /* Enhanced liquid glass shimmer effect */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      transparent 30%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      transparent 70%);
+    border-radius: 18px;
+    z-index: -1;
+    animation: liquid-shimmer 4s ease-in-out infinite;
+  }
+  
+  @keyframes liquid-shimmer {
+    0%, 100% { 
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    50% { 
+      opacity: 1;
+      transform: translateX(100%);
+    }
+  }
+
   @media (max-width: 768px) {
-    right: 10px;
     width: calc(100vw - 20px);
-    max-width: 380px;
+    max-height: min(400px, 60vh);
+    border-radius: 20px;
+    
+    /* Enhanced mobile liquid glass */
+    backdrop-filter: var(--glass-blur-strong) saturate(200%) brightness(110%);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 80px rgba(255, 255, 255, 0.03),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (max-width: 480px) {
+    max-height: min(350px, 50vh);
+    border-radius: 24px;
   }
 `;
 
@@ -83,11 +134,41 @@ const ChatHeader = styled.div`
   padding: 16px 20px;
   border-bottom: 1px solid var(--color-glass-border);
   background: var(--color-glass-surface);
+  backdrop-filter: var(--glass-blur-medium) saturate(150%);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   z-index: 2;
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+  }
+  
+  /* Drag handle indicator */
+  &::before {
+    content: '⋮⋮';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    letter-spacing: -2px;
+    opacity: 0.6;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px 16px;
+    
+    &::before {
+      content: '⋯';
+      left: 6px;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+  }
 
   h3 {
     font-family: var(--font-display);
@@ -246,32 +327,79 @@ const SendButton = styled(motion.button)`
 `;
 
 const ToggleButton = styled(motion.button)`
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
   background: var(--color-glass-accent);
-  opacity: 0.9;
-  backdrop-filter: var(--glass-blur-strong);
+  opacity: 0.95;
+  backdrop-filter: var(--glass-blur-strong) saturate(180%);
   border: 1px solid var(--color-glass-border);
-  box-shadow: var(--glass-shadow-depth);
+  box-shadow: 
+    var(--glass-shadow-depth),
+    0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1002;
+  z-index: 10000;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--color-text-primary);
   letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Liquid glass pulse effect */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      transparent 50%, 
+      rgba(255, 255, 255, 0.05) 100%);
+    animation: liquid-pulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+  
+  @keyframes liquid-pulse {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+  
+  &:hover {
+    transform: scale(1.05);
+    background: var(--color-accent-gold);
+    box-shadow: 
+      var(--glass-shadow-floating),
+      0 0 30px rgba(248, 179, 25, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4);
+  }
 
   @media (max-width: 768px) {
+    bottom: 15px;
     right: 15px;
     width: 50px;
     height: 50px;
+    font-size: 0.65rem;
+  }
+  
+  @media (max-width: 480px) {
+    bottom: 10px;
+    right: 10px;
+    width: 48px;
+    height: 48px;
   }
 `;
 
@@ -326,7 +454,16 @@ const GeminiAgent: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const dragControls = useDragControls();
+
+  const handleDragEnd = (event: any, info: PanInfo) => {
+    setPosition({
+      x: position.x + info.offset.x,
+      y: position.y + info.offset.y
+    });
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -471,9 +608,23 @@ Feel free to ask about specific features, themes, market data, or technical impl
         {isOpen && (
           <ChatContainer
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              x: position.x,
+              y: position.y
+            }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.2 }}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            onDragEnd={handleDragEnd}
+            dragControls={dragControls}
+            style={{
+              x: position.x,
+              y: position.y
+            }}
           >
             <ChatHeader>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
