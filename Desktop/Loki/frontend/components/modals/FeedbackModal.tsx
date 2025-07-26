@@ -7,11 +7,11 @@ const FeedbackButton = styled(motion.button)`
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px;
-  height: 120px;
-  background: var(--color-glass-accent);
-  backdrop-filter: var(--glass-blur-strong) saturate(180%);
-  border: 1px solid var(--color-glass-border);
+  width: 80px;
+  height: 140px;
+  background: rgba(248, 179, 25, 1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 30px 0 0 30px;
   cursor: pointer;
   display: flex;
@@ -20,10 +20,10 @@ const FeedbackButton = styled(motion.button)`
   justify-content: center;
   gap: 8px;
   z-index: 9998;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
   letter-spacing: 0.05em;
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -31,7 +31,7 @@ const FeedbackButton = styled(motion.button)`
   
   /* Glowing effect */
   box-shadow: 
-    var(--glass-shadow-depth),
+    0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 20px rgba(248, 179, 25, 0.3),
     0 0 40px rgba(248, 179, 25, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -63,9 +63,9 @@ const FeedbackButton = styled(motion.button)`
   
   &:hover {
     transform: translateY(-50%) translateX(-5px);
-    background: var(--color-accent-gold);
+    background: rgba(248, 179, 25, 0.9);
     box-shadow: 
-      var(--glass-shadow-floating),
+      0 16px 48px rgba(0, 0, 0, 0.4),
       0 0 30px rgba(248, 179, 25, 0.5),
       0 0 60px rgba(248, 179, 25, 0.2),
       inset 0 2px 0 rgba(255, 255, 255, 0.4);
@@ -85,8 +85,8 @@ const ModalOverlay = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-glass-base);
-  backdrop-filter: var(--glass-blur-strong);
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(20px);
   z-index: 9999;
   display: flex;
   align-items: center;

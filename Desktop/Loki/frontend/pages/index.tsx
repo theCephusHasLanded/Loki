@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import FeedbackModal from '../components/modals/FeedbackModal';
 
 const HomePage: React.FC = () => {
   return (
@@ -85,8 +84,7 @@ const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Feedback Modal */}
-      <FeedbackModal />
+
     </>
   );
 };

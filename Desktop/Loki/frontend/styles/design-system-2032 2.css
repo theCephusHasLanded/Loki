@@ -1,0 +1,467 @@
+/*
+ * LOKI 2032 - Revolutionary Space-Maritime Design System
+ * The most advanced prediction market interface design system ever created
+ * NASA mission control meets luxury yacht navigation meets AI-powered trading floor
+ */
+
+/* Variable Font Imports - Future Typography */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* CSS Variables - Space-Maritime Foundation */
+:root {
+  /* === PRIMARY SPACE-MARITIME BLUES === */
+  --color-space-deep: #062c43;        /* Deep space navy - primary background */
+  --color-maritime-steel: #4f5b66;    /* Steel hull gray-blue - surfaces */
+  --color-nebula-mist: #5591a9;       /* Distant nebula blue - highlights */
+  --color-cosmic-ice: #ced7e0;        /* Ice planet surface - text/borders */
+  --color-void-black: #101b39;        /* Space void - deepest shadows */
+  --color-hull-metal: #333136;        /* Ship hull metal - containers */
+  --color-starlight: #b4b1b8;         /* Starlight reflection - subtle text */
+  
+  /* === NEUMORPHIC LIGHTING SYSTEM === */
+  --nm-light-source: 135deg;          /* Consistent lighting angle from top-left */
+  --nm-shadow-dark: rgba(0,0,0,0.25); /* Deep space shadows */
+  --nm-shadow-light: rgba(255,255,255,0.1); /* Starlight highlights */
+  --nm-surface-base: var(--color-maritime-steel);
+  --nm-surface-raised: color-mix(in srgb, var(--color-maritime-steel) 90%, white 10%);
+  --nm-surface-pressed: color-mix(in srgb, var(--color-maritime-steel) 90%, black 10%);
+  
+  /* === INTERACTIVE STATE COLORS === */
+  --color-profit-muted: #4a7c59;      /* Muted teal for gains */
+  --color-loss-muted: #7c4a59;        /* Muted coral for losses */
+  --color-warning-amber: #b8860b;     /* Navigation warning */
+  --color-critical-red: #8b0000;      /* Emergency stop */
+  --color-ai-insight: #6a5acd;        /* AI prediction highlight */
+  --color-quantum-glow: #20b2aa;      /* Quantum state indicator */
+  
+  /* === TYPOGRAPHY SCALE === */
+  --font-primary: "Space Grotesk Variable", "SF Pro Display", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "Fira Code", Consolas, monospace;
+  --font-display: "Space Grotesk Variable", "Centauri Variable", sans-serif;
+  
+  /* === SPACING & SIZING === */
+  --space-quantum: 4px;   /* Quantum unit - smallest space */
+  --space-atom: 8px;      /* Atomic unit - button padding */
+  --space-molecule: 16px; /* Molecular unit - component spacing */
+  --space-solar: 32px;    /* Solar unit - section spacing */
+  --space-galactic: 64px; /* Galactic unit - major layout spacing */
+  
+  /* === BORDER RADIUS SYSTEM === */
+  --radius-micro: 2px;    /* Tiny elements */
+  --radius-small: 6px;    /* Buttons, inputs */
+  --radius-medium: 12px;  /* Cards, panels */
+  --radius-large: 24px;   /* Major containers */
+  --radius-orbital: 50%;  /* Circular elements */
+  
+  /* === ANIMATION TIMING === */
+  --transition-instant: 0.05s;
+  --transition-quick: 0.15s;
+  --transition-smooth: 0.3s;
+  --transition-dramatic: 0.6s;
+  --ease-spacecraft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-quantum: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* === Z-INDEX LAYERS === */
+  --z-background: -1;
+  --z-base: 0;
+  --z-surface: 1;
+  --z-elevated: 10;
+  --z-floating: 100;
+  --z-modal: 1000;
+  --z-critical: 10000;
+}
+
+/* === ADVANCED NEUMORPHISM 2.0 SYSTEM === */
+
+/* Base Neumorphic Surface - The Foundation */
+.neomorphic-surface-2032 {
+  background: var(--nm-surface-base);
+  border-radius: calc(var(--radius-medium) + var(--size-multiplier, 1) * var(--space-quantum));
+  border: 1px solid color-mix(in srgb, var(--nm-surface-base) 90%, var(--color-cosmic-ice) 10%);
+  
+  /* Multi-layer shadow system with physics-based lighting */
+  box-shadow: 
+    /* Primary depth shadow - creates main elevation */
+    calc(var(--nm-distance, 20px) * var(--depth-scale, 1)) 
+    calc(var(--nm-distance, 20px) * var(--depth-scale, 1)) 
+    calc(var(--nm-blur, 60px) * var(--depth-scale, 1)) 
+    var(--nm-shadow-dark),
+    
+    /* Counter-light highlight - creates surface luminosity */
+    calc(-1 * var(--nm-distance, 20px) * var(--depth-scale, 1))
+    calc(-1 * var(--nm-distance, 20px) * var(--depth-scale, 1))
+    calc(var(--nm-blur, 60px) * var(--depth-scale, 1))
+    var(--nm-shadow-light),
+    
+    /* Surface detail - micro-texture */
+    inset 2px 2px 4px rgba(255,255,255,0.1),
+    inset -2px -2px 4px rgba(0,0,0,0.1),
+    
+    /* Ambient glow - space atmosphere */
+    0 0 calc(var(--nm-glow, 20px) * var(--depth-scale, 1)) 
+    color-mix(in srgb, var(--color-quantum-glow) 20%, transparent);
+    
+  transition: all var(--transition-smooth) var(--ease-spacecraft);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Interactive States with Haptic Feedback Simulation */
+.neomorphic-surface-2032:hover {
+  --depth-scale: 1.2;
+  --nm-glow: 30px;
+  transform: translateY(-2px) scale(1.01);
+  border-color: color-mix(in srgb, var(--nm-surface-base) 80%, var(--color-cosmic-ice) 20%);
+}
+
+.neomorphic-surface-2032:active {
+  --depth-scale: 0.5;
+  --nm-glow: 10px;
+  transform: translateY(1px) scale(0.99);
+  transition-duration: var(--transition-instant);
+}
+
+/* Pressed/Inset State */
+.neomorphic-surface-2032--pressed {
+  box-shadow: 
+    /* Inset shadows - pressed into surface */
+    inset calc(var(--nm-distance, 15px) * var(--depth-scale, 1)) 
+    inset calc(var(--nm-distance, 15px) * var(--depth-scale, 1)) 
+    calc(var(--nm-blur, 30px) * var(--depth-scale, 1)) 
+    var(--nm-shadow-dark),
+    
+    inset calc(-1 * var(--nm-distance, 15px) * var(--depth-scale, 1))
+    inset calc(-1 * var(--nm-distance, 15px) * var(--depth-scale, 1))
+    calc(var(--nm-blur, 30px) * var(--depth-scale, 1))
+    var(--nm-shadow-light);
+    
+  background: var(--nm-surface-pressed);
+}
+
+/* Elevated State - Floating Elements */
+.neomorphic-surface-2032--elevated {
+  --depth-scale: 2;
+  --nm-glow: 40px;
+  transform: translateY(-4px);
+  z-index: var(--z-elevated);
+}
+
+/* === SURFACE MATERIALS - Different Textures === */
+
+/* Space Metal - Default */
+.neomorphic-material--space-metal {
+  --nm-surface-base: var(--color-maritime-steel);
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--color-maritime-steel) 95%, white 5%) 0%,
+    var(--color-maritime-steel) 50%,
+    color-mix(in srgb, var(--color-maritime-steel) 95%, black 5%) 100%);
+}
+
+/* Ice Crystal - Translucent */
+.neomorphic-material--ice-crystal {
+  --nm-surface-base: color-mix(in srgb, var(--color-cosmic-ice) 80%, transparent 20%);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--color-cosmic-ice) 90%, white 10%) 0%,
+    color-mix(in srgb, var(--color-cosmic-ice) 80%, transparent 20%) 50%,
+    color-mix(in srgb, var(--color-cosmic-ice) 90%, var(--color-space-deep) 10%) 100%);
+  backdrop-filter: blur(20px) saturate(1.8);
+}
+
+/* Void - Deep Space */
+.neomorphic-material--void {
+  --nm-surface-base: var(--color-void-black);
+  --nm-shadow-dark: rgba(0,0,0,0.5);
+  --nm-shadow-light: rgba(255,255,255,0.05);
+  background: radial-gradient(ellipse at center,
+    color-mix(in srgb, var(--color-void-black) 90%, var(--color-space-deep) 10%) 0%,
+    var(--color-void-black) 100%);
+}
+
+/* === TYPOGRAPHY 2032 - VARIABLE FONT MASTERY === */
+
+/* Display Typography - Headers and Hero Text */
+.typography-2032-display {
+  font-family: var(--font-display);
+  font-variation-settings: 
+    "wght" 600,
+    "wdth" 110,    /* Slightly expanded for futuristic feel */
+    "slnt" 0;
+  font-size: clamp(1.5rem, 4vw + 1rem, 4rem);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  
+  /* Holographic text effect */
+  background: linear-gradient(135deg, 
+    var(--color-starlight) 0%, 
+    var(--color-cosmic-ice) 30%,
+    var(--color-quantum-glow) 60%,
+    var(--color-cosmic-ice) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  animation: holographic-shimmer 3s ease-in-out infinite;
+  text-shadow: 0 0 20px color-mix(in srgb, var(--color-quantum-glow) 30%, transparent);
+}
+
+@keyframes holographic-shimmer {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+/* Body Typography - Readable Content */
+.typography-2032-body {
+  font-family: var(--font-primary);
+  font-variation-settings: "wght" 400;
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--color-cosmic-ice);
+  letter-spacing: 0.01em;
+}
+
+/* Data Typography - Numbers and Code */
+.typography-2032-data {
+  font-family: var(--font-mono);
+  font-variation-settings: "wght" 500;
+  font-feature-settings: 
+    "tnum" 1,      /* Tabular numerals - aligned numbers */
+    "zero" 1,      /* Slashed zero */
+    "liga" 1;      /* Ligatures for code */
+  letter-spacing: 0.02em;
+  color: var(--color-starlight);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--color-starlight) 20%, transparent);
+}
+
+/* Caption Typography - Small Labels */
+.typography-2032-caption {
+  font-family: var(--font-primary);
+  font-variation-settings: "wght" 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-starlight) 70%, transparent 30%);
+}
+
+/* === QUANTUM GLOW EFFECTS === */
+
+.quantum-glow {
+  position: relative;
+}
+
+.quantum-glow::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg,
+    var(--color-quantum-glow),
+    var(--color-ai-insight),
+    var(--color-quantum-glow));
+  background-size: 200% 200%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  animation: quantum-pulse 2s ease-in-out infinite;
+  transition: opacity var(--transition-smooth);
+}
+
+.quantum-glow:hover::before,
+.quantum-glow--active::before {
+  opacity: 0.3;
+}
+
+@keyframes quantum-pulse {
+  0%, 100% { 
+    background-position: 0% 0%;
+    transform: scale(1);
+  }
+  50% { 
+    background-position: 100% 100%;
+    transform: scale(1.05);
+  }
+}
+
+/* === UTILITY CLASSES === */
+
+/* Layout Utilities */
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-column { display: flex; flex-direction: column; }
+.grid-center { display: grid; place-items: center; }
+
+/* Spacing Utilities */
+.p-quantum { padding: var(--space-quantum); }
+.p-atom { padding: var(--space-atom); }
+.p-molecule { padding: var(--space-molecule); }
+.p-solar { padding: var(--space-solar); }
+
+.m-quantum { margin: var(--space-quantum); }
+.m-atom { margin: var(--space-atom); }
+.m-molecule { margin: var(--space-molecule); }
+.m-solar { margin: var(--space-solar); }
+
+/* Interactive Utilities */
+.cursor-pointer { cursor: pointer; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+
+/* Accessibility Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* === RESPONSIVE DESIGN === */
+
+/* Container Queries Support */
+@container (min-width: 768px) {
+  .typography-2032-display {
+    font-variation-settings: "wght" 700, "wdth" 115;
+  }
+}
+
+/* Media Query Fallbacks */
+@media (min-width: 768px) {
+  :root {
+    --space-molecule: 20px;
+    --space-solar: 40px;
+    --space-galactic: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --space-molecule: 24px;
+    --space-solar: 48px;
+    --space-galactic: 96px;
+  }
+}
+
+/* === ACCESSIBILITY === */
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .quantum-glow::before {
+    animation: none;
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  :root {
+    --nm-shadow-dark: rgba(0,0,0,0.8);
+    --nm-shadow-light: rgba(255,255,255,0.4);
+    --color-cosmic-ice: #ffffff;
+    --color-starlight: #e0e0e0;
+  }
+}
+
+/* Color Scheme Support */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-space-deep: #e8f4f8;
+    --color-maritime-steel: #a0b4c0;
+    --color-void-black: #f0f8ff;
+    --nm-shadow-dark: rgba(0,0,0,0.1);
+    --nm-shadow-light: rgba(255,255,255,0.8);
+  }
+}
+
+/* === PERFORMANCE OPTIMIZATION === */
+
+/* GPU Acceleration Hints */
+.neomorphic-surface-2032,
+.quantum-glow {
+  will-change: transform, box-shadow;
+  transform: translateZ(0); /* Force GPU layer */
+}
+
+/* Contain Layout Shifts */
+.typography-2032-display,
+.typography-2032-data {
+  contain: layout style;
+}
+
+/* === PRINT STYLES === */
+@media print {
+  .neomorphic-surface-2032 {
+    box-shadow: none;
+    border: 2px solid var(--color-maritime-steel);
+  }
+  
+  .quantum-glow::before {
+    display: none;
+  }
+  
+  .typography-2032-display {
+    -webkit-text-fill-color: initial;
+    background: none;
+    color: black;
+  }
+}
+
+/* === BASE DOCUMENT STYLES === */
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  background: radial-gradient(ellipse at center,
+    var(--color-space-deep) 0%,
+    var(--color-void-black) 100%);
+  color: var(--color-cosmic-ice);
+  min-height: 100vh;
+  overflow-x: hidden;
+  
+  /* Subtle texture overlay */
+  background-image: 
+    radial-gradient(circle at 25% 25%, var(--color-quantum-glow) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, var(--color-ai-insight) 0%, transparent 50%);
+  background-size: 100px 100px, 150px 150px;
+  background-position: 0 0, 50px 50px;
+  animation: cosmic-drift 60s linear infinite;
+}
+
+@keyframes cosmic-drift {
+  0% { background-position: 0 0, 50px 50px; }
+  100% { background-position: 100px 100px, 150px 150px; }
+}
+
+/* Selection Styles */
+::selection {
+  background: color-mix(in srgb, var(--color-quantum-glow) 30%, transparent 70%);
+  color: var(--color-cosmic-ice);
+}
+
+::-moz-selection {
+  background: color-mix(in srgb, var(--color-quantum-glow) 30%, transparent 70%);
+  color: var(--color-cosmic-ice);
+}
