@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Theme = 'space-maritime' | 'cosmic-ice' | 'void-black' | 'quantum-glow' | 'pure-monochrome';
+type Theme = 'space-maritime' | 'cosmic-ice' | 'void-black' | 'quantum-glow' | 'pure-monochrome' | 'nebula-purple' | 'solar-flare' | 'deep-space';
 
 interface ThemeColors {
   glassBase: string;
@@ -111,6 +111,60 @@ const themeDefinitions: Record<Theme, ThemeColors> = {
     profit: 'rgba(255, 255, 255, 0.95)',
     loss: 'rgba(80, 80, 80, 0.90)',
     warning: 'rgba(160, 160, 160, 0.85)',
+  },
+  'nebula-purple': {
+    glassBase: 'rgba(60, 20, 80, 0.90)',
+    glassSurface: 'rgba(80, 40, 100, 0.65)',
+    glassPanel: 'rgba(100, 60, 120, 0.50)',
+    glassAccent: 'rgba(147, 51, 234, 0.75)',
+    glassHighlight: 'rgba(255, 180, 255, 0.12)',
+    glassBorder: 'rgba(147, 51, 234, 0.30)',
+    textPrimary: 'rgba(255, 245, 255, 0.95)',
+    textSecondary: 'rgba(230, 200, 250, 0.75)',
+    textMuted: 'rgba(200, 170, 220, 0.55)',
+    textAccent: 'rgba(168, 85, 247, 0.90)',
+    accentGold: 'rgba(255, 215, 0, 0.85)',
+    accentAmber: 'rgba(255, 180, 120, 0.80)',
+    accentCrystal: 'rgba(168, 85, 247, 0.35)',
+    profit: 'rgba(34, 197, 94, 0.85)',
+    loss: 'rgba(239, 68, 68, 0.85)',
+    warning: 'rgba(245, 158, 11, 0.80)',
+  },
+  'solar-flare': {
+    glassBase: 'rgba(120, 40, 20, 0.85)',
+    glassSurface: 'rgba(140, 60, 40, 0.60)',
+    glassPanel: 'rgba(160, 80, 60, 0.45)',
+    glassAccent: 'rgba(251, 146, 60, 0.75)',
+    glassHighlight: 'rgba(255, 220, 180, 0.10)',
+    glassBorder: 'rgba(251, 146, 60, 0.25)',
+    textPrimary: 'rgba(255, 250, 240, 0.95)',
+    textSecondary: 'rgba(255, 220, 180, 0.75)',
+    textMuted: 'rgba(220, 180, 140, 0.55)',
+    textAccent: 'rgba(249, 115, 22, 0.90)',
+    accentGold: 'rgba(255, 215, 0, 0.85)',
+    accentAmber: 'rgba(251, 191, 36, 0.80)',
+    accentCrystal: 'rgba(251, 146, 60, 0.35)',
+    profit: 'rgba(34, 197, 94, 0.85)',
+    loss: 'rgba(220, 38, 38, 0.85)',
+    warning: 'rgba(245, 158, 11, 0.80)',
+  },
+  'deep-space': {
+    glassBase: 'rgba(0, 0, 20, 0.95)',
+    glassSurface: 'rgba(10, 10, 40, 0.70)',
+    glassPanel: 'rgba(20, 20, 60, 0.55)',
+    glassAccent: 'rgba(30, 58, 138, 0.75)',
+    glassHighlight: 'rgba(190, 230, 255, 0.08)',
+    glassBorder: 'rgba(30, 58, 138, 0.25)',
+    textPrimary: 'rgba(248, 250, 252, 0.98)',
+    textSecondary: 'rgba(203, 213, 225, 0.80)',
+    textMuted: 'rgba(148, 163, 184, 0.60)',
+    textAccent: 'rgba(59, 130, 246, 0.90)',
+    accentGold: 'rgba(255, 215, 0, 0.85)',
+    accentAmber: 'rgba(251, 191, 36, 0.80)',
+    accentCrystal: 'rgba(59, 130, 246, 0.25)',
+    profit: 'rgba(16, 185, 129, 0.85)',
+    loss: 'rgba(239, 68, 68, 0.85)',
+    warning: 'rgba(245, 158, 11, 0.80)',
   },
 };
 

@@ -23,6 +23,7 @@ import AnalyticsModal from '../modals/AnalyticsModal';
 import TradingModal from '../modals/TradingModal';
 import GuideModal from '../modals/GuideModal';
 import CalendlyModal from '../modals/CalendlyModal';
+import PlatformFeaturesModal from '../modals/PlatformFeaturesModal';
 
 // Demo container with revolutionary styling
 const DemoContainer = styled.div`
@@ -452,79 +453,19 @@ const FeatureCard = styled(NeomorphicSurface)`
   
   .feature-icon {
     color: var(--color-text-accent);
-    background: var(--color-glass-panel);
-    backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--color-glass-border);
-    border-radius: 8px;
-    padding: 12px;
     margin-bottom: var(--space-molecule);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     z-index: 2;
     
-    /* Cryptic glow enhancement */
-    box-shadow: 
-      var(--glass-shadow-depth),
-      0 0 15px rgba(0, 255, 150, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    
-    /* Tokenized corner indicators */
-    &::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 6px;
-      height: 6px;
-      background: var(--color-text-accent);
-      border-radius: 50%;
-      animation: token-pulse 3s ease-in-out infinite;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: -2px;
-      width: 0;
-      height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 6px solid var(--color-text-accent);
-      opacity: 0.6;
-      animation: verification-indicator 4s ease-in-out infinite 1s;
-    }
-    
     &:hover {
-      transform: scale(1.1) rotate(5deg);
-      background: var(--color-glass-surface);
-      box-shadow: 
-        var(--glass-shadow-floating),
-        0 0 25px rgba(0, 255, 150, 0.4),
-        0 0 10px rgba(0, 150, 255, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      border-color: rgba(0, 255, 150, 0.5);
-      
-      &::before {
-        animation-duration: 1s;
-        background: #00ff96;
-        box-shadow: 0 0 8px #00ff96;
-      }
-    }
-    
-    @keyframes token-pulse {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.3); }
-    }
-    
-    @keyframes verification-indicator {
-      0%, 100% { opacity: 0.4; transform: rotate(0deg); }
-      50% { opacity: 0.8; transform: rotate(180deg); }
+      transform: scale(1.1);
+      color: #00d4ff;
+      filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
     }
   }
   
@@ -641,6 +582,7 @@ const LOKI2032Demo: React.FC = () => {
   const [showTrading, setShowTrading] = useState(false);
   const [showGuideModal, setShowGuideModal] = useState<{ isOpen: boolean; content: string }>({ isOpen: false, content: '' });
   const [showCalendlyModal, setShowCalendlyModal] = useState(false);
+  const [showPlatformFeatures, setShowPlatformFeatures] = useState(false);
 
   const demoMarkets = [
     {
@@ -732,66 +674,84 @@ const LOKI2032Demo: React.FC = () => {
   const features = [
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <path d="M7 10L12 15L17 10" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="12" cy="5" r="2" fill="currentColor"/>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 17L12 22L22 17" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor"/>
         </svg>
       ),
       title: 'Creating Your First Cosmic Trade',
-      description: 'Learn to place intelligent trades using astrological timing and market analysis'
+      description: 'Learn to place intelligent trades using astrological timing and market analysis',
+      splash: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(147, 51, 234, 0.1))'
     },
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="9" cy="9" r="2"/>
-          <path d="M21 15L16 10L5 21" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1V12L6 18" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 16L12 12L18 6" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="10" strokeDasharray="2 2"/>
         </svg>
       ),
       title: 'IBM Watson AI Cosmic Analysis',
-      description: 'Harness AI-powered astrological insights for advanced trading strategies'
+      description: 'Harness AI-powered astrological insights for advanced trading strategies',
+      splash: 'linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1))'
     },
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 17L12 22L22 17" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 12L12 17L22 12" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="8" cy="10" r="1" fill="currentColor"/>
+          <circle cx="16" cy="10" r="1" fill="currentColor"/>
+          <circle cx="12" cy="14" r="1" fill="currentColor"/>
+          <path d="M12 2L12 22" strokeDasharray="1 1" opacity="0.5"/>
         </svg>
       ),
       title: 'Reading Cosmic Market Patterns',
-      description: 'Master the art of astrological pattern recognition in financial markets'
+      description: 'Master the art of astrological pattern recognition in financial markets',
+      splash: 'linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.1))'
     },
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
           <circle cx="12" cy="12" r="10"/>
           <path d="M2 12H22" strokeLinecap="round"/>
-          <path d="M12 2A15.3 15.3 0 0 1 16 12A15.3 15.3 0 0 1 12 22A15.3 15.3 0 0 1 8 12A15.3 15.3 0 0 1 12 2Z"/>
+          <path d="M12 2V22" strokeLinecap="round"/>
+          <circle cx="6" cy="8" r="1" fill="currentColor"/>
+          <circle cx="18" cy="8" r="1" fill="currentColor"/>
+          <circle cx="6" cy="16" r="1" fill="currentColor"/>
+          <circle cx="18" cy="16" r="1" fill="currentColor"/>
         </svg>
       ),
       title: 'World Events & Cosmic Correlations',
-      description: 'Connect global happenings with astrological cycles for predictive trading'
+      description: 'Connect global happenings with astrological cycles for predictive trading',
+      splash: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1))'
     },
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <path d="M3 9L12 2L21 9V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V9Z" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M9 22V12H15V22" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <path d="M12 2L15 9L22 9L17 14L20 21L12 17L4 21L7 14L2 9L9 9L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="3" strokeDasharray="1 1" opacity="0.5"/>
         </svg>
       ),
       title: 'Advanced Cosmic Trading Strategies',
-      description: 'Professional-level techniques combining technical analysis with astrological timing'
+      description: 'Professional-level techniques combining technical analysis with astrological timing',
+      splash: 'linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(109, 40, 217, 0.1))'
     },
     {
       icon: (
-        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <path d="M12 1L9 9L1 12L9 15L12 23L15 15L23 12L15 9L12 1Z" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="12" cy="12" r="3"/>
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <circle cx="12" cy="12" r="8"/>
+          <path d="M8 12L12 8L16 12L12 16L8 12Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="5" r="1" fill="currentColor"/>
+          <circle cx="19" cy="12" r="1" fill="currentColor"/>
+          <circle cx="12" cy="19" r="1" fill="currentColor"/>
+          <circle cx="5" cy="12" r="1" fill="currentColor"/>
         </svg>
       ),
       title: 'Cosmic Risk Management',
-      description: 'Protect your capital using astrological risk assessment and position sizing'
+      description: 'Protect your capital using astrological risk assessment and position sizing',
+      splash: 'linear-gradient(135deg, rgba(109, 40, 217, 0.1), rgba(91, 33, 182, 0.1))'
     }
   ];
 
@@ -810,39 +770,59 @@ const LOKI2032Demo: React.FC = () => {
 
   return (
     <DemoContainer>
-      {/* Calendly Button - Left Side */}
+      {/* Book Chat Button - Right Side (Circular) */}
       <motion.button
-        initial={{ opacity: 0, x: -50 }}
+        initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
         onClick={() => setShowCalendlyModal(true)}
         style={{
           position: 'fixed',
-          left: '2rem',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 1000,
+          right: '20px',
+          bottom: '100px',
+          zIndex: 99999,
+          width: '60px',
+          height: '60px',
           background: 'linear-gradient(135deg, #00d4ff 0%, #0099cc 100%)',
-          border: 'none',
-          borderRadius: '12px',
-          padding: '1rem 1.5rem',
+          border: '2px solid #ffffff',
+          borderRadius: '50%',
           color: '#0a0f1c',
+          fontFamily: 'JetBrains Mono, monospace',
           fontWeight: 'bold',
-          fontSize: '1rem',
+          fontSize: '0.7rem',
           cursor: 'pointer',
-          boxShadow: '0 4px 20px rgba(0, 212, 255, 0.3)',
-          backdropFilter: 'blur(10px)',
-          transition: 'all 0.3s ease',
-          writingMode: 'vertical-lr',
-          textOrientation: 'mixed'
+          backdropFilter: 'blur(20px) saturate(180%)',
+          boxShadow: '0 8px 32px rgba(0, 212, 255, 0.3)',
+          transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column'
         }}
         whileHover={{ 
           scale: 1.05,
-          boxShadow: '0 6px 30px rgba(0, 212, 255, 0.5)'
+          x: -5,
+          y: -2,
+          boxShadow: '0 12px 48px rgba(0, 212, 255, 0.5)',
+          filter: 'brightness(1.1)'
+        }}
+        animate={{ 
+          y: [0, -2, 0],
+          x: [0, -1, 0],
+          boxShadow: [
+            '0 8px 32px rgba(0, 212, 255, 0.3)',
+            '0 10px 36px rgba(0, 212, 255, 0.4)',
+            '0 8px 32px rgba(0, 212, 255, 0.3)'
+          ]
+        }}
+        transition={{ 
+          duration: 3.5,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
         whileTap={{ scale: 0.95 }}
       >
-        📅 Book Chat
+        BOOK
       </motion.button>
 
       {/* Control Panel */}
@@ -855,24 +835,29 @@ const LOKI2032Demo: React.FC = () => {
             exit={{ opacity: 0, x: 50 }}
           >
             <ControlGroup>
-              <label>Theme</label>
+              <label style={{ textShadow: '0 0 8px var(--color-text-accent)' }}>Theme</label>
               <select 
                 value={currentTheme} 
                 onChange={(e) => setTheme(e.target.value as any)}
+                style={{ textShadow: '0 0 8px var(--color-text-accent)' }}
               >
                 <option value="space-maritime">Space Maritime</option>
                 <option value="cosmic-ice">Cosmic Ice</option>
                 <option value="void-black">Void Black</option>
                 <option value="quantum-glow">Quantum Glow</option>
                 <option value="pure-monochrome">Pure Monochrome</option>
+                <option value="nebula-purple">Nebula Purple</option>
+                <option value="solar-flare">Solar Flare</option>
+                <option value="deep-space">Deep Space</option>
               </select>
             </ControlGroup>
 
             <ControlGroup>
-              <label>Performance</label>
+              <label style={{ textShadow: '0 0 8px var(--color-text-accent)' }}>Performance</label>
               <select 
                 value={performanceMode} 
                 onChange={(e) => setPerformanceMode(e.target.value as any)}
+                style={{ textShadow: '0 0 8px var(--color-text-accent)' }}
               >
                 <option value="ultra">Ultra Quality</option>
                 <option value="high">High Quality</option>
@@ -882,20 +867,76 @@ const LOKI2032Demo: React.FC = () => {
 
             <button 
               onClick={() => setShowControls(false)}
-              style={{ marginTop: 'var(--space-molecule)' }}
+              style={{ 
+                marginTop: 'var(--space-molecule)',
+                textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent), 0 0 30px var(--color-text-accent)'
+              }}
             >
               Hide Controls
             </button>
 
             <ControlGroup>
-              <label>Interface Panels</label>
-              <button onClick={() => setShowAnalytics(true)}>
+              <label style={{ textShadow: '0 0 8px var(--color-text-accent)' }}>LKHN Technologies Platform</label>
+              <button 
+                onClick={() => setShowPlatformFeatures(true)}
+                style={{ textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent)' }}
+              >
+                Platform Features
+              </button>
+              <button 
+                onClick={() => setShowAnalytics(true)}
+                style={{ textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent)' }}
+              >
                 Analytics
               </button>
-              <button onClick={() => setShowTrading(true)}>
+              <button 
+                onClick={() => setShowTrading(true)}
+                style={{ textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent)' }}
+              >
                 Trading
               </button>
             </ControlGroup>
+            
+            <div style={{
+              marginTop: '1rem',
+              padding: '0.75rem',
+              background: 'var(--color-glass-accent)',
+              border: '1px solid var(--color-glass-border)',
+              borderRadius: '8px',
+              fontSize: '0.7rem',
+              color: 'var(--color-text-secondary)',
+              textAlign: 'center'
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: '0.5rem',
+                marginBottom: '0.25rem'
+              }}>
+                <svg width="16" height="16" viewBox="0 0 100 100" fill="currentColor" style={{ 
+                  color: 'var(--color-text-accent)',
+                  filter: 'drop-shadow(0 0 8px var(--color-text-accent))'
+                }}>
+                  <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" stroke="currentColor" strokeWidth="3" fill="none"/>
+                  <path d="M30,30 L70,70 M70,30 L30,70 M50,15 L50,85 M15,50 L85,50" stroke="currentColor" strokeWidth="2"/>
+                  <circle cx="25" cy="25" r="2" fill="currentColor"/>
+                  <circle cx="75" cy="25" r="2" fill="currentColor"/>
+                  <circle cx="75" cy="75" r="2" fill="currentColor"/>
+                  <circle cx="25" cy="75" r="2" fill="currentColor"/>
+                </svg>
+                <span 
+                  style={{ 
+                    color: 'var(--color-text-accent)', 
+                    fontWeight: 'bold',
+                    textShadow: '0 0 10px var(--color-text-accent)',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => window.open('https://lkhntech.com', '_blank')}
+                >LKHN Technologies</span>
+              </div>
+              <div style={{ textShadow: '0 0 6px var(--color-text-accent)' }}>Powered by Cosmic Intelligence</div>
+            </div>
           </ControlPanel>
         )}
       </AnimatePresence>
@@ -952,7 +993,7 @@ const LOKI2032Demo: React.FC = () => {
         }}>
           {user?.isLoggedIn ? (
             <>
-              <span>👤 {user.email || user.walletAddress}</span>
+              <span>USER: {user.email || user.walletAddress}</span>
               <button 
                 onClick={logout}
                 style={{
@@ -969,7 +1010,7 @@ const LOKI2032Demo: React.FC = () => {
               </button>
             </>
           ) : (
-            <span>🔒 Not Authenticated</span>
+            <span>AUTH: Not Connected</span>
           )}
         </div>
       </Header>
@@ -1048,11 +1089,29 @@ const LOKI2032Demo: React.FC = () => {
                 depth="medium" 
                 interactive
                 onClick={() => setShowGuideModal({ isOpen: true, content: feature.title })}
-                style={{ cursor: 'pointer' }}
+                style={{ 
+                  cursor: 'pointer',
+                  background: feature.splash,
+                  border: '1px solid rgba(0, 212, 255, 0.2)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
               >
-                <div className="feature-icon">{feature.icon}</div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-description">{feature.description}</p>
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: feature.splash,
+                  opacity: 0.5,
+                  zIndex: 0
+                }} />
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <div className="feature-icon">{feature.icon}</div>
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className="feature-description">{feature.description}</p>
+                </div>
               </FeatureCard>
             </motion.div>
           ))}
@@ -1137,6 +1196,16 @@ const LOKI2032Demo: React.FC = () => {
         title=""
       >
         <CalendlyModal onClose={() => setShowCalendlyModal(false)} />
+      </SideModal>
+
+      <SideModal
+        isOpen={showPlatformFeatures}
+        onClose={() => setShowPlatformFeatures(false)}
+        position="center"
+        size="large"
+        title=""
+      >
+        <PlatformFeaturesModal onClose={() => setShowPlatformFeatures(false)} />
       </SideModal>
     </DemoContainer>
   );

@@ -380,7 +380,6 @@ const FeedbackModal: React.FC = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span>💭</span>
         <span>FEEDBACK</span>
       </FeedbackButton>
 

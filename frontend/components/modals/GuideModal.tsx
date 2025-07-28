@@ -1,406 +1,498 @@
+'use client';
+
 import React from 'react';
-import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
-import { 
-  X, 
-  Star, 
-  TrendingUp, 
-  Brain, 
-  Globe, 
-  Shield, 
-  BarChart3,
-  Zap,
-  Calendar,
-  DollarSign,
-  Activity,
-  AlertTriangle
-} from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const ModalOverlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const ModalContent = styled.div`
   padding: 2rem;
-`;
-
-const ModalContent = styled(motion.div)`
+  color: var(--color-text-primary);
   background: var(--color-glass-surface);
-  border: 1px solid var(--color-glass-border);
-  border-radius: var(--radius-large);
-  padding: 2rem;
-  max-width: 800px;
-  max-height: 90vh;
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  max-height: 80vh;
   overflow-y: auto;
-  backdrop-filter: var(--glass-blur-strong);
-  box-shadow: var(--glass-shadow-floating);
-  position: relative;
+
+  h2 {
+    color: #00d4ff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  h3 {
+    color: #ffd700;
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  h4 {
+    color: #00d4ff;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #8892b0;
+  }
+
+  .step-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      position: relative;
+      padding-left: 2rem;
+
+      &:before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        background: #00d4ff;
+        color: #0a0f1c;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .cosmic-factors {
+    background: rgba(0, 212, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #00d4ff;
+    margin: 1rem 0;
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+  }
+
+  .example-box {
+    background: rgba(255, 215, 0, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #ffd700;
+    margin: 1rem 0;
+  }
+
+  .correlations {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 1rem 0;
+
+    .correlation-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      background: rgba(0, 212, 255, 0.05);
+      border-radius: 4px;
+      font-size: 0.9rem;
+
+      .event {
+        color: #8892b0;
+      }
+
+      .cosmic {
+        color: #00d4ff;
+      }
+    }
+  }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: var(--color-glass-panel);
-  border: 1px solid var(--color-glass-border);
-  border-radius: var(--radius-small);
+  background: none;
+  border: none;
+  color: #00d4ff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.3s ease;
   
   &:hover {
-    background: var(--color-glass-accent);
-    color: var(--color-text-primary);
+    background: rgba(0, 212, 255, 0.1);
   }
 `;
-
-const GuideHeader = styled.div`
-  margin-bottom: 2rem;
-  
-  .guide-icon {
-    width: 60px;
-    height: 60px;
-    background: var(--color-glass-accent);
-    border-radius: var(--radius-medium);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    color: var(--color-text-primary);
-  }
-  
-  .guide-title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-  }
-  
-  .guide-subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-`;
-
-const GuideSection = styled.section`
-  margin-bottom: 2rem;
-  
-  h3 {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  p {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-  
-  ul {
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-    padding-left: 1.5rem;
-    
-    li {
-      margin-bottom: 0.5rem;
-    }
-  }
-`;
-
-const StepCard = styled.div`
-  background: var(--color-glass-panel);
-  border: 1px solid var(--color-glass-border);
-  border-radius: var(--radius-medium);
-  padding: 1.5rem;
-  margin: 1rem 0;
-  
-  .step-number {
-    background: var(--color-glass-accent);
-    color: var(--color-text-primary);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .step-title {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-  }
-  
-  .step-content {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-  }
-`;
-
-const GuideContent = {
-  'creating-your-first-cosmic-trade': {
-    icon: <Star size={24} />,
-    title: 'Creating Your First Cosmic Trade',
-    subtitle: 'Learn to place intelligent trades using astrological timing and market analysis',
-    content: {
-      overview: 'Cosmic trading combines traditional market analysis with astrological insights to identify optimal trading opportunities. This guide will walk you through your first cosmic trade.',
-      sections: [
-        {
-          title: 'Understanding Cosmic Timing',
-          icon: <Calendar size={20} />,
-          content: 'Astrological events create predictable patterns in market behavior. Learn to identify these cosmic windows of opportunity.',
-          steps: [
-            { title: 'Monitor Planetary Movements', content: 'Track major planetary transits and their historical correlation with market movements.' },
-            { title: 'Identify Market Cycles', content: 'Understand how lunar phases and seasonal patterns affect trading sentiment.' },
-            { title: 'Time Your Entry', content: 'Use cosmic alignments to determine optimal entry and exit points.' }
-          ]
-        },
-        {
-          title: 'Market Analysis Integration',
-          icon: <BarChart3 size={20} />,
-          content: 'Combine cosmic insights with traditional technical and fundamental analysis for maximum effectiveness.',
-          steps: [
-            { title: 'Technical Confirmation', content: 'Validate cosmic signals with chart patterns and technical indicators.' },
-            { title: 'Risk Assessment', content: 'Use position sizing based on both cosmic confidence and market volatility.' },
-            { title: 'Execute Your Trade', content: 'Place trades with confidence backed by both cosmic and market intelligence.' }
-          ]
-        }
-      ]
-    }
-  },
-  'ibm-watson-ai-cosmic-analysis': {
-    icon: <Brain size={24} />,
-    title: 'IBM Watson AI Cosmic Analysis',
-    subtitle: 'Harness AI-powered astrological insights for advanced trading strategies',
-    content: {
-      overview: 'Our IBM Watson AI integration processes vast amounts of astrological and market data to generate actionable trading insights.',
-      sections: [
-        {
-          title: 'AI Pattern Recognition',
-          icon: <Zap size={20} />,
-          content: 'Watson AI identifies complex patterns between celestial events and market movements that would be impossible to detect manually.',
-          steps: [
-            { title: 'Data Processing', content: 'Watson analyzes real-time astronomical data, market feeds, and historical correlations.' },
-            { title: 'Pattern Identification', content: 'AI identifies subtle patterns and correlations across multiple timeframes and markets.' },
-            { title: 'Confidence Scoring', content: 'Each prediction receives an AI confidence score based on historical accuracy.' }
-          ]
-        },
-        {
-          title: 'Predictive Modeling',
-          icon: <TrendingUp size={20} />,
-          content: 'Advanced machine learning models predict market movements based on cosmic alignments.',
-          steps: [
-            { title: 'Model Training', content: 'Continuous learning from market outcomes and celestial events.' },
-            { title: 'Real-time Analysis', content: 'Live processing of cosmic and market data for immediate insights.' },
-            { title: 'Adaptive Algorithms', content: 'Self-improving models that adapt to changing market conditions.' }
-          ]
-        }
-      ]
-    }
-  },
-  'reading-cosmic-market-patterns': {
-    icon: <Activity size={24} />,
-    title: 'Reading Cosmic Market Patterns',
-    subtitle: 'Master the art of astrological pattern recognition in financial markets',
-    content: {
-      overview: 'Learn to identify and interpret the cosmic patterns that influence market behavior and trader psychology.',
-      sections: [
-        {
-          title: 'Planetary Influences',
-          icon: <Globe size={20} />,
-          content: 'Different planets and their movements create distinct patterns in market behavior.',
-          steps: [
-            { title: 'Mercury Retrograde Effects', content: 'Understanding communication and technology sector impacts during Mercury retrograde periods.' },
-            { title: 'Mars Transits', content: 'Identifying increased volatility and aggressive trading during Mars aspects.' },
-            { title: 'Jupiter Expansions', content: 'Recognizing growth opportunities and bullish sentiment during Jupiter transits.' }
-          ]
-        },
-        {
-          title: 'Lunar Cycle Trading',
-          icon: <Star size={20} />,
-          content: 'The lunar cycle has a measurable impact on market sentiment and trading volume.',
-          steps: [
-            { title: 'New Moon Opportunities', content: 'Identifying new trend beginnings and fresh market opportunities.' },
-            { title: 'Full Moon Volatility', content: 'Managing increased volatility and emotional trading during full moons.' },
-            { title: 'Quarter Phase Reversals', content: 'Recognizing potential trend reversals during quarter moon phases.' }
-          ]
-        }
-      ]
-    }
-  },
-  'world-events-cosmic-correlations': {
-    icon: <Globe size={24} />,
-    title: 'World Events & Cosmic Correlations',
-    subtitle: 'Connect global happenings with astrological cycles for predictive trading',
-    content: {
-      overview: 'Major world events often coincide with significant astrological transits. Learn to predict and trade around these correlations.',
-      sections: [
-        {
-          title: 'Economic Announcements',
-          icon: <DollarSign size={20} />,
-          content: 'Federal Reserve meetings, GDP releases, and major economic announcements often align with specific planetary aspects.',
-          steps: [
-            { title: 'Saturn Cycles', content: 'Long-term economic policies and structural changes often occur during Saturn transits.' },
-            { title: 'Venus Commerce', content: 'Trade agreements and commerce deals frequently align with Venus aspects.' },
-            { title: 'Uranus Disruptions', content: 'Unexpected economic announcements and market surprises during Uranus transits.' }
-          ]
-        },
-        {
-          title: 'Geopolitical Events',
-          icon: <AlertTriangle size={20} />,
-          content: 'Political developments, conflicts, and international relations are influenced by cosmic cycles.',
-          steps: [
-            { title: 'Mars Conflicts', content: 'Military actions and conflicts often occur during Mars conjunctions and oppositions.' },
-            { title: 'Pluto Power Shifts', content: 'Major political changes and power transitions during Pluto transits.' },
-            { title: 'Neptune Confusion', content: 'Misinformation campaigns and unclear situations during Neptune aspects.' }
-          ]
-        }
-      ]
-    }
-  },
-  'advanced-cosmic-trading-strategies': {
-    icon: <BarChart3 size={24} />,
-    title: 'Advanced Cosmic Trading Strategies',
-    subtitle: 'Professional-level techniques combining technical analysis with astrological timing',
-    content: {
-      overview: 'Advanced strategies that integrate multiple cosmic indicators with sophisticated trading techniques for professional results.',
-      sections: [
-        {
-          title: 'Multi-Timeframe Cosmic Analysis',
-          icon: <Calendar size={20} />,
-          content: 'Combining short-term lunar cycles with long-term planetary transits for comprehensive market timing.',
-          steps: [
-            { title: 'Yearly Cycles', content: 'Using outer planet transits for long-term portfolio positioning.' },
-            { title: 'Monthly Patterns', content: 'Leveraging lunar cycles for medium-term swing trading strategies.' },
-            { title: 'Daily Timing', content: 'Precise entry and exit timing using planetary hours and aspects.' }
-          ]
-        },
-        {
-          title: 'Cosmic Portfolio Management',
-          icon: <Shield size={20} />,
-          content: 'Advanced portfolio techniques that account for cosmic influences on different asset classes.',
-          steps: [
-            { title: 'Sector Rotation', content: 'Rotating between sectors based on planetary influences and cosmic timing.' },
-            { title: 'Risk Adjustment', content: 'Adjusting position sizes based on cosmic volatility predictions.' },
-            { title: 'Hedge Strategies', content: 'Using cosmic correlations to hedge portfolio risk during volatile periods.' }
-          ]
-        }
-      ]
-    }
-  },
-  'cosmic-risk-management': {
-    icon: <Shield size={24} />,
-    title: 'Cosmic Risk Management',
-    subtitle: 'Protect your capital using astrological risk assessment and position sizing',
-    content: {
-      overview: 'Sophisticated risk management techniques that incorporate cosmic cycles and astrological indicators to protect trading capital.',
-      sections: [
-        {
-          title: 'Cosmic Volatility Prediction',
-          icon: <Activity size={20} />,
-          content: 'Using astrological indicators to predict and prepare for periods of increased market volatility.',
-          steps: [
-            { title: 'Volatile Aspects', content: 'Identifying high-risk periods through planetary aspects and configurations.' },
-            { title: 'Safe Harbors', content: 'Finding stable periods during harmonious cosmic alignments.' },
-            { title: 'Position Adjustment', content: 'Scaling position sizes based on cosmic volatility forecasts.' }
-          ]
-        },
-        {
-          title: 'Cosmic Stop Loss Strategies',
-          icon: <AlertTriangle size={20} />,
-          content: 'Advanced stop-loss techniques that consider both technical levels and cosmic timing.',
-          steps: [
-            { title: 'Cosmic Support Levels', content: 'Using astrological price levels as dynamic support and resistance.' },
-            { title: 'Time-Based Exits', content: 'Exiting trades based on cosmic timing rather than just price movement.' },
-            { title: 'Adaptive Risk', content: 'Adjusting risk parameters based on changing cosmic conditions.' }
-          ]
-        }
-      ]
-    }
-  }
-};
 
 interface GuideModalProps {
-  isOpen: boolean;
+  content: string;
   onClose: () => void;
-  guideKey: string;
 }
 
-export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose, guideKey }) => {
-  if (!isOpen) return null;
-
-  const guide = GuideContent[guideKey as keyof typeof GuideContent];
-  if (!guide) return null;
+const GuideModal: React.FC<GuideModalProps> = ({ content, onClose }) => {
+  const getModalContent = () => {
+    switch (content) {
+      case 'Creating Your First Cosmic Trade':
+        return (
+          <>
+            <h2>Creating Your First Cosmic Trade</h2>
+            <p>Learn to place intelligent trades using astrological timing and market analysis</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>LOKI 2032 combines traditional market analysis with cosmic intelligence to optimize your trading decisions. Every trade is enhanced by real-time astronomical data.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Select a prediction market from our curated list</li>
+              <li>Analyze the current moon phase and planetary transits</li>
+              <li>Check your personalized astrological timing score</li>
+              <li>Review AI-generated cosmic confidence levels</li>
+              <li>Enter your position size based on risk tolerance</li>
+              <li>Confirm trade with cosmic timing optimization</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>Moon Phase:</strong> New moons favor new positions, full moons indicate volatility</p>
+              <p><strong>Mercury Status:</strong> Avoid major trades during retrograde periods</p>
+              <p><strong>Planetary Alignments:</strong> Conjunctions create market momentum</p>
+              <p><strong>Your Birth Chart:</strong> Personal planetary transits affect decision making</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">Presidential Election 2024</span>
+                <span className="cosmic">Connected to Jupiter-Saturn alignments</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Federal Reserve Decisions</span>
+                <span className="cosmic">Correlated with Mercury transits</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Major Tech Earnings</span>
+                <span className="cosmic">Influenced by Uranus innovation cycles</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Global Economic Summits</span>
+                <span className="cosmic">Timed with Pluto transformation periods</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>LIVE EXAMPLE</h4>
+              <p>Example: "Will Bitcoin reach $100K by Q4 2025?" - Currently showing 67.5% probability with Venus in favorable aspect, suggesting bullish sentiment aligned with your Leo rising.</p>
+            </div>
+          </>
+        );
+      
+      case 'IBM Watson AI Cosmic Analysis':
+        return (
+          <>
+            <h2>IBM Watson AI Cosmic Analysis</h2>
+            <p>Harness AI-powered astrological insights for advanced trading strategies</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>Our IBM Watson AI integration analyzes thousands of astrological patterns, world events, and market correlations to provide unprecedented trading intelligence.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Connect your birth data for personalized cosmic profile</li>
+              <li>Ask Watson: "Analyze current market conditions"</li>
+              <li>Review AI-generated astrological market forecast</li>
+              <li>Get specific trade recommendations based on cosmic timing</li>
+              <li>Monitor real-time alerts for favorable trading windows</li>
+              <li>Track performance correlation with astrological events</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>Conjunctions:</strong> Planets align creating unified energy and market trends</p>
+              <p><strong>Squares:</strong> 90° angles indicate tension and potential market volatility</p>
+              <p><strong>Oppositions:</strong> 180° aspects create polarity and dramatic reversals</p>
+              <p><strong>Trines:</strong> 120° harmonious aspects support smooth market movements</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">Tesla Stock Predictions</span>
+                <span className="cosmic">Elon Musk's natal chart transits analyzed</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Crypto Market Timing</span>
+                <span className="cosmic">Saturn cycles correlate with regulatory changes</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Sports Betting Markets</span>
+                <span className="cosmic">Team mascot astrological compatibility</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Political Outcomes</span>
+                <span className="cosmic">Candidate birth chart analysis and electability</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>WATSON ANALYSIS</h4>
+              <p>"Current Mars-Jupiter trine in your 2nd house of money suggests favorable trading conditions for growth-oriented positions. Avoid short positions during this 3-day window."</p>
+            </div>
+          </>
+        );
+      
+      case 'Reading Cosmic Market Patterns':
+        return (
+          <>
+            <h2>Reading Cosmic Market Patterns</h2>
+            <p>Master the art of astrological pattern recognition in financial markets</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>Learn to identify powerful astrological patterns that historically correlate with significant market movements and world events.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Study major planetary cycles and their market impact</li>
+              <li>Identify your optimal trading days based on personal transits</li>
+              <li>Track lunar cycles and volatility patterns</li>
+              <li>Monitor eclipse periods for major market shifts</li>
+              <li>Use retrograde periods for position adjustments</li>
+              <li>Apply cosmic timing to entry and exit strategies</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>Solar Eclipses:</strong> Major beginnings, often coincide with market tops/bottoms</p>
+              <p><strong>Lunar Eclipses:</strong> Emotional releases, increased volatility periods</p>
+              <p><strong>Saturn Returns:</strong> 29-year cycles affecting long-term market structures</p>
+              <p><strong>Jupiter-Saturn Conjunctions:</strong> 20-year cycles marking major economic shifts</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">2008 Financial Crisis</span>
+                <span className="cosmic">Pluto entering Capricorn (transformation of systems)</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">COVID-19 Market Crash</span>
+                <span className="cosmic">Saturn-Pluto conjunction in Capricorn</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">GameStop Short Squeeze</span>
+                <span className="cosmic">Aquarius stellium (revolutionary group action)</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">FTX Collapse</span>
+                <span className="cosmic">Mars retrograde in Gemini (communication/trust issues)</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>PATTERN ALERT</h4>
+              <p>Upcoming Venus-Mars conjunction in Scorpio suggests intense activity in luxury goods and beauty industry stocks. Historical data shows 73% accuracy in related market movements.</p>
+            </div>
+          </>
+        );
+      
+      case 'World Events & Cosmic Correlations':
+        return (
+          <>
+            <h2>World Events & Cosmic Correlations</h2>
+            <p>Connect global happenings with astrological cycles for predictive trading</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>Understand how major world events correlate with astrological cycles, giving you predictive insights into market-moving news before it happens.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Monitor planetary transits affecting world leader birth charts</li>
+              <li>Track eclipse cycles and their historical event correlations</li>
+              <li>Analyze collective planetary aspects for social trends</li>
+              <li>Correlate natural disasters with astrological patterns</li>
+              <li>Study geopolitical tensions through Mars cycles</li>
+              <li>Predict economic policy changes via Saturn transits</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>Outer Planet Transits:</strong> Generational changes affecting long-term trends</p>
+              <p><strong>Cardinal Crosses:</strong> Crisis points requiring decisive action</p>
+              <p><strong>Mutable T-Squares:</strong> Communication breakdowns and adaptability needs</p>
+              <p><strong>Fixed Grand Crosses:</strong> Resistance to change creating market tension</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">Russia-Ukraine Conflict</span>
+                <span className="cosmic">Mars-Pluto aspects affecting energy markets</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">China Economic Policy</span>
+                <span className="cosmic">President Xi's Saturn return cycle</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">US Elections</span>
+                <span className="cosmic">Candidate compatibility with national birth chart</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Climate Events</span>
+                <span className="cosmic">Uranus in Earth signs correlating with natural disasters</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>CURRENT INSIGHT</h4>
+              <p>Mercury retrograde in Capricorn (Dec 2024) suggests potential delays in government economic decisions. Position accordingly in policy-sensitive markets like healthcare and energy.</p>
+            </div>
+          </>
+        );
+      
+      case 'Advanced Cosmic Trading Strategies':
+        return (
+          <>
+            <h2>Advanced Cosmic Trading Strategies</h2>
+            <p>Professional-level techniques combining technical analysis with astrological timing</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>Develop sophisticated trading strategies that layer traditional financial analysis with precise astrological timing for maximum market advantage.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Combine technical indicators with lunar cycle timing</li>
+              <li>Use planetary hours for optimal trade execution</li>
+              <li>Apply void-of-course moon rules for market entry</li>
+              <li>Integrate solar return charts for annual strategy planning</li>
+              <li>Employ electional astrology for major position changes</li>
+              <li>Create cosmic portfolio allocation based on element balance</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>Planetary Hours:</strong> Each hour ruled by different planet affecting trade success</p>
+              <p><strong>Void Moon Periods:</strong> Times when markets drift without clear direction</p>
+              <p><strong>Planetary Dignities:</strong> Planets in their strongest signs boost related sectors</p>
+              <p><strong>Retrograde Strategies:</strong> Different approaches for each retrograde planet</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">Tech Sector Timing</span>
+                <span className="cosmic">Uranus transits for innovation breakthrough predictions</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Banking Sector</span>
+                <span className="cosmic">Saturn cycles correlating with regulatory changes</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Energy Markets</span>
+                <span className="cosmic">Mars cycles affecting oil and gas price volatility</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Precious Metals</span>
+                <span className="cosmic">Venus cycles influencing gold and silver trends</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>ADVANCED STRATEGY</h4>
+              <p>Layer Fibonacci retracements with lunar mansions for precision entry points. Current setup shows BTC at 61.8% retracement coinciding with favorable 2nd lunar mansion for wealth accumulation.</p>
+            </div>
+          </>
+        );
+      
+      case 'Cosmic Risk Management':
+        return (
+          <>
+            <h2>Cosmic Risk Management</h2>
+            <p>Protect your capital using astrological risk assessment and position sizing</p>
+            
+            <h3>OVERVIEW</h3>
+            <p>Learn to manage risk using cosmic intelligence, adjusting position sizes and stop-losses based on astrological volatility indicators.</p>
+            
+            <h3>STEP-BY-STEP PROCESS</h3>
+            <ol className="step-list" style={{ counterReset: 'step-counter' }}>
+              <li>Calculate position size based on current lunar phase volatility</li>
+              <li>Set stop-losses considering planetary aspect patterns</li>
+              <li>Adjust portfolio allocation for eclipse season protection</li>
+              <li>Use cosmic diversification across astrological elements</li>
+              <li>Implement planetary transit-based rebalancing</li>
+              <li>Apply birth chart risk tolerance analysis</li>
+            </ol>
+            
+            <div className="cosmic-factors">
+              <h4>COSMIC FACTORS</h4>
+              <p><strong>High Risk Periods:</strong> Eclipse seasons, Mars retrograde, Mercury combust</p>
+              <p><strong>Low Risk Periods:</strong> Stable earth sign transits, harmonious Venus aspects</p>
+              <p><strong>Volatility Indicators:</strong> Mutable sign emphasis, outer planet hard aspects</p>
+              <p><strong>Stability Factors:</strong> Fixed sign dominance, trine and sextile patterns</p>
+            </div>
+            
+            <h3>WORLD EVENT CORRELATIONS</h3>
+            <div className="correlations">
+              <div className="correlation-item">
+                <span className="event">Market Crash Prediction</span>
+                <span className="cosmic">Saturn-Pluto conjunctions every 35 years</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Black Swan Events</span>
+                <span className="cosmic">Uranus-Pluto aspects creating sudden disruption</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Currency Crises</span>
+                <span className="cosmic">Neptune transits dissolving financial structures</span>
+              </div>
+              <div className="correlation-item">
+                <span className="event">Bull Market Peaks</span>
+                <span className="cosmic">Jupiter-Uranus conjunctions marking euphoria tops</span>
+              </div>
+            </div>
+            
+            <div className="example-box">
+              <h4>RISK ALERT</h4>
+              <p>Approaching Mars-Saturn square suggests market tension. Reduce position sizes by 25% and avoid new leveraged positions for next 5 trading days. Historical accuracy: 81%.</p>
+            </div>
+          </>
+        );
+      
+      default:
+        return (
+          <div>
+            <h2>Cosmic Trading Guide</h2>
+            <p>Select a specific guide to learn more about cosmic trading strategies.</p>
+          </div>
+        );
+    }
+  };
 
   return (
-    <ModalOverlay
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3 }}
     >
-      <ModalContent
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <CloseButton onClick={onClose}>
-          <X size={20} />
-        </CloseButton>
-
-        <GuideHeader>
-          <div className="guide-icon">
-            {guide.icon}
-          </div>
-          <h1 className="guide-title">{guide.title}</h1>
-          <p className="guide-subtitle">{guide.subtitle}</p>
-        </GuideHeader>
-
-        <GuideSection>
-          <p>{guide.content.overview}</p>
-        </GuideSection>
-
-        {guide.content.sections.map((section, index) => (
-          <GuideSection key={index}>
-            <h3>
-              {section.icon}
-              {section.title}
-            </h3>
-            <p>{section.content}</p>
-            
-            {section.steps.map((step, stepIndex) => (
-              <StepCard key={stepIndex}>
-                <div className="step-number">{stepIndex + 1}</div>
-                <div className="step-title">{step.title}</div>
-                <div className="step-content">{step.content}</div>
-              </StepCard>
-            ))}
-          </GuideSection>
-        ))}
+      <ModalContent>
+        <CloseButton onClick={onClose}>×</CloseButton>
+        {getModalContent()}
       </ModalContent>
-    </ModalOverlay>
+    </motion.div>
   );
 };
 
