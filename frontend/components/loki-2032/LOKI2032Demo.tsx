@@ -16,10 +16,13 @@ import {
 } from '../icons/TradingIcons';
 import RealTimeTicker from '../ticker/RealTimeTicker';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
 import GeminiAgent from '../chat/GeminiAgent';
 import SideModal from '../modals/SideModal';
 import AnalyticsModal from '../modals/AnalyticsModal';
 import TradingModal from '../modals/TradingModal';
+import GuideModal from '../modals/GuideModal';
+import CalendlyModal from '../modals/CalendlyModal';
 
 // Demo container with revolutionary styling
 const DemoContainer = styled.div`
@@ -627,6 +630,7 @@ const AIAgentContainer = styled.div`
 
 const LOKI2032Demo: React.FC = () => {
   const { currentTheme, setTheme } = useTheme();
+  const { user, logout } = useAuth();
   const [showControls, setShowControls] = useState(true);
   const [performanceMode, setPerformanceMode] = useState<'ultra' | 'high' | 'balanced'>('high');
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -635,19 +639,21 @@ const LOKI2032Demo: React.FC = () => {
   // Modal states
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showTrading, setShowTrading] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState<{ isOpen: boolean; content: string }>({ isOpen: false, content: '' });
+  const [showCalendlyModal, setShowCalendlyModal] = useState(false);
 
   const demoMarkets = [
     {
-      title: "BTC/USD > $100K by Q4 2024",
-      price: 67.50,
+      title: "BTC/USD > $100K by Q4 2025",
+      price: 87.50,
       change: 12.5,
       aiConfidence: 0.87,
       volume: 12500000
     },
     {
-      title: "TSLA Q4 Earnings Beat Est.",
-      price: 45.20,
-      change: -3.2,
+      title: "TSLA Q1 2025 Earnings Beat Est.",
+      price: 68.20,
+      change: 8.7,
       aiConfidence: 0.72,
       volume: 8900000
     },
@@ -659,9 +665,9 @@ const LOKI2032Demo: React.FC = () => {
       volume: 21000000
     },
     {
-      title: "NVDA Split Announcement Q1",
-      price: 82.35,
-      change: 15.8,
+      title: "NVDA Stock Split Q1 2025",
+      price: 89.35,
+      change: 18.2,
       aiConfidence: 0.79,
       volume: 34500000
     },
@@ -725,32 +731,65 @@ const LOKI2032Demo: React.FC = () => {
 
   const features = [
     {
-      icon: <AnalyticsIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M7 10L12 15L17 10" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="5" r="2" fill="currentColor"/>
+        </svg>
+      ),
       title: 'Creating Your First Cosmic Trade',
       description: 'Learn to place intelligent trades using astrological timing and market analysis'
     },
     {
-      icon: <MachineLearningIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="9" cy="9" r="2"/>
+          <path d="M21 15L16 10L5 21" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       title: 'IBM Watson AI Cosmic Analysis',
       description: 'Harness AI-powered astrological insights for advanced trading strategies'
     },
     {
-      icon: <ExecutionIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 17L12 22L22 17" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 12L12 17L22 12" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       title: 'Reading Cosmic Market Patterns',
       description: 'Master the art of astrological pattern recognition in financial markets'
     },
     {
-      icon: <RiskIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12H22" strokeLinecap="round"/>
+          <path d="M12 2A15.3 15.3 0 0 1 16 12A15.3 15.3 0 0 1 12 22A15.3 15.3 0 0 1 8 12A15.3 15.3 0 0 1 12 2Z"/>
+        </svg>
+      ),
       title: 'World Events & Cosmic Correlations',
       description: 'Connect global happenings with astrological cycles for predictive trading'
     },
     {
-      icon: <LatencyIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M3 9L12 2L21 9V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V9Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M9 22V12H15V22" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       title: 'Advanced Cosmic Trading Strategies',
       description: 'Professional-level techniques combining technical analysis with astrological timing'
     },
     {
-      icon: <GlobalIcon size={20} />,
+      icon: (
+        <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M12 1L9 9L1 12L9 15L12 23L15 15L23 12L15 9L12 1Z" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      ),
       title: 'Cosmic Risk Management',
       description: 'Protect your capital using astrological risk assessment and position sizing'
     }
@@ -771,6 +810,41 @@ const LOKI2032Demo: React.FC = () => {
 
   return (
     <DemoContainer>
+      {/* Calendly Button - Left Side */}
+      <motion.button
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        onClick={() => setShowCalendlyModal(true)}
+        style={{
+          position: 'fixed',
+          left: '2rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 1000,
+          background: 'linear-gradient(135deg, #00d4ff 0%, #0099cc 100%)',
+          border: 'none',
+          borderRadius: '12px',
+          padding: '1rem 1.5rem',
+          color: '#0a0f1c',
+          fontWeight: 'bold',
+          fontSize: '1rem',
+          cursor: 'pointer',
+          boxShadow: '0 4px 20px rgba(0, 212, 255, 0.3)',
+          backdropFilter: 'blur(10px)',
+          transition: 'all 0.3s ease',
+          writingMode: 'vertical-lr',
+          textOrientation: 'mixed'
+        }}
+        whileHover={{ 
+          scale: 1.05,
+          boxShadow: '0 6px 30px rgba(0, 212, 255, 0.5)'
+        }}
+        whileTap={{ scale: 0.95 }}
+      >
+        📅 Book Chat
+      </motion.button>
+
       {/* Control Panel */}
       <AnimatePresence>
         {showControls && (
@@ -867,6 +941,37 @@ const LOKI2032Demo: React.FC = () => {
             <Subtitle>Institutional Trading Platform</Subtitle>
           </div>
         </Logo>
+        
+        {/* Auth Status */}
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '1rem',
+          fontSize: '0.9rem',
+          color: user?.isLoggedIn ? '#00ff88' : '#8892b0'
+        }}>
+          {user?.isLoggedIn ? (
+            <>
+              <span>👤 {user.email || user.walletAddress}</span>
+              <button 
+                onClick={logout}
+                style={{
+                  background: 'rgba(255, 80, 80, 0.2)',
+                  border: '1px solid rgba(255, 80, 80, 0.3)',
+                  color: '#ff5050',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem'
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <span>🔒 Not Authenticated</span>
+          )}
+        </div>
       </Header>
 
       {/* Main Content */}
@@ -939,7 +1044,12 @@ const LOKI2032Demo: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
             >
-              <FeatureCard depth="medium" interactive>
+              <FeatureCard 
+                depth="medium" 
+                interactive
+                onClick={() => setShowGuideModal({ isOpen: true, content: feature.title })}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="feature-icon">{feature.icon}</div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-description">{feature.description}</p>
@@ -1004,6 +1114,29 @@ const LOKI2032Demo: React.FC = () => {
         title="Trading Interface"
       >
         <TradingModal />
+      </SideModal>
+
+      <SideModal
+        isOpen={showGuideModal.isOpen}
+        onClose={() => setShowGuideModal({ isOpen: false, content: '' })}
+        position="top"
+        size="large"
+        title=""
+      >
+        <GuideModal 
+          content={showGuideModal.content} 
+          onClose={() => setShowGuideModal({ isOpen: false, content: '' })}
+        />
+      </SideModal>
+
+      <SideModal
+        isOpen={showCalendlyModal}
+        onClose={() => setShowCalendlyModal(false)}
+        position="top"
+        size="large"
+        title=""
+      >
+        <CalendlyModal onClose={() => setShowCalendlyModal(false)} />
       </SideModal>
     </DemoContainer>
   );

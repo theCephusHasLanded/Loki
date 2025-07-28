@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { NeomorphicSurface } from './NeomorphicSurface';
 import { TrendingUp, TrendingDown, Zap, Activity, Shield, Hash, Database, Cpu, Hexagon } from 'lucide-react';
 import styled from '@emotion/styled';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CardContent = styled.div`
   padding: var(--space-molecule);
@@ -460,6 +461,8 @@ export const MarketCard: React.FC<{
   volume: number;
 }> = ({ title, price, change, aiConfidence, volume }) => {
   const router = useRouter();
+  const { user } = useAuth();
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const isPositiveChange = change >= 0;
   
   // Generate market ID from title for routing
@@ -469,10 +472,17 @@ export const MarketCard: React.FC<{
     .slice(0, 50);
   
   const handleTradeClick = () => {
+    if (!user?.isLoggedIn) {
+      setShowAuthPrompt(true);
+      // Could show auth modal or redirect to login
+      alert('Please log in to trade on this market');
+      return;
+    }
     router.push(`/trade/${marketId}`);
   };
   
   const handleDetailsClick = () => {
+    // Details can be viewed without authentication
     router.push(`/market/${marketId}`);
   };
   

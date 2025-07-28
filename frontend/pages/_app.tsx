@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
 import { ThemeProvider } from '../contexts/ThemeContext';
+import { AuthProvider } from '../contexts/AuthContext';
 import FeedbackModal from '../components/modals/FeedbackModal';
 
 const globalStyles = css`
@@ -176,10 +177,12 @@ const globalStyles = css`
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
-      <Global styles={globalStyles} />
-      <Component {...pageProps} />
-      <FeedbackModal />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Global styles={globalStyles} />
+        <Component {...pageProps} />
+        <FeedbackModal />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
