@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
 import { ThemeProvider } from '../contexts/ThemeContext';
+import FeedbackModal from '../components/modals/FeedbackModal';
 
 const globalStyles = css`
   /* Revolutionary design system inline styles */
@@ -178,6 +179,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider>
       <Global styles={globalStyles} />
       <Component {...pageProps} />
+      <FeedbackModal />
     </ThemeProvider>
   );
 }

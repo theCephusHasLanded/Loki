@@ -726,33 +726,33 @@ const LOKI2032Demo: React.FC = () => {
   const features = [
     {
       icon: <AnalyticsIcon size={20} />,
-      title: 'Advanced Analytics',
-      description: 'Institutional-grade data processing with real-time market intelligence'
+      title: 'Creating Your First Cosmic Trade',
+      description: 'Learn to place intelligent trades using astrological timing and market analysis'
     },
     {
       icon: <MachineLearningIcon size={20} />,
-      title: 'Machine Learning',
-      description: 'Quantitative models with confidence intervals and risk assessment'
+      title: 'IBM Watson AI Cosmic Analysis',
+      description: 'Harness AI-powered astrological insights for advanced trading strategies'
     },
     {
       icon: <ExecutionIcon size={20} />,
-      title: 'Smart Execution',
-      description: 'Algorithmic order routing with optimal execution strategies'
+      title: 'Reading Cosmic Market Patterns',
+      description: 'Master the art of astrological pattern recognition in financial markets'
     },
     {
       icon: <RiskIcon size={20} />,
-      title: 'Risk Management',
-      description: 'Real-time position monitoring with dynamic hedging protocols'
+      title: 'World Events & Cosmic Correlations',
+      description: 'Connect global happenings with astrological cycles for predictive trading'
     },
     {
       icon: <LatencyIcon size={20} />,
-      title: 'Ultra-Low Latency',
-      description: 'Sub-millisecond execution with direct market access infrastructure'
+      title: 'Advanced Cosmic Trading Strategies',
+      description: 'Professional-level techniques combining technical analysis with astrological timing'
     },
     {
       icon: <GlobalIcon size={20} />,
-      title: 'Global Markets',
-      description: 'Multi-asset class coverage across international exchanges'
+      title: 'Cosmic Risk Management',
+      description: 'Protect your capital using astrological risk assessment and position sizing'
     }
   ];
 
@@ -899,6 +899,36 @@ const LOKI2032Demo: React.FC = () => {
             </motion.div>
           ))}
         </MarketGrid>
+
+        {/* Trading Guide & Cosmic Intelligence Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          style={{ 
+            marginBottom: '2rem',
+            textAlign: 'center'
+          }}
+        >
+          <h2 style={{ 
+            fontSize: '2.5rem', 
+            fontWeight: 'bold', 
+            color: '#00d4ff',
+            marginBottom: '1rem',
+            textShadow: '0 0 20px rgba(0, 212, 255, 0.3)'
+          }}>
+            Trading Guide & Cosmic Intelligence
+          </h2>
+          <p style={{ 
+            fontSize: '1.1rem', 
+            color: '#8892b0',
+            maxWidth: '800px',
+            margin: '0 auto',
+            lineHeight: '1.6'
+          }}>
+            Master the art of astrological prediction trading with IBM Watson AI. Learn to combine cosmic timing with world events for unparalleled market insights.
+          </p>
+        </motion.div>
 
         {/* Feature Showcase */}
         <FeatureShowcase>
