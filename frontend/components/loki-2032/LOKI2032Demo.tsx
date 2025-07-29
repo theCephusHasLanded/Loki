@@ -780,9 +780,9 @@ const LOKI2032Demo: React.FC = () => {
           position: 'fixed',
           right: '20px',
           bottom: '100px',
-          zIndex: 99999,
-          width: '60px',
-          height: '60px',
+          zIndex: 999999,
+          width: '70px',
+          height: '70px',
           background: 'linear-gradient(135deg, #00d4ff 0%, #0099cc 100%)',
           border: '2px solid #ffffff',
           borderRadius: '50%',
@@ -792,12 +792,16 @@ const LOKI2032Demo: React.FC = () => {
           fontSize: '0.7rem',
           cursor: 'pointer',
           backdropFilter: 'blur(20px) saturate(180%)',
-          boxShadow: '0 8px 32px rgba(0, 212, 255, 0.3)',
+          boxShadow: '0 8px 32px rgba(0, 212, 255, 0.8), 0 0 0 4px rgba(255, 255, 255, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          pointerEvents: 'auto',
+          isolation: 'isolate',
+          transform: 'translateZ(0)',
+          willChange: 'transform'
         }}
         whileHover={{ 
           scale: 1.05,
