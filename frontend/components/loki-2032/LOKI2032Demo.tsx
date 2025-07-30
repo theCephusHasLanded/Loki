@@ -24,6 +24,7 @@ import TradingModal from '../modals/TradingModal';
 import GuideModal from '../modals/GuideModal';
 import CalendlyModal from '../modals/CalendlyModal';
 import PlatformFeaturesModal from '../modals/PlatformFeaturesModal';
+import SiteInfoModal from '../modals/SiteInfoModal';
 
 // Demo container with revolutionary styling
 const DemoContainer = styled.div`
@@ -583,6 +584,7 @@ const LOKI2032Demo: React.FC = () => {
   const [showGuideModal, setShowGuideModal] = useState<{ isOpen: boolean; content: string }>({ isOpen: false, content: '' });
   const [showCalendlyModal, setShowCalendlyModal] = useState(false);
   const [showPlatformFeatures, setShowPlatformFeatures] = useState(false);
+  const [showSiteInfo, setShowSiteInfo] = useState(false);
 
   const demoMarkets = [
     {
@@ -829,6 +831,65 @@ const LOKI2032Demo: React.FC = () => {
         BOOK
       </motion.button>
 
+      {/* Site Info Button - Left Side */}
+      <motion.button
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        onClick={() => setShowSiteInfo(true)}
+        style={{
+          position: 'fixed',
+          left: '20px',
+          bottom: '100px',
+          zIndex: 999999,
+          width: '70px',
+          height: '70px',
+          background: 'linear-gradient(135deg, var(--color-accent-gold) 0%, rgba(248, 179, 25, 0.8) 100%)',
+          border: '2px solid #ffffff',
+          borderRadius: '50%',
+          color: '#0a0f1c',
+          fontFamily: 'JetBrains Mono, monospace',
+          fontWeight: 'bold',
+          fontSize: '0.65rem',
+          cursor: 'pointer',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          boxShadow: '0 8px 32px rgba(248, 179, 25, 0.8), 0 0 0 4px rgba(255, 255, 255, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          pointerEvents: 'auto',
+          isolation: 'isolate',
+          transform: 'translateZ(0)',
+          willChange: 'transform'
+        }}
+        whileHover={{ 
+          scale: 1.05,
+          x: 5,
+          y: -2,
+          boxShadow: '0 12px 48px rgba(248, 179, 25, 0.9), 0 0 0 4px rgba(255, 255, 255, 0.7), 0 4px 20px rgba(0, 0, 0, 0.4)',
+          filter: 'brightness(1.1)'
+        }}
+        animate={{ 
+          y: [0, -2, 0],
+          x: [0, 1, 0],
+          boxShadow: [
+            '0 8px 32px rgba(248, 179, 25, 0.8), 0 0 0 4px rgba(255, 255, 255, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3)',
+            '0 10px 36px rgba(248, 179, 25, 0.9), 0 0 0 4px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(0, 0, 0, 0.3)',
+            '0 8px 32px rgba(248, 179, 25, 0.8), 0 0 0 4px rgba(255, 255, 255, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3)'
+          ]
+        }}
+        transition={{ 
+          duration: 3.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        whileTap={{ scale: 0.95 }}
+      >
+        INFO
+      </motion.button>
+
       {/* Control Panel */}
       <AnimatePresence>
         {showControls && (
@@ -898,6 +959,12 @@ const LOKI2032Demo: React.FC = () => {
                 style={{ textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent)' }}
               >
                 Trading
+              </button>
+              <button 
+                onClick={() => setShowSiteInfo(true)}
+                style={{ textShadow: '0 0 10px var(--color-text-accent), 0 0 20px var(--color-text-accent)' }}
+              >
+                Site Info
               </button>
             </ControlGroup>
             
@@ -1211,6 +1278,12 @@ const LOKI2032Demo: React.FC = () => {
       >
         <PlatformFeaturesModal onClose={() => setShowPlatformFeatures(false)} />
       </SideModal>
+
+      {/* Site Information Modal */}
+      <SiteInfoModal
+        isOpen={showSiteInfo}
+        onClose={() => setShowSiteInfo(false)}
+      />
     </DemoContainer>
   );
 };
